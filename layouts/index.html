@@ -1,64 +1,119 @@
 {{- define "main" -}}
 
-  {{/* ====== Home Info（使用 hugo.toml 的 homeInfoParams）====== */}}
-  {{ with site.Params.homeInfoParams }}
-    <article class="first-entry home-info">
-      <header class="entry-header">
-        <h1>{{ .Title | markdownify }}</h1>
-      </header>
-      <div class="entry-content">
-        {{ with .Content }}{{ . | safeHTML }}{{ end }}
-      </div>      
-    </article>
-  {{ end }}
+{{/* 取首页内容 */}}
+{{ $pages := where site.RegularPages "Type" "in" site.Params.mainSections }}
+{{ $featured := where $pages "Params.featured" true }}
+{{ $featured = first 3 $featured }}
+{{ $latest := first 10 $pages }}
 
-  {{/* ====== Featured：只展示 3 篇精选 ====== */}}
-  {{ $featured := first 3 (where site.RegularPages "Params.featured" true) }}
-  {{ if gt (len $featured) 0 }}
-    <section class="home-featured">
-      <h2 style="margin-top: 26px;">⭐ 精选推荐</h2>
-      <div class="featured-list">
+<div class="yanlunai-home">
+
+  <!-- ========== Hero ========== -->
+  <section class="yanlunai-hero">
+    <div class="yanlunai-hero-left">
+      <h1 class="yanlunai-hero-title">🔥 焱论AI · YanlunAI</h1>
+      <p class="yanlunai-hero-subtitle">大模型技术栈 × 行业落地打法 × 个体成长路径</p>
+
+      <div class="yanlunai-hero-points">
+        <div>🎯 <b>IP 定位</b>：面向一线工程实践的大模型 & 行业模型研究型个人品牌</div>
+        <div>📚 <b>内容矩阵</b>：论文精读 / 工程实践 / 工具解析 / 行业杂谈</div>
+        <div>🧠 <b>关键词</b>：RAG 可信性 · 推理能力 · 行业场景落地 · 信创生态</div>
+        <div>👤 <b>适合人群</b>：AI 学习者、算法工程师、行业数字化从业者、想入局大模型的人</div>
+      </div>
+
+      <!-- 栏目入口卡片 -->
+      <div class="yanlunai-pill-grid">
+        <a class="yanlunai-pill" href="{{ "categories/论文解读/" | relURL }}">
+          <span class="yanlunai-pill-emoji">📄</span>
+          <span class="yanlunai-pill-title">论文解读</span>
+          <span class="yanlunai-pill-desc">LLM / RAG / Agent</span>
+        </a>
+
+        <a class="yanlunai-pill" href="{{ "categories/工程实践/" | relURL }}">
+          <span class="yanlunai-pill-emoji">⚙️</span>
+          <span class="yanlunai-pill-title">工程实践</span>
+          <span class="yanlunai-pill-desc">部署 / 微调 / 推理服务</span>
+        </a>
+
+        <a class="yanlunai-pill" href="{{ "categories/工具解析/" | relURL }}">
+          <span class="yanlunai-pill-emoji">🧰</span>
+          <span class="yanlunai-pill-title">工具解析</span>
+          <span class="yanlunai-pill-desc">框架评测 / 推理引擎</span>
+        </a>
+
+        <a class="yanlunai-pill" href="{{ "categories/杂谈/" | relURL }}">
+          <span class="yanlunai-pill-emoji">✍️</span>
+          <span class="yanlunai-pill-title">杂谈</span>
+          <span class="yanlunai-pill-desc">行业趋势 / 踩坑复盘</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- ✅ 右侧：Logo + 社交链接 -->
+    <div class="yanlunai-hero-right" aria-label="焱论AI Logo">
+      <div class="yanlunai-logo-wrap">
+        <div class="yanlunai-logo-stack">
+          <img class="yanlunai-logo-img"
+               src="{{ "logo/yanlunai-logo-512.png" | relURL }}"
+               alt="焱论AI Logo"
+               loading="eager"
+               decoding="async">
+        </div>
+      </div>
+
+      <!-- ✅ 社交链接 -->
+      <div class="yanlunai-social">
+        <a class="yanlunai-social-btn" href="https://github.com/yanlunai" target="_blank" rel="noopener">GitHub</a>
+        <a class="yanlunai-social-btn" href="https://www.zhihu.com/" target="_blank" rel="noopener">知乎</a>
+        <a class="yanlunai-social-btn" href="https://www.xiaohongshu.com/" target="_blank" rel="noopener">小红书</a>
+        <a class="yanlunai-social-btn" href="{{ "index.xml" | relURL }}">RSS</a>
+      </div>
+
+      <div class="yanlunai-social-hint">
+        关注我：大模型 · RAG · 行业落地 · 工程实践
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Featured ========== -->
+  <section class="yanlunai-section">
+    <div class="yanlunai-section-title">⭐ 精选推荐</div>
+
+    {{ if gt (len $featured) 0 }}
+      <div class="yanlunai-cards">
         {{ range $featured }}
-          <article class="post-entry">
-            <header class="entry-header">
-              <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
-            </header>
-            <div class="entry-content">
-              <p>{{ .Summary }}</p>
-            </div>
-            <footer class="entry-footer">
-              <span>{{ .Date.Format "2006-01-02" }}</span>
-              <span> · {{ .ReadingTime }} min</span>
-            </footer>
-          </article>
+        <a class="yanlunai-card yanlunai-card-featured" href="{{ .RelPermalink }}">
+          <div class="yanlunai-badge">Editor’s Pick</div>
+          <div class="yanlunai-card-title">{{ .Title }}</div>
+          {{ with .Summary }}<div class="yanlunai-card-desc">{{ . }}</div>{{ end }}
+          <div class="yanlunai-card-meta">{{ .Date.Format "2006-01-02" }} · {{ .ReadingTime }} min</div>
+        </a>
+        
         {{ end }}
       </div>
-    </section>
-  {{ end }}
-
-  {{/* ====== Latest：默认文章流 + 分页 ====== */}}
-  {{ $mainSections := site.Params.mainSections | default (slice "posts") }}
-  {{ $pages := where site.RegularPages "Type" "in" $mainSections }}
-  {{ $paginator := .Paginate $pages }}
-
-  <section class="home-latest">
-    <h2 style="margin-top: 26px;">🆕 最新更新</h2>
-    {{ range $paginator.Pages }}
-      <article class="post-entry">
-        <header class="entry-header">
-          <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
-        </header>
-        <div class="entry-content">
-          <p>{{ .Summary }}</p>
-        </div>
-        <footer class="entry-footer">
-          <span>{{ .Date.Format "2006-01-02" }}</span>
-          <span> · {{ .ReadingTime }} min</span>
-        </footer>
-      </article>
+    {{ else }}
+      <div class="yanlunai-empty">
+        还没有设置精选文章。给文章 front matter 加上：<code>featured: true</code> 即可出现在这里（最多展示 3 篇）。
+      </div>
     {{ end }}
   </section>
 
-  {{ template "_internal/pagination.html" . }}
+  <!-- ========== Latest ========== -->
+  <section class="yanlunai-section">
+    <div class="yanlunai-section-title">🆕 最新更新</div>
+
+    <div class="yanlunai-cards">
+      {{ range $latest }}
+        <a class="yanlunai-card yanlunai-card-compact" href="{{ .RelPermalink }}">
+          <div class="yanlunai-card-title">{{ .Title }}</div>
+          {{ with .Summary }}<div class="yanlunai-card-desc">{{ . }}</div>{{ end }}
+          <div class="yanlunai-card-meta">{{ .Date.Format "2006-01-02" }} · {{ .ReadingTime }} min</div>
+        </a>
+      {{ end }}
+    </div>
+  </section>
+
+</div>
+
 
 {{- end -}}

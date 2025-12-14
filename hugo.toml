@@ -40,6 +40,7 @@ enableRobotsTXT = true
   ShowPostNavLinks = true
   ShowBreadCrumbs = true
   ShowToc = true
+  customCSS = ["css/extended/yanlunai.css"]
 
   # 首页文章流
   mainSections = ["posts"]
@@ -104,27 +105,26 @@ enableRobotsTXT = true
 # 顶部菜单（⚠️ 不要以 / 开头）
 # =============================
 [menu]
-
   [[menu.main]]
-    identifier = "papers"
-    name = "📄 论文解读"
-    url = "categories/论文解读/"
+    identifier = "about"
+    name = "About"
+    url = "/about/"
     weight = 10
 
   [[menu.main]]
-    identifier = "engineering"
-    name = "⚙️ 工程实践"
-    url = "categories/工程实践/"
+    identifier = "talks"
+    name = "Talks"
+    url = "/talks/"
     weight = 20
 
   [[menu.main]]
-    identifier = "tools"
-    name = "🧰 工具解析"
-    url = "categories/工具解析/"
+    identifier = "newsletter"
+    name = "Newsletter"
+    url = "/newsletter/"
     weight = 30
 
   [[menu.main]]
-    identifier = "notes"
-    name = "✍️ 杂谈"
-    url = "categories/杂谈/"
+    identifier = "rss"
+    name = "RSS"
+    url = "/index.xml"
     weight = 40

@@ -1,60 +1,238 @@
 /* =========================
-   焱论AI - Logo 动效样式（PNG 徽章 + 右下角电路流光）
+   焱论AI - 全站 UI + 首页 Hero + Logo（Glassmorphism 克制版）
    放置路径：assets/css/extended/yanlunai.css
    ========================= */
 
-/* ====== Wrap ====== */
+
+/* =========================
+   A) 全站 UI polish for PaperMod
+   ========================= */
+
+/* 1) 加宽全站版心（减少两侧空白） */
+:root{
+  --yanlunai-max-width: 1120px; /* 可调 1040 / 1200 */
+}
+
+/* PaperMod 版心容器 */
+.main,
+.post-single,
+.page-header,
+.first-entry,
+.post-entry{
+  max-width: var(--yanlunai-max-width) !important;
+}
+
+/* 2) 首页顶部 HomeInfo 变“Hero 卡片” */
+.first-entry{
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 22px 22px 18px;
+  background: var(--entry);
+  box-shadow: 0 8px 24px rgba(0,0,0,.06);
+}
+
+/* 3) 首页文章列表卡片化 */
+.post-entry{
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 16px 18px;
+  background: var(--entry);
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+
+.post-entry:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(0,0,0,.08);
+}
+
+/* 4) 文章标题层级 */
+.entry-header h2{
+  font-size: 1.15rem;
+  line-height: 1.35;
+  margin: 0 0 6px;
+}
+
+/* 5) 摘要更清晰 */
+.entry-content{
+  color: var(--secondary);
+  line-height: 1.65;
+}
+
+/* 6) 顶部导航更紧凑 */
+.nav{
+  max-width: var(--yanlunai-max-width) !important;
+}
+
+.logo a{
+  gap: 10px;
+}
+
+.logo img{
+  border-radius: 10px;
+}
+
+/* 7) 移动端 */
+@media (max-width: 768px){
+  :root{ --yanlunai-max-width: 92vw; }
+  .first-entry{ padding: 18px 16px; border-radius: 16px; }
+  .post-entry{ padding: 14px 14px; border-radius: 14px; }
+}
+
+
+/* =========================
+   B) Logo（✅ 圆心数学居中 + 玻璃拟态克制版）
+   说明：你的 HTML 结构是：
+   <div class="yanlunai-logo-wrap">
+     <div class="yanlunai-logo-stack">
+       <img class="yanlunai-logo-img" ... />
+       <svg class="yanlunai-circuit-overlay">...</svg> (可选)
+     </div>
+   </div>
+   ========================= */
+
+/* Wrap：只负责居中与留白 */
 .yanlunai-logo-wrap{
   display:flex;
   justify-content:center;
   align-items:center;
-  margin: 14px 0 10px;
+  margin: 16px 0 14px;
 }
 
-/* ====== Stack（PNG + Overlay SVG）====== */
+/* Stack：玻璃拟态圆形容器（克制版） */
 .yanlunai-logo-stack{
   position: relative;
-  width: 168px;        /* 首页展示尺寸，可改 150~190 */
-  max-width: 168px;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  overflow: hidden;
+
+  /* 玻璃底色：浅色主题下轻白雾 */
+  background: rgba(255,255,255,.55);
+  border: 1px solid rgba(255,255,255,.55);
+
+  backdrop-filter: blur(16px) saturate(1.12);
+  -webkit-backdrop-filter: blur(16px) saturate(1.12);
+
+  box-shadow:
+    0 18px 48px rgba(0,0,0,.10),
+    inset 0 1px 0 rgba(255,255,255,.55),
+    inset 0 -18px 30px rgba(0,0,0,.06);
 }
 
-/* ====== Main PNG Logo (breathing + soft glow) ====== */
+/* 高光/暗角（在最上层，但不挡内容） */
+.yanlunai-logo-stack::before{
+  content:"";
+  position:absolute;
+  inset:-20%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 28% 22%,
+    rgba(255,255,255,.70) 0%,
+    rgba(255,255,255,.22) 22%,
+    rgba(255,255,255,0) 55%
+  );
+  pointer-events:none;
+  z-index: 1;
+}
+.yanlunai-logo-stack::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 72% 78%,
+    rgba(0,0,0,.10) 0%,
+    rgba(0,0,0,0) 55%
+  );
+  pointer-events:none;
+  z-index: 1;
+}
+
+/* ✅ 主 Logo：absolute 数学居中（解决偏心） */
 .yanlunai-logo-img{
-  width: 100%;
-  height: auto;
-  display:block;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
 
-  filter: drop-shadow(0 10px 24px rgba(255,106,26,.20))
-          drop-shadow(0 0 14px rgba(106,76,255,.12));
+  width: 128px;     /* 建议 112~140，你可以自己调 */
+  height: 128px;
+  border-radius: 999px;
+  display:block;
+  z-index: 2;
+
+  filter:
+    drop-shadow(0 10px 24px rgba(255,106,26,.20))
+    drop-shadow(0 0 14px rgba(106,76,255,.12));
+
+  /* 注意：transform 用于居中，所以动画必须包含 translate(-50%,-50%) */
   transform-origin: 50% 60%;
-  animation: yanlunaiBreath 2.2s ease-in-out infinite;
+  animation: yanlunaiBreathScale 2.2s ease-in-out infinite;
 }
 
-/* 呼吸动效：克制 */
-@keyframes yanlunaiBreath{
+/* ✅ 呼吸动效：只做 scale，不再做 translateY（避免视觉偏心） */
+@keyframes yanlunaiBreathScale{
   0%,100%{
-    transform: translateY(0) scale(1);
-    filter: drop-shadow(0 10px 24px rgba(255,106,26,.18))
-            drop-shadow(0 0 14px rgba(106,76,255,.10));
+    transform: translate(-50%,-50%) scale(1);
+    filter:
+      drop-shadow(0 10px 24px rgba(255,106,26,.18))
+      drop-shadow(0 0 14px rgba(106,76,255,.10));
   }
   50%{
-    transform: translateY(-1px) scale(1.02);
-    filter: drop-shadow(0 14px 32px rgba(255,106,26,.26))
-            drop-shadow(0 0 18px rgba(106,76,255,.16));
+    transform: translate(-50%,-50%) scale(1.03);
+    filter:
+      drop-shadow(0 14px 32px rgba(255,106,26,.26))
+      drop-shadow(0 0 18px rgba(106,76,255,.16));
   }
 }
 
-/* Hover：桌面端更高级一点 */
+/* Hover：更亮一点 */
 .yanlunai-logo-img:hover{
-  filter: drop-shadow(0 16px 40px rgba(255,106,26,.30))
-          drop-shadow(0 0 24px rgba(106,76,255,.22));
+  filter:
+    drop-shadow(0 16px 40px rgba(255,106,26,.30))
+    drop-shadow(0 0 24px rgba(106,76,255,.22));
 }
 
+/* 深色主题适配 */
+body.dark .yanlunai-logo-stack{
+  background: rgba(20,24,38,.55);
+  border: 1px solid rgba(255,255,255,.10);
+  box-shadow:
+    0 18px 56px rgba(0,0,0,.40),
+    inset 0 1px 0 rgba(255,255,255,.08),
+    inset 0 -18px 30px rgba(0,0,0,.22);
+}
+body.dark .yanlunai-logo-stack::before{
+  background: radial-gradient(
+    circle at 28% 22%,
+    rgba(255,255,255,.14) 0%,
+    rgba(255,255,255,.06) 24%,
+    rgba(255,255,255,0) 58%
+  );
+}
+body.dark .yanlunai-logo-stack::after{
+  background: radial-gradient(
+    circle at 72% 78%,
+    rgba(0,0,0,.32) 0%,
+    rgba(0,0,0,0) 58%
+  );
+}
+
+/* 移动端：圆圈与 logo 适配 */
+@media (max-width: 768px){
+  .yanlunai-logo-stack{ width: 176px; height: 176px; }
+  .yanlunai-logo-img{ width: 116px; height: 116px; }
+}
+
+
 /* =========================
-   Circuit Overlay（优化版：不泛雾，只在电路上跑“亮点”）
-   说明：
-   - 叠加层 SVG 需要配合 clipPath（只显示右下角区域）
-   - 使用两层线：base（稳定） + glow（亮点流动）
+   C) Circuit Overlay（可选：不泛雾，只在电路上跑亮点）
+   - 如果你没放 SVG overlay，不会影响
    ========================= */
 
 .yanlunai-circuit-overlay{
@@ -63,11 +241,9 @@
   width: 100%;
   height: 100%;
   pointer-events: none;
-
-  /* ✅ 不使用 screen，避免透明区域泛白雾 */
   mix-blend-mode: normal;
-
   opacity: 0.95;
+  z-index: 3;
 }
 
 /* 电路底线：稳定、干净 */
@@ -76,16 +252,15 @@
   filter: none;
 }
 
-/* 流光线：用短 dash + 长 gap，形成“亮点移动” */
+/* 流光线：短 dash + 长 gap => 亮点移动 */
 .yanlunai-circuit-glow{
   opacity: 0.95;
-
-  /* ✅ 关键：短亮段 + 长空段 => 视觉是“亮点沿线跑” */
   stroke-dasharray: 10 60;
   stroke-dashoffset: 0;
 
-  filter: drop-shadow(0 0 6px rgba(106,76,255,.22))
-          drop-shadow(0 0 10px rgba(255,106,26,.16));
+  filter:
+    drop-shadow(0 0 6px rgba(106,76,255,.22))
+    drop-shadow(0 0 10px rgba(255,106,26,.16));
 
   animation: yanlunaiCircuitFlow 1.2s linear infinite;
 }
@@ -95,11 +270,12 @@
   100% { stroke-dashoffset: 0; }
 }
 
-/* 节点：更克制的脉冲，避免脏影 */
+/* 节点：克制脉冲 */
 .yanlunai-node{
   opacity: 0.85;
-  filter: drop-shadow(0 0 6px rgba(106,76,255,.18))
-          drop-shadow(0 0 8px rgba(255,106,26,.12));
+  filter:
+    drop-shadow(0 0 6px rgba(106,76,255,.18))
+    drop-shadow(0 0 8px rgba(255,106,26,.12));
   animation: yanlunaiNodePulse 1.8s ease-in-out infinite;
 }
 
@@ -108,7 +284,10 @@
   50%     { transform: scale(1.08); opacity: 0.95; }
 }
 
-/* ====== Accessibility ====== */
+
+/* =========================
+   D) Accessibility
+   ========================= */
 @media (prefers-reduced-motion: reduce){
   .yanlunai-logo-img,
   .yanlunai-circuit-glow,
@@ -116,3 +295,407 @@
     animation: none !important;
   }
 }
+
+
+/* =========================
+   E) YanlunAI Home Layout
+   ========================= */
+
+.yanlunai-home{ padding-top: 6px; }
+
+.yanlunai-hero{
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 22px;
+  align-items: center;
+
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--entry);
+  padding: 22px;
+  box-shadow: 0 10px 28px rgba(0,0,0,.06);
+}
+
+.yanlunai-hero-title{
+  font-size: 2.05rem;
+  line-height: 1.12;
+  margin: 0 0 10px;
+}
+
+.yanlunai-hero-subtitle{
+  margin: 0 0 14px;
+  color: var(--secondary);
+  font-size: 1.05rem;
+}
+
+.yanlunai-hero-points{
+  display: grid;
+  gap: 8px;
+  color: var(--content);
+  margin: 10px 0 16px;
+  line-height: 1.7;
+}
+
+.yanlunai-pill-grid{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.yanlunai-pill{
+  display: grid;
+  grid-template-columns: 32px 1fr;
+  grid-template-rows: auto auto;
+  column-gap: 10px;
+  row-gap: 2px;
+
+  padding: 12px 12px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: var(--entry);
+  text-decoration: none !important;
+
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+
+.yanlunai-pill:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(0,0,0,.08);
+}
+
+.yanlunai-pill-emoji{
+  grid-row: 1 / span 2;
+  font-size: 1.15rem;
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+  padding-top: 1px;
+}
+
+.yanlunai-pill-title{
+  font-weight: 700;
+  color: var(--content);
+}
+
+.yanlunai-pill-desc{
+  color: var(--secondary);
+  font-size: .92rem;
+}
+
+/* sections */
+.yanlunai-section{ margin-top: 18px; }
+.yanlunai-section-title{
+  font-size: 1.08rem;
+  font-weight: 800;
+  margin: 6px 0 10px;
+}
+
+/* cards */
+.yanlunai-cards{
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.yanlunai-card{
+  display: block;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 14px 14px 12px;
+  background: var(--entry);
+  text-decoration: none !important;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+
+.yanlunai-card:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(0,0,0,.08);
+}
+
+.yanlunai-card-title{
+  font-weight: 800;
+  line-height: 1.35;
+  margin-bottom: 6px;
+  color: var(--content);
+}
+
+.yanlunai-card-desc{
+  color: var(--secondary);
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.yanlunai-card-meta{
+  margin-top: 10px;
+  color: var(--secondary);
+  font-size: .88rem;
+}
+
+/* compact cards for latest */
+.yanlunai-card-compact .yanlunai-card-desc{
+  -webkit-line-clamp: 1;
+}
+
+.yanlunai-empty{
+  padding: 14px 14px;
+  border: 1px dashed var(--border);
+  border-radius: 14px;
+  color: var(--secondary);
+}
+
+/* responsive */
+@media (max-width: 980px){
+  .yanlunai-hero{ grid-template-columns: 1fr; }
+  .yanlunai-hero-right{ order: -1; }
+  .yanlunai-cards{ grid-template-columns: 1fr; }
+  .yanlunai-pill-grid{ grid-template-columns: 1fr; }
+}
+
+
+/* =========================
+   F) Featured cards: 更突出但克制
+   ========================= */
+
+.yanlunai-card-featured{
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255,106,26,.22);
+  background: linear-gradient(
+    135deg,
+    rgba(255,106,26,.10),
+    rgba(106,76,255,.08),
+    rgba(255,255,255,0)
+  );
+}
+
+/* 顶部细条：品牌感（橙→紫） */
+.yanlunai-card-featured::before{
+  content:"";
+  position:absolute;
+  left:0; top:0;
+  height: 3px;
+  width: 100%;
+  background: linear-gradient(90deg, rgba(255,106,26,.95), rgba(106,76,255,.95));
+  opacity: .85;
+}
+
+/* 右上角柔光：不喧宾夺主 */
+.yanlunai-card-featured::after{
+  content:"";
+  position:absolute;
+  right:-60px;
+  top:-60px;
+  width: 160px;
+  height: 160px;
+  background: radial-gradient(
+    circle,
+    rgba(106,76,255,.22) 0%,
+    rgba(255,106,26,.18) 35%,
+    rgba(255,255,255,0) 65%
+  );
+  filter: blur(2px);
+  opacity: .9;
+}
+
+/* Featured 标题更大一点 */
+.yanlunai-card-featured .yanlunai-card-title{
+  font-size: 1.04rem;
+  letter-spacing: .1px;
+}
+
+/* Hover：更明显一点，但不“炸” */
+.yanlunai-card-featured:hover{
+  box-shadow: 0 16px 38px rgba(0,0,0,.10);
+  transform: translateY(-3px);
+}
+
+/* 深色模式下：避免变灰脏 */
+body.dark .yanlunai-card-featured{
+  border: 1px solid rgba(255,106,26,.20);
+  background: linear-gradient(
+    135deg,
+    rgba(255,106,26,.12),
+    rgba(106,76,255,.10),
+    rgba(20,24,38,0)
+  );
+}
+
+/* ====== Social buttons under logo ====== */
+.yanlunai-social{
+  margin-top: 12px;
+  display:flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.yanlunai-social-btn{
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--entry);
+  color: var(--content);
+  text-decoration: none !important;
+  font-size: .92rem;
+  line-height: 1;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+
+.yanlunai-social-btn:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 12px 26px rgba(0,0,0,.08);
+}
+
+.yanlunai-social-hint{
+  margin-top: 10px;
+  text-align:center;
+  color: var(--secondary);
+  font-size: .92rem;
+}
+/* ===== Editor’s Pick badge ===== */
+.yanlunai-card-featured{ position: relative; }
+
+.yanlunai-badge{
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+
+  font-size: .78rem;
+  font-weight: 800;
+  letter-spacing: .2px;
+
+  padding: 6px 10px;
+  border-radius: 999px;
+
+  border: 1px solid rgba(255,106,26,.28);
+  background: rgba(255,255,255,.72);
+  backdrop-filter: blur(10px) saturate(1.1);
+  -webkit-backdrop-filter: blur(10px) saturate(1.1);
+
+  color: rgba(25,25,25,.86);
+}
+
+/* 深色主题适配 */
+body.dark .yanlunai-badge{
+  background: rgba(20,24,38,.55);
+  border: 1px solid rgba(255,255,255,.12);
+  color: rgba(255,255,255,.86);
+}
+
+/* =========================
+   YanlunAI Brand Navigation (PaperMod top-right menu)
+   - 产品级：pill + hover + active + dark mode
+   ========================= */
+
+/* 顶部导航整体更像“产品头部” */
+.header{
+  backdrop-filter: saturate(1.1);
+}
+
+/* 右侧 menu 容器：让它更规整 */
+.menu{
+  display: flex !important;
+  align-items: center;
+  gap: 10px;
+}
+
+/* 每个菜单项：胶囊按钮 */
+.menu a{
+  position: relative;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+
+  padding: 8px 12px;
+  border-radius: 999px;
+
+  font-weight: 700;
+  font-size: .95rem;
+  letter-spacing: .1px;
+
+  text-decoration: none !important;
+
+  border: 1px solid transparent;
+  background: transparent;
+
+  transition:
+    transform .14s ease,
+    background-color .14s ease,
+    border-color .14s ease,
+    box-shadow .14s ease,
+    color .14s ease;
+}
+
+/* hover：轻浮起 + 轻底色 */
+.menu a:hover{
+  transform: translateY(-1px);
+  background: rgba(0,0,0,.035);
+  border-color: rgba(0,0,0,.08);
+  box-shadow: 0 10px 26px rgba(0,0,0,.06);
+}
+
+/* active：当前页面更像“选中态” */
+.menu a[aria-current="page"]{
+  background: linear-gradient(
+    135deg,
+    rgba(255,106,26,.12),
+    rgba(106,76,255,.10)
+  );
+  border-color: rgba(255,106,26,.22);
+  box-shadow: 0 12px 28px rgba(0,0,0,.08);
+}
+
+/* 给 Newsletter 一个更“产品化”的强调（可选） */
+.menu a[href$="/newsletter/"]{
+  border-color: rgba(106,76,255,.18);
+}
+.menu a[href$="/newsletter/"]:hover{
+  border-color: rgba(106,76,255,.28);
+}
+
+/* 给 RSS 做小“点”提示（不喧宾夺主） */
+.menu a[href$="/index.xml"]::after{
+  content: "•";
+  margin-left: 6px;
+  opacity: .55;
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+/* 深色模式适配 */
+body.dark .menu a:hover{
+  background: rgba(255,255,255,.06);
+  border-color: rgba(255,255,255,.10);
+  box-shadow: 0 12px 30px rgba(0,0,0,.35);
+}
+
+body.dark .menu a[aria-current="page"]{
+  background: linear-gradient(
+    135deg,
+    rgba(255,106,26,.16),
+    rgba(106,76,255,.14)
+  );
+  border-color: rgba(255,255,255,.12);
+}
+
+/* 移动端：避免太挤 */
+@media (max-width: 768px){
+  .menu{ gap: 8px; }
+  .menu a{
+    padding: 7px 10px;
+    font-size: .92rem;
+  }
+}
+/* 让菜单更像“产品导航区块” */
+.menu{
+  padding-left: 12px;
+  border-left: 1px solid var(--border);
+}
+
+html { outline: 6px solid red !important; }
+
+

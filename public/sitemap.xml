@@ -80,6 +80,12 @@
     <loc>http://localhost:1313/yanlunai-blog/tags/%E8%A1%8C%E4%B8%9A%E8%90%BD%E5%9C%B0/</loc>
     <lastmod>2025-12-14T00:00:00+00:00</lastmod>
   </url><url>
+    <loc>http://localhost:1313/yanlunai-blog/about/</loc>
+  </url><url>
+    <loc>http://localhost:1313/yanlunai-blog/newsletter/</loc>
+  </url><url>
     <loc>http://localhost:1313/yanlunai-blog/series/</loc>
+  </url><url>
+    <loc>http://localhost:1313/yanlunai-blog/talks/</loc>
   </url>
 </urlset>
