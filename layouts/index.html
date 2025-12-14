@@ -4,7 +4,9 @@
 {{ $pages := where site.RegularPages "Type" "in" site.Params.mainSections }}
 {{ $featured := where $pages "Params.featured" true }}
 {{ $featured = first 3 $featured }}
-{{ $latest := first 10 $pages }}
+
+{{/* ✅ 最新更新分页（受 hugo.toml 的 [pagination].pagerSize 控制） */}}
+{{ $paginator := .Paginate $pages }}
 
 <div class="yanlunai-home">
 
@@ -82,13 +84,12 @@
     {{ if gt (len $featured) 0 }}
       <div class="yanlunai-cards">
         {{ range $featured }}
-        <a class="yanlunai-card yanlunai-card-featured" href="{{ .RelPermalink }}">
-          <div class="yanlunai-badge">Editor’s Pick</div>
-          <div class="yanlunai-card-title">{{ .Title }}</div>
-          {{ with .Summary }}<div class="yanlunai-card-desc">{{ . }}</div>{{ end }}
-          <div class="yanlunai-card-meta">{{ .Date.Format "2006-01-02" }} · {{ .ReadingTime }} min</div>
-        </a>
-        
+          <a class="yanlunai-card yanlunai-card-featured" href="{{ .RelPermalink }}">
+            <div class="yanlunai-badge">Editor’s Pick</div>
+            <div class="yanlunai-card-title">{{ .Title }}</div>
+            {{ with .Summary }}<div class="yanlunai-card-desc">{{ . }}</div>{{ end }}
+            <div class="yanlunai-card-meta">{{ .Date.Format "2006-01-02" }} · {{ .ReadingTime }} min</div>
+          </a>
         {{ end }}
       </div>
     {{ else }}
@@ -98,12 +99,12 @@
     {{ end }}
   </section>
 
-  <!-- ========== Latest ========== -->
+  <!-- ========== Latest (Paginated) ========== -->
   <section class="yanlunai-section">
     <div class="yanlunai-section-title">🆕 最新更新</div>
 
     <div class="yanlunai-cards">
-      {{ range $latest }}
+      {{ range $paginator.Pages }}
         <a class="yanlunai-card yanlunai-card-compact" href="{{ .RelPermalink }}">
           <div class="yanlunai-card-title">{{ .Title }}</div>
           {{ with .Summary }}<div class="yanlunai-card-desc">{{ . }}</div>{{ end }}
@@ -111,9 +112,20 @@
         </a>
       {{ end }}
     </div>
+
+    <!-- ✅ 翻页按钮 -->
+    {{ if gt $paginator.TotalPages 1 }}
+      <nav class="pagination">
+        {{ if $paginator.HasPrev }}
+          <a class="prev" href="{{ $paginator.Prev.URL }}">« Prev</a>
+        {{ end }}
+        {{ if $paginator.HasNext }}
+          <a class="next" href="{{ $paginator.Next.URL }}">Next »</a>
+        {{ end }}
+      </nav>
+    {{ end }}
   </section>
 
 </div>
-
 
 {{- end -}}
