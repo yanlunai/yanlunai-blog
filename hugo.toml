@@ -1,4 +1,6 @@
-baseURL = "https://yanlunai.com/"
+baseURL = "https://yanlunai.github.io/yanlunai-blog/"
+relativeURLs = true
+canonifyURLs = true
 languageCode = "zh-cn"
 title = "焱论AI"
 theme = "PaperMod"
@@ -41,13 +43,8 @@ enableRobotsTXT = true
     Content = """
 <div class="yanlunai-logo-wrap" aria-label="焱论AI Logo">
   <div class="yanlunai-logo-stack">
-    <img
-      class="yanlunai-logo-img"
-      src="/logo/yanlunai-logo-512.png"
-      alt="焱论AI Logo"
-      loading="eager"
-      decoding="async"
-    />
+<img src="{{ "logo/yanlunai-logo-512.png" | relURL }}" alt="焱论AI Logo" />
+
   </div>
 </div>
 
