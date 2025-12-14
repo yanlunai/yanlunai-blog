@@ -1,3 +1,4 @@
+
 /* =========================
    焱论AI - 全站 UI + 首页 Hero + Logo（Glassmorphism 克制版）
    放置路径：assets/css/extended/yanlunai.css
@@ -11,6 +12,22 @@
 /* 1) 加宽全站版心（减少两侧空白） */
 :root{
   --yanlunai-max-width: 1120px; /* 可调 1040 / 1200 */
+
+  /* ✅ 统一卡片字体层级（你要的“标题/正文/元信息有明显区别”） */
+  --yanlunai-title-size: 1.06rem;    /* 卡片标题 */
+  --yanlunai-title-lh: 1.28;
+  --yanlunai-title-weight: 900;
+
+  --yanlunai-desc-size: .96rem;      /* 卡片摘要 */
+  --yanlunai-desc-lh: 1.72;
+  --yanlunai-desc-weight: 500;
+
+  --yanlunai-meta-size: .86rem;      /* 日期/阅读时长 */
+  --yanlunai-meta-lh: 1.4;
+  --yanlunai-meta-weight: 600;
+
+  --yanlunai-desc-opacity: .92;      /* 让正文更“弱”一点 */
+  --yanlunai-meta-opacity: .72;      /* 让 meta 更弱 */
 }
 
 /* PaperMod 版心容器 */
@@ -73,7 +90,15 @@
 
 /* 7) 移动端 */
 @media (max-width: 768px){
-  :root{ --yanlunai-max-width: 92vw; }
+  :root{
+    --yanlunai-max-width: 92vw;
+
+    /* 移动端字号略收一点 */
+    --yanlunai-title-size: 1.02rem;
+    --yanlunai-desc-size: .95rem;
+    --yanlunai-meta-size: .84rem;
+  }
+
   .first-entry{ padding: 18px 16px; border-radius: 16px; }
   .post-entry{ padding: 14px 14px; border-radius: 14px; }
 }
@@ -81,13 +106,6 @@
 
 /* =========================
    B) Logo（✅ 圆心数学居中 + 玻璃拟态克制版）
-   说明：你的 HTML 结构是：
-   <div class="yanlunai-logo-wrap">
-     <div class="yanlunai-logo-stack">
-       <img class="yanlunai-logo-img" ... />
-       <svg class="yanlunai-circuit-overlay">...</svg> (可选)
-     </div>
-   </div>
    ========================= */
 
 /* Wrap：只负责居中与留白 */
@@ -111,7 +129,6 @@
 
   overflow: hidden;
 
-  /* 玻璃底色：浅色主题下轻白雾 */
   background: rgba(255,255,255,.55);
   border: 1px solid rgba(255,255,255,.55);
 
@@ -160,7 +177,7 @@
   top: 50%;
   transform: translate(-50%,-50%);
 
-  width: 128px;     /* 建议 112~140，你可以自己调 */
+  width: 128px;
   height: 128px;
   border-radius: 999px;
   display:block;
@@ -170,7 +187,6 @@
     drop-shadow(0 10px 24px rgba(255,106,26,.20))
     drop-shadow(0 0 14px rgba(106,76,255,.12));
 
-  /* 注意：transform 用于居中，所以动画必须包含 translate(-50%,-50%) */
   transform-origin: 50% 60%;
   animation: yanlunaiBreathScale 2.2s ease-in-out infinite;
 }
@@ -232,7 +248,6 @@ body.dark .yanlunai-logo-stack::after{
 
 /* =========================
    C) Circuit Overlay（可选：不泛雾，只在电路上跑亮点）
-   - 如果你没放 SVG overlay，不会影响
    ========================= */
 
 .yanlunai-circuit-overlay{
@@ -246,13 +261,11 @@ body.dark .yanlunai-logo-stack::after{
   z-index: 3;
 }
 
-/* 电路底线：稳定、干净 */
 .yanlunai-circuit-base{
   opacity: 0.55;
   filter: none;
 }
 
-/* 流光线：短 dash + 长 gap => 亮点移动 */
 .yanlunai-circuit-glow{
   opacity: 0.95;
   stroke-dasharray: 10 60;
@@ -270,7 +283,6 @@ body.dark .yanlunai-logo-stack::after{
   100% { stroke-dashoffset: 0; }
 }
 
-/* 节点：克制脉冲 */
 .yanlunai-node{
   opacity: 0.85;
   filter:
@@ -373,7 +385,7 @@ body.dark .yanlunai-logo-stack::after{
 }
 
 .yanlunai-pill-title{
-  font-weight: 700;
+  font-weight: 800;
   color: var(--content);
 }
 
@@ -386,7 +398,7 @@ body.dark .yanlunai-logo-stack::after{
 .yanlunai-section{ margin-top: 18px; }
 .yanlunai-section-title{
   font-size: 1.08rem;
-  font-weight: 800;
+  font-weight: 900;
   margin: 6px 0 10px;
 }
 
@@ -412,26 +424,45 @@ body.dark .yanlunai-logo-stack::after{
   box-shadow: 0 14px 30px rgba(0,0,0,.08);
 }
 
+/* ✅ 卡片标题：更大、更黑、更紧凑（与正文区分） */
 .yanlunai-card-title{
-  font-weight: 800;
-  line-height: 1.35;
-  margin-bottom: 6px;
+  font-size: var(--yanlunai-title-size);
+  line-height: var(--yanlunai-title-lh);
+  font-weight: var(--yanlunai-title-weight);
+  letter-spacing: .1px;
+
+  margin-bottom: 8px;
   color: var(--content);
+
+  /* 让标题更像“标题”：略微收紧并避免太松散 */
+  text-wrap: balance;
 }
 
+/* ✅ 卡片正文：更小、更柔和、行距更舒适（与标题区分） */
 .yanlunai-card-desc{
+  font-size: var(--yanlunai-desc-size);
+  line-height: var(--yanlunai-desc-lh);
+  font-weight: var(--yanlunai-desc-weight);
   color: var(--secondary);
-  line-height: 1.6;
+  opacity: var(--yanlunai-desc-opacity);
+
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
+/* ✅ 元信息：最小、最弱、但更“干净” */
 .yanlunai-card-meta{
-  margin-top: 10px;
+  margin-top: 12px;
+  font-size: var(--yanlunai-meta-size);
+  line-height: var(--yanlunai-meta-lh);
+  font-weight: var(--yanlunai-meta-weight);
   color: var(--secondary);
-  font-size: .88rem;
+  opacity: var(--yanlunai-meta-opacity);
+
+  /* ✅ 给右下角 badge 让位，避免窄卡片里压住 meta */
+  padding-right: 96px;
 }
 
 /* compact cards for latest */
@@ -502,7 +533,7 @@ body.dark .yanlunai-logo-stack::after{
 
 /* Featured 标题更大一点 */
 .yanlunai-card-featured .yanlunai-card-title{
-  font-size: 1.04rem;
+  font-size: 1.10rem;
   letter-spacing: .1px;
 }
 
@@ -555,24 +586,29 @@ body.dark .yanlunai-card-featured{
   color: var(--secondary);
   font-size: .92rem;
 }
-/* ===== Editor’s Pick badge ===== */
+
+
+/* =========================
+   G) Editor’s Pick badge（✅ 右下角 + 不抢标题）
+   ========================= */
+
 .yanlunai-card-featured{ position: relative; }
 
 .yanlunai-badge{
   position: absolute;
-  top: 12px;
-  right: 12px;
+  right: 14px;
+  bottom: 14px;
   z-index: 2;
 
   font-size: .78rem;
-  font-weight: 800;
+  font-weight: 900;
   letter-spacing: .2px;
 
   padding: 6px 10px;
   border-radius: 999px;
 
   border: 1px solid rgba(255,106,26,.28);
-  background: rgba(255,255,255,.72);
+  background: rgba(255,255,255,.78);
   backdrop-filter: blur(10px) saturate(1.1);
   -webkit-backdrop-filter: blur(10px) saturate(1.1);
 
@@ -586,9 +622,9 @@ body.dark .yanlunai-badge{
   color: rgba(255,255,255,.86);
 }
 
+
 /* =========================
-   YanlunAI Brand Navigation (PaperMod top-right menu)
-   - 产品级：pill + hover + active + dark mode
+   H) YanlunAI Brand Navigation (PaperMod top-right menu)
    ========================= */
 
 /* 顶部导航整体更像“产品头部” */
@@ -690,12 +726,18 @@ body.dark .menu a[aria-current="page"]{
     font-size: .92rem;
   }
 }
+
 /* 让菜单更像“产品导航区块” */
 .menu{
   padding-left: 12px;
   border-left: 1px solid var(--border);
 }
 
-html { outline: 6px solid red !important; }
 
+/* =========================
+   Z) Debug（调试用：确认 CSS 是否加载）
+   - 生效后记得删掉或注释掉
+   ========================= */
+
+/* html { outline: 6px solid red !important; } */
 
