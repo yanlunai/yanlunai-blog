@@ -1,22 +1,32 @@
 baseURL = "https://yanlunai.github.io/yanlunai-blog/"
-relativeURLs = true
-canonifyURLs = true
 languageCode = "zh-cn"
 title = "焱论AI"
 theme = "PaperMod"
 
+# =============================
+# 基础设置
+# =============================
 [pagination]
   pagerSize = 10
+
+relativeURLs = true
+canonifyURLs = true
 
 enableInlineShortcodes = true
 enableEmoji = true
 enableRobotsTXT = true
 
+# =============================
+# 分类 / 标签
+# =============================
 [taxonomies]
   category = "categories"
   tag      = "tags"
   series   = "series"
 
+# =============================
+# 全局参数（PaperMod）
+# =============================
 [params]
   env = "production"
   author = "焱论AI"
@@ -31,26 +41,32 @@ enableRobotsTXT = true
   ShowBreadCrumbs = true
   ShowToc = true
 
+  # 首页文章流
   mainSections = ["posts"]
 
+  # =============================
+  # 顶部导航 Logo
+  # =============================
   [params.label]
     text = "焱论AI"
-    icon = "/logo/yanlunai-logo-512.png"
+    icon = "logo/yanlunai-logo-512.png"
     iconHeight = 32
 
+  # =============================
+  # 首页介绍卡片（不使用模板语法）
+  # =============================
   [params.homeInfoParams]
     Title = "🔥 焱论AI · YanlunAI"
     Content = """
-<div class="yanlunai-logo-wrap" aria-label="焱论AI Logo">
-  <div class="yanlunai-logo-stack">
-<img src="{{ "logo/yanlunai-logo-512.png" | relURL }}" alt="焱论AI Logo" />
-
-  </div>
+<div class="yanlunai-logo-wrap">
+  <img src="logo/yanlunai-logo-512.png" alt="焱论AI Logo" style="max-width:180px;">
 </div>
 
-<p><strong>焱论AI = 大模型技术栈 + 行业落地打法 + 个体成长路径</strong></p>
+<strong>焱论AI = 大模型技术栈 + 行业落地打法 + 个体成长路径</strong>
 
-<p>专注于：大模型 · RAG · 行业模型 · 工程实践 · 论文精读</p>
+<br/><br/>
+
+专注于：大模型 · RAG · 行业模型 · 工程实践 · 论文精读
 
 <ul>
   <li>🎯 <strong>IP 定位</strong>：面向一线工程实践的大模型 & 行业模型研究型个人品牌</li>
@@ -59,17 +75,23 @@ enableRobotsTXT = true
   <li>👤 <strong>适合人群</strong>：AI 学习者、算法工程师、行业数字化从业者、想入局大模型的人</li>
 </ul>
 
-<p>如果你想系统性跟进「<strong>大模型 × 行业落地</strong>」，这里会是一份<strong>长期更新的路线图</strong>。</p>
+如果你想系统性跟进「<strong>大模型 × 行业落地</strong>」，这里会是一份<strong>长期更新的路线图</strong>。
 """
 
+  # =============================
+  # 资源 / favicon
+  # =============================
   [params.assets]
     disableHLJS = true
-    favicon = "/favicon.ico"
-    favicon16x16 = "/favicon-16x16.png"
-    favicon32x32 = "/favicon-32x32.png"
-    apple_touch_icon = "/apple-touch-icon.png"
-    safari_pinned_tab = "/logo/yanlunai-logo.svg"
+    favicon = "favicon.ico"
+    favicon16x16 = "favicon-16x16.png"
+    favicon32x32 = "favicon-32x32.png"
+    apple_touch_icon = "apple-touch-icon.png"
+    safari_pinned_tab = "logo/yanlunai-logo.svg"
 
+# =============================
+# Markdown 渲染
+# =============================
 [markup]
   [markup.goldmark]
     [markup.goldmark.renderer]
@@ -78,28 +100,31 @@ enableRobotsTXT = true
   [markup.highlight]
     noClasses = false
 
+# =============================
+# 顶部菜单（⚠️ 不要以 / 开头）
+# =============================
 [menu]
+
   [[menu.main]]
     identifier = "papers"
     name = "📄 论文解读"
-    url = "/categories/论文解读/"
+    url = "categories/论文解读/"
     weight = 10
 
   [[menu.main]]
     identifier = "engineering"
     name = "⚙️ 工程实践"
-    url = "/categories/工程实践/"
+    url = "categories/工程实践/"
     weight = 20
 
   [[menu.main]]
     identifier = "tools"
     name = "🧰 工具解析"
-    url = "/categories/工具解析/"
+    url = "categories/工具解析/"
     weight = 30
 
   [[menu.main]]
     identifier = "notes"
     name = "✍️ 杂谈"
-    url = "/categories/杂谈/"
+    url = "categories/杂谈/"
     weight = 40
-
