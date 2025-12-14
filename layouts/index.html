@@ -1,0 +1,64 @@
+{{- define "main" -}}
+
+  {{/* ====== Home Info（使用 hugo.toml 的 homeInfoParams）====== */}}
+  {{ with site.Params.homeInfoParams }}
+    <article class="first-entry home-info">
+      <header class="entry-header">
+        <h1>{{ .Title | markdownify }}</h1>
+      </header>
+      <div class="entry-content">
+        {{ with .Content }}{{ . | safeHTML }}{{ end }}
+      </div>      
+    </article>
+  {{ end }}
+
+  {{/* ====== Featured：只展示 3 篇精选 ====== */}}
+  {{ $featured := first 3 (where site.RegularPages "Params.featured" true) }}
+  {{ if gt (len $featured) 0 }}
+    <section class="home-featured">
+      <h2 style="margin-top: 26px;">⭐ 精选推荐</h2>
+      <div class="featured-list">
+        {{ range $featured }}
+          <article class="post-entry">
+            <header class="entry-header">
+              <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+            </header>
+            <div class="entry-content">
+              <p>{{ .Summary }}</p>
+            </div>
+            <footer class="entry-footer">
+              <span>{{ .Date.Format "2006-01-02" }}</span>
+              <span> · {{ .ReadingTime }} min</span>
+            </footer>
+          </article>
+        {{ end }}
+      </div>
+    </section>
+  {{ end }}
+
+  {{/* ====== Latest：默认文章流 + 分页 ====== */}}
+  {{ $mainSections := site.Params.mainSections | default (slice "posts") }}
+  {{ $pages := where site.RegularPages "Type" "in" $mainSections }}
+  {{ $paginator := .Paginate $pages }}
+
+  <section class="home-latest">
+    <h2 style="margin-top: 26px;">🆕 最新更新</h2>
+    {{ range $paginator.Pages }}
+      <article class="post-entry">
+        <header class="entry-header">
+          <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+        </header>
+        <div class="entry-content">
+          <p>{{ .Summary }}</p>
+        </div>
+        <footer class="entry-footer">
+          <span>{{ .Date.Format "2006-01-02" }}</span>
+          <span> · {{ .ReadingTime }} min</span>
+        </footer>
+      </article>
+    {{ end }}
+  </section>
+
+  {{ template "_internal/pagination.html" . }}
+
+{{- end -}}

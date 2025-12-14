@@ -1,0 +1,118 @@
+/* =========================
+   焱论AI - Logo 动效样式（PNG 徽章 + 右下角电路流光）
+   放置路径：assets/css/extended/yanlunai.css
+   ========================= */
+
+/* ====== Wrap ====== */
+.yanlunai-logo-wrap{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  margin: 14px 0 10px;
+}
+
+/* ====== Stack（PNG + Overlay SVG）====== */
+.yanlunai-logo-stack{
+  position: relative;
+  width: 168px;        /* 首页展示尺寸，可改 150~190 */
+  max-width: 168px;
+}
+
+/* ====== Main PNG Logo (breathing + soft glow) ====== */
+.yanlunai-logo-img{
+  width: 100%;
+  height: auto;
+  display:block;
+
+  filter: drop-shadow(0 10px 24px rgba(255,106,26,.20))
+          drop-shadow(0 0 14px rgba(106,76,255,.12));
+  transform-origin: 50% 60%;
+  animation: yanlunaiBreath 2.2s ease-in-out infinite;
+}
+
+/* 呼吸动效：克制 */
+@keyframes yanlunaiBreath{
+  0%,100%{
+    transform: translateY(0) scale(1);
+    filter: drop-shadow(0 10px 24px rgba(255,106,26,.18))
+            drop-shadow(0 0 14px rgba(106,76,255,.10));
+  }
+  50%{
+    transform: translateY(-1px) scale(1.02);
+    filter: drop-shadow(0 14px 32px rgba(255,106,26,.26))
+            drop-shadow(0 0 18px rgba(106,76,255,.16));
+  }
+}
+
+/* Hover：桌面端更高级一点 */
+.yanlunai-logo-img:hover{
+  filter: drop-shadow(0 16px 40px rgba(255,106,26,.30))
+          drop-shadow(0 0 24px rgba(106,76,255,.22));
+}
+
+/* =========================
+   Circuit Overlay（优化版：不泛雾，只在电路上跑“亮点”）
+   说明：
+   - 叠加层 SVG 需要配合 clipPath（只显示右下角区域）
+   - 使用两层线：base（稳定） + glow（亮点流动）
+   ========================= */
+
+.yanlunai-circuit-overlay{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+
+  /* ✅ 不使用 screen，避免透明区域泛白雾 */
+  mix-blend-mode: normal;
+
+  opacity: 0.95;
+}
+
+/* 电路底线：稳定、干净 */
+.yanlunai-circuit-base{
+  opacity: 0.55;
+  filter: none;
+}
+
+/* 流光线：用短 dash + 长 gap，形成“亮点移动” */
+.yanlunai-circuit-glow{
+  opacity: 0.95;
+
+  /* ✅ 关键：短亮段 + 长空段 => 视觉是“亮点沿线跑” */
+  stroke-dasharray: 10 60;
+  stroke-dashoffset: 0;
+
+  filter: drop-shadow(0 0 6px rgba(106,76,255,.22))
+          drop-shadow(0 0 10px rgba(255,106,26,.16));
+
+  animation: yanlunaiCircuitFlow 1.2s linear infinite;
+}
+
+@keyframes yanlunaiCircuitFlow{
+  0%   { stroke-dashoffset: 120; }
+  100% { stroke-dashoffset: 0; }
+}
+
+/* 节点：更克制的脉冲，避免脏影 */
+.yanlunai-node{
+  opacity: 0.85;
+  filter: drop-shadow(0 0 6px rgba(106,76,255,.18))
+          drop-shadow(0 0 8px rgba(255,106,26,.12));
+  animation: yanlunaiNodePulse 1.8s ease-in-out infinite;
+}
+
+@keyframes yanlunaiNodePulse{
+  0%,100% { transform: scale(1);    opacity: 0.72; }
+  50%     { transform: scale(1.08); opacity: 0.95; }
+}
+
+/* ====== Accessibility ====== */
+@media (prefers-reduced-motion: reduce){
+  .yanlunai-logo-img,
+  .yanlunai-circuit-glow,
+  .yanlunai-node{
+    animation: none !important;
+  }
+}

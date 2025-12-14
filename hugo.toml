@@ -1,0 +1,108 @@
+baseURL = "https://yanlunai.com/"
+languageCode = "zh-cn"
+title = "焱论AI"
+theme = "PaperMod"
+
+[pagination]
+  pagerSize = 10
+
+enableInlineShortcodes = true
+enableEmoji = true
+enableRobotsTXT = true
+
+[taxonomies]
+  category = "categories"
+  tag      = "tags"
+  series   = "series"
+
+[params]
+  env = "production"
+  author = "焱论AI"
+  description = "焱论AI：专注于大模型、RAG、行业模型与论文深度解读的个人技术品牌"
+
+  defaultTheme = "auto"
+  ShowReadingTime = true
+  ShowWordCount = true
+  ShowCodeCopyButtons = true
+  ShowShareButtons = true
+  ShowPostNavLinks = true
+  ShowBreadCrumbs = true
+  ShowToc = true
+
+  mainSections = ["posts"]
+
+  [params.label]
+    text = "焱论AI"
+    icon = "/logo/yanlunai-logo-512.png"
+    iconHeight = 32
+
+  [params.homeInfoParams]
+    Title = "🔥 焱论AI · YanlunAI"
+    Content = """
+<div class="yanlunai-logo-wrap" aria-label="焱论AI Logo">
+  <div class="yanlunai-logo-stack">
+    <img
+      class="yanlunai-logo-img"
+      src="/logo/yanlunai-logo-512.png"
+      alt="焱论AI Logo"
+      loading="eager"
+      decoding="async"
+    />
+  </div>
+</div>
+
+<p><strong>焱论AI = 大模型技术栈 + 行业落地打法 + 个体成长路径</strong></p>
+
+<p>专注于：大模型 · RAG · 行业模型 · 工程实践 · 论文精读</p>
+
+<ul>
+  <li>🎯 <strong>IP 定位</strong>：面向一线工程实践的大模型 & 行业模型研究型个人品牌</li>
+  <li>📚 <strong>内容矩阵</strong>：论文精读 / 工程实践 / 工具解析 / 行业杂谈</li>
+  <li>🧠 <strong>关键词</strong>：RAG 可信性 · 推理能力 · 行业场景落地 · 信创生态</li>
+  <li>👤 <strong>适合人群</strong>：AI 学习者、算法工程师、行业数字化从业者、想入局大模型的人</li>
+</ul>
+
+<p>如果你想系统性跟进「<strong>大模型 × 行业落地</strong>」，这里会是一份<strong>长期更新的路线图</strong>。</p>
+"""
+
+  [params.assets]
+    disableHLJS = true
+    favicon = "/favicon.ico"
+    favicon16x16 = "/favicon-16x16.png"
+    favicon32x32 = "/favicon-32x32.png"
+    apple_touch_icon = "/apple-touch-icon.png"
+    safari_pinned_tab = "/logo/yanlunai-logo.svg"
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+
+  [markup.highlight]
+    noClasses = false
+
+[menu]
+  [[menu.main]]
+    identifier = "papers"
+    name = "📄 论文解读"
+    url = "/categories/论文解读/"
+    weight = 10
+
+  [[menu.main]]
+    identifier = "engineering"
+    name = "⚙️ 工程实践"
+    url = "/categories/工程实践/"
+    weight = 20
+
+  [[menu.main]]
+    identifier = "tools"
+    name = "🧰 工具解析"
+    url = "/categories/工具解析/"
+    weight = 30
+
+  [[menu.main]]
+    identifier = "notes"
+    name = "✍️ 杂谈"
+    url = "/categories/杂谈/"
+    weight = 40
+
