@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><script src="/yanlunai-blog/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=yanlunai-blog/livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>工具 | 焱论AI</title>
+<meta name="keywords" content="">
+<meta name="description" content="焱论AI：专注于大模型、RAG、行业模型与论文深度解读的个人技术品牌">
+<meta name="author" content="焱论AI">
+<link rel="canonical" href="http://localhost:1313/yanlunai-blog/tags/%E5%B7%A5%E5%85%B7/">
+<link crossorigin="anonymous" href="/yanlunai-blog/assets/css/stylesheet.4473d315c2f2e20b61c030f336ec212ea21c45c8fe4bece5d5fa7cb40e86c3fe.css" integrity="sha256-RHPTFcLy4gthwDDzNuwhLqIcRcj&#43;S&#43;zl1fp8tA6Gw/4=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/yanlunai-blog/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/yanlunai-blog/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/yanlunai-blog/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/yanlunai-blog/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/yanlunai-blog/logo/yanlunai-logo.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="http://localhost:1313/yanlunai-blog/tags/%E5%B7%A5%E5%85%B7/index.xml" title="rss">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/yanlunai-blog/tags/%E5%B7%A5%E5%85%B7/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            .list::-webkit-scrollbar-thumb {
+                border-color: var(--code-bg);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body);"></script>
+<meta property="og:url" content="http://localhost:1313/yanlunai-blog/tags/%E5%B7%A5%E5%85%B7/">
+  <meta property="og:site_name" content="焱论AI">
+  <meta property="og:title" content="工具">
+  <meta property="og:description" content="焱论AI：专注于大模型、RAG、行业模型与论文深度解读的个人技术品牌">
+  <meta property="og:locale" content="zh-cn">
+  <meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="工具">
+<meta name="twitter:description" content="焱论AI：专注于大模型、RAG、行业模型与论文深度解读的个人技术品牌">
+
+</head>
+<body class="list" id="top">
+    <header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/yanlunai-blog/" accesskey="h" title="焱论AI (Alt + H)">
+                <img src="http://localhost:1313/yanlunai-blog/logo/yanlunai-logo-512.png" alt="" aria-label="logo"
+                    height="32">焱论AI</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://localhost:1313/yanlunai-blog/categories/%E8%AE%BA%E6%96%87%E8%A7%A3%E8%AF%BB/" title="📄 论文解读">
+                    <span>📄 论文解读</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/yanlunai-blog/categories/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/" title="⚙️ 工程实践">
+                    <span>⚙️ 工程实践</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/yanlunai-blog/categories/%E5%B7%A5%E5%85%B7%E8%A7%A3%E6%9E%90/" title="🧰 工具解析">
+                    <span>🧰 工具解析</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/yanlunai-blog/categories/%E6%9D%82%E8%B0%88/" title="✍️ 杂谈">
+                    <span>✍️ 杂谈</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header"><div class="breadcrumbs"><a href="http://localhost:1313/yanlunai-blog/">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/yanlunai-blog/tags/">Tags</a></div>
+  <h1>
+    工具
+  </h1>
+</header>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Demo：RAG 工具链清单（检索 / 重排 / 评估）
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>用于验证工具解析分类页、标签与摘要展示。</p>
+  </div>
+  <footer class="entry-footer"><span title='2025-12-15 00:00:00 +0800 CST'>December 15, 2025</span>&nbsp;·&nbsp;<span>1 min</span>&nbsp;·&nbsp;<span>10 words</span>&nbsp;·&nbsp;<span>焱论AI</span></footer>
+  <a class="entry-link" aria-label="post link to Demo：RAG 工具链清单（检索 / 重排 / 评估）" href="http://localhost:1313/yanlunai-blog/posts/tools/demo-tools/"></a>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2025 <a href="http://localhost:1313/yanlunai-blog/">焱论AI</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>
