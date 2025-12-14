@@ -84,6 +84,8 @@
   </url><url>
     <loc>http://localhost:1313/yanlunai-blog/newsletter/</loc>
   </url><url>
+    <loc>http://localhost:1313/yanlunai-blog/search/</loc>
+  </url><url>
     <loc>http://localhost:1313/yanlunai-blog/series/</loc>
   </url><url>
     <loc>http://localhost:1313/yanlunai-blog/talks/</loc>

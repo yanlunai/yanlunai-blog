@@ -4,20 +4,22 @@ title = "焱论AI"
 theme = "PaperMod"
 
 # =============================
-# 基础设置
+# URL / 构建行为
+# =============================
+relativeURLs = false
+canonifyURLs = true
+enableRobotsTXT = true
+enableEmoji = true
+enableInlineShortcodes = true
+
+# =============================
+# 分页（⚠️ 与 .Paginate 强相关）
 # =============================
 [pagination]
   pagerSize = 10
 
-relativeURLs = true
-canonifyURLs = true
-
-enableInlineShortcodes = true
-enableEmoji = true
-enableRobotsTXT = true
-
 # =============================
-# 分类 / 标签
+# Taxonomies
 # =============================
 [taxonomies]
   category = "categories"
@@ -25,7 +27,13 @@ enableRobotsTXT = true
   series   = "series"
 
 # =============================
-# 全局参数（PaperMod）
+# 输出格式（搜索必须）
+# =============================
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
+# =============================
+# PaperMod 参数
 # =============================
 [params]
   env = "production"
@@ -33,6 +41,8 @@ enableRobotsTXT = true
   description = "焱论AI：专注于大模型、RAG、行业模型与论文深度解读的个人技术品牌"
 
   defaultTheme = "auto"
+  disableThemeToggle = false
+
   ShowReadingTime = true
   ShowWordCount = true
   ShowCodeCopyButtons = true
@@ -40,13 +50,15 @@ enableRobotsTXT = true
   ShowPostNavLinks = true
   ShowBreadCrumbs = true
   ShowToc = true
-  customCSS = ["css/extended/yanlunai.css"]
 
-  # 首页文章流
+  # 首页内容来源
   mainSections = ["posts"]
 
+  # ✅ 强制加载自定义 CSS（你现在所有 UI 都依赖这个）
+  customCSS = ["css/extended/yanlunai.css"]
+
   # =============================
-  # 顶部导航 Logo
+  # 顶部 Logo
   # =============================
   [params.label]
     text = "焱论AI"
@@ -54,36 +66,21 @@ enableRobotsTXT = true
     iconHeight = 32
 
   # =============================
-  # 首页介绍卡片（不使用模板语法）
+  # 站内搜索（Fuse.js）
   # =============================
-  [params.homeInfoParams]
-    Title = "🔥 焱论AI · YanlunAI"
-    Content = """
-<div class="yanlunai-logo-wrap">
-  <img src="logo/yanlunai-logo-512.png" alt="焱论AI Logo" style="max-width:180px;">
-</div>
-
-<strong>焱论AI = 大模型技术栈 + 行业落地打法 + 个体成长路径</strong>
-
-<br/><br/>
-
-专注于：大模型 · RAG · 行业模型 · 工程实践 · 论文精读
-
-<ul>
-  <li>🎯 <strong>IP 定位</strong>：面向一线工程实践的大模型 & 行业模型研究型个人品牌</li>
-  <li>📚 <strong>内容矩阵</strong>：论文精读 / 工程实践 / 工具解析 / 行业杂谈</li>
-  <li>🧠 <strong>关键词</strong>：RAG 可信性 · 推理能力 · 行业场景落地 · 信创生态</li>
-  <li>👤 <strong>适合人群</strong>：AI 学习者、算法工程师、行业数字化从业者、想入局大模型的人</li>
-</ul>
-
-如果你想系统性跟进「<strong>大模型 × 行业落地</strong>」，这里会是一份<strong>长期更新的路线图</strong>。
-"""
+  [params.fuseOpts]
+    isCaseSensitive = false
+    shouldSort = true
+    location = 0
+    distance = 1000
+    threshold = 0.3
+    minMatchCharLength = 2
+    keys = ["title", "permalink", "summary", "content"]
 
   # =============================
-  # 资源 / favicon
+  # favicon / PWA
   # =============================
   [params.assets]
-    disableHLJS = true
     favicon = "favicon.ico"
     favicon16x16 = "favicon-16x16.png"
     favicon32x32 = "favicon-32x32.png"
@@ -91,7 +88,7 @@ enableRobotsTXT = true
     safari_pinned_tab = "logo/yanlunai-logo.svg"
 
 # =============================
-# Markdown 渲染
+# Markdown 渲染（支持 HTML）
 # =============================
 [markup]
   [markup.goldmark]
@@ -102,29 +99,35 @@ enableRobotsTXT = true
     noClasses = false
 
 # =============================
-# 顶部菜单（⚠️ 不要以 / 开头）
+# 顶部菜单
 # =============================
 [menu]
   [[menu.main]]
     identifier = "about"
     name = "About"
-    url = "/about/"
+    url = "about/"
     weight = 10
 
   [[menu.main]]
     identifier = "talks"
     name = "Talks"
-    url = "/talks/"
+    url = "talks/"
     weight = 20
 
   [[menu.main]]
     identifier = "newsletter"
     name = "Newsletter"
-    url = "/newsletter/"
+    url = "newsletter/"
     weight = 30
+
+  [[menu.main]]
+    identifier = "search"
+    name = "Search"
+    url = "search/"
+    weight = 35
 
   [[menu.main]]
     identifier = "rss"
     name = "RSS"
-    url = "/index.xml"
+    url = "index.xml"
     weight = 40
