@@ -38,6 +38,12 @@ jobs:
       - name: Show Hugo version
         run: hugo version
 
+      # ✅ Node 只用于生成评论数（轻量）
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
       - name: Build
         run: |
           hugo --minify --baseURL "https://yanlunai.github.io/yanlunai-blog/"
@@ -50,6 +56,25 @@ jobs:
           find public -maxdepth 4 -type f \( -name "*.css" -o -name "*.js" \) | head -n 200
           echo "==== sample html head ===="
           sed -n '1,120p' public/index.html || true
+
+      # ✅ 生成 comments-count.json（会写到 static/，需要在 upload 前确保它被带进 public）
+      # 注意：你的脚本会写 static/comments-count.json
+      # Hugo 构建时才会把 static/ 同步进 public/
+      # 所以这里有两种方式：
+      # 1) 先生成到 static/ 再补一次 hugo build（更稳，但多一次构建）
+      # 2) 生成后直接复制到 public/（更快）
+      # 我这里用“复制到 public/”的方式，最省资源。
+      - name: Generate giscus comment counts
+        env:
+          GITHUB_TOKEN: ${{ secrets.GISCUS_TOKEN }}
+        run: |
+          node -v
+          node scripts/giscus_counts.mjs
+          # 把生成结果同步到 public（确保 Pages artifact 带上）
+          test -f static/comments-count.json
+          cp -f static/comments-count.json public/comments-count.json
+          echo "==== comments-count.json (sample) ===="
+          head -n 40 public/comments-count.json || true
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

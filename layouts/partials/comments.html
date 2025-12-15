@@ -1,0 +1,83 @@
+
+<div class="yanlunai-comments">
+
+  <details class="yanlunai-comments-box" id="yanlunai-comments">
+    <summary class="yanlunai-comments-summary">
+      <span class="yanlunai-comments-title">💬 评论</span>
+      <span class="yanlunai-comments-count" id="yanlunai-comments-count">（…）</span>
+      <span class="yanlunai-comments-hint">点击展开</span>
+    </summary>
+    
+    <div class="yanlunai-comments-body">
+      <!-- giscus 容器：我们用 JS 注入 script，便于主题跟随 + 折叠时再加载 -->
+      <div id="giscus-container"></div>
+    </div>
+  </details>
+
+</div>
+
+<script>
+(function () {
+  const details = document.getElementById('yanlunai-comments');
+  const container = document.getElementById('giscus-container');
+  if (!details || !container) return;
+
+  function getTheme() {
+    // PaperMod 深色通常是 body.dark
+    return document.body.classList.contains('dark') ? 'dark' : 'light';
+  }
+
+  function loadGiscus() {
+    if (container.dataset.loaded === '1') return;
+    container.dataset.loaded = '1';
+
+    const s = document.createElement('script');
+    s.src = 'https://giscus.app/client.js';
+    s.async = true;
+    s.crossOrigin = 'anonymous';
+
+    // 你的 giscus 参数（保持不变）
+    s.setAttribute('data-repo', 'yanlunai/yanlunai-blog');
+    s.setAttribute('data-repo-id', 'R_kgDOQomR8A');
+    s.setAttribute('data-category', 'Comments');
+    s.setAttribute('data-category-id', 'DIC_kwDOQomR8M4Cz0-g');
+    s.setAttribute('data-mapping', 'pathname');
+    s.setAttribute('data-strict', '0');
+    s.setAttribute('data-reactions-enabled', '1');
+    s.setAttribute('data-emit-metadata', '0');
+    s.setAttribute('data-input-position', 'top');
+    s.setAttribute('data-lang', 'zh-CN');
+    s.setAttribute('data-loading', 'lazy');
+
+    // ✅ 关键：用 light/dark 明确跟随 PaperMod
+    s.setAttribute('data-theme', getTheme());
+
+    container.appendChild(s);
+  }
+
+  // 默认折叠：只有展开时才加载
+  details.addEventListener('toggle', () => {
+    if (details.open) loadGiscus();
+  });
+
+  // 如果你希望“首次访问某篇文章且 URL 带 #comment”自动展开：
+  if (location.hash === '#comment') {
+    details.open = true;
+    loadGiscus();
+  }
+
+  // ✅ 主题切换同步（PaperMod 切换会改 body.dark）
+  // 用 MutationObserver 观察 class 变化，向 giscus iframe 发送 setConfig
+  const observer = new MutationObserver(() => {
+    const iframe = document.querySelector('iframe.giscus-frame');
+    if (!iframe) return;
+    iframe.contentWindow.postMessage(
+      { giscus: { setConfig: { theme: getTheme() } } },
+      'https://giscus.app'
+    );
+  });
+
+  observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+
+})();
+</script>

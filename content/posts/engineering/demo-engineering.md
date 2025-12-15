@@ -5,6 +5,7 @@ draft: false
 categories: ["工程实践"]
 tags: ["Hugo", "GitHub Pages", "部署"]
 featured: true
+comments: true
 summary: "用于验证工程实践分类页与文章流展示。"
 ---
 ## 目标

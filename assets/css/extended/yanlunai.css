@@ -734,10 +734,150 @@ body.dark .menu a[aria-current="page"]{
 }
 
 
+
+/* ===== Comments (giscus) ===== */
+.yanlunai-comments{
+  margin-top: 28px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border);
+}
+
+.yanlunai-comments-title{
+  margin: 0 0 12px;
+  font-size: 1.05rem;
+  font-weight: 900;
+}
 /* =========================
-   Z) Debug（调试用：确认 CSS 是否加载）
-   - 生效后记得删掉或注释掉
+   Giscus (Comments) - Vercel-ish Card Style
    ========================= */
 
-/* html { outline: 6px solid red !important; } */
+.yanlunai-comments{
+    margin-top: 28px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border);
+  }
+  
+.yanlunai-comments-title{
+    margin: 0 0 12px;
+    font-size: 1.08rem;
+    font-weight: 900;
+  }
+  
+  /* 把 giscus iframe 变成“卡片容器” */
+.yanlunai-comments .giscus,
+  .yanlunai-comments .giscus-frame{
+    width: 100%;
+  }
+  
+  /* giscus 实际是 iframe，外层容器做卡片感 */
+.yanlunai-comments .giscus{
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: var(--entry);
+    box-shadow: 0 10px 28px rgba(0,0,0,.06);
+    overflow: hidden;
+  }
+body.dark .yanlunai-comments .giscus{
+    box-shadow: 0 16px 40px rgba(0,0,0,.35);
+  }
+/* 评论区轻微环境光（克制） */
+.yanlunai-comments{
+  position: relative;
+}
+
+.yanlunai-comments::before{
+  content:"";
+  position:absolute;
+  left:-60px;
+  right:-60px;
+  top: -10px;
+  height: 160px;
+  z-index: -1;
+  filter: blur(90px);
+  opacity: .55;
+  background: radial-gradient(
+    circle at 35% 30%,
+    rgba(106,76,255,.18),
+    rgba(255,255,255,0) 70%
+  );
+}
+body.dark .yanlunai-comments::before{
+  opacity: .65;
+  background: radial-gradient(
+    circle at 35% 30%,
+    rgba(106,76,255,.22),
+    rgba(20,24,38,0) 70%
+  );
+}
+
+/* =========================
+   Comments (Foldable) - Vercel-ish
+   ========================= */
+
+.yanlunai-comments{
+    margin-top: 28px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border);
+  }
+  
+.yanlunai-comments-box{
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: var(--entry);
+    box-shadow: 0 10px 28px rgba(0,0,0,.06);
+    overflow: hidden;
+  }
+  
+body.dark .yanlunai-comments-box{
+    box-shadow: 0 16px 40px rgba(0,0,0,.35);
+  }
+  
+.yanlunai-comments-summary{
+    list-style: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    user-select: none;
+  }
+  
+.yanlunai-comments-summary::-webkit-details-marker{ display:none; }
+  
+.yanlunai-comments-title{
+    font-weight: 900;
+    font-size: 1.02rem;
+    color: var(--content);
+  }
+  
+.yanlunai-comments-hint{
+    color: var(--secondary);
+    font-size: .92rem;
+  }
+  
+.yanlunai-comments-body{
+    padding: 0 12px 12px;
+  }
+  
+  /* 展开/收起的小箭头（右侧） */
+.yanlunai-comments-summary::after{
+    content: "▾";
+    margin-left: auto;
+    color: var(--secondary);
+    transition: transform .15s ease;
+  }
+  
+.yanlunai-comments-box[open] .yanlunai-comments-summary::after{
+    transform: rotate(180deg);
+  }
+  
+  /* 让 giscus iframe 在卡片里更贴合 */
+  .yanlunai-comments .giscus,
+  .yanlunai-comments iframe.giscus-frame{
+    width: 100%;
+  }
+.yanlunai-comments-count{
+    color: var(--secondary);
+    font-size: .92rem;
+  }
 

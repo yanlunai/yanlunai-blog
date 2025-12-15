@@ -4,6 +4,7 @@ date: 2025-12-15T00:00:00+08:00
 draft: false
 categories: ["杂谈"]
 tags: ["规划", "随笔"]
+comments: true
 summary: "用于验证杂谈分类页与站点定位文案。"
 ---
 ## 我会长期更新什么？

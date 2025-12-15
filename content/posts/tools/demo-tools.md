@@ -5,6 +5,7 @@ draft: false
 categories: ["工具解析"]
 tags: ["RAG", "工具", "评估"]
 featured: true
+comments: true
 summary: "用于验证工具解析分类页、标签与摘要展示。"
 ---
 ## 工具链（示例）

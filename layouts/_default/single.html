@@ -1,0 +1,30 @@
+{{- define "main" -}}
+
+<article class="post-single">
+  <header class="post-header">
+    <h1 class="post-title">{{ .Title }}</h1>
+    {{- if .Params.description -}}
+      <div class="post-description">{{ .Params.description }}</div>
+    {{- end -}}
+
+    {{- with .Params.tags -}}
+      <ul class="post-tags">
+        {{- range . -}}
+          <li><a href="{{ (printf "tags/%s/" .) | relURL }}">{{ . }}</a></li>
+        {{- end -}}
+      </ul>
+    {{- end -}}
+  </header>
+
+  <div class="post-content">
+    {{ .Content }}
+  </div>
+
+  <!-- ✅ 评论区：按文章/全站开关控制 -->
+  {{ if or .Params.comments site.Params.comments }}
+    {{ partial "comments.html" . }}
+  {{ end }}
+
+</article>
+
+{{- end -}}
