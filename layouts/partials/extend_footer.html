@@ -1,1 +1,20 @@
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script>
+    (function () {
+      function focusSearch() {
+        const el = document.querySelector('.yanlunai-search-input');
+        if (el) el.focus();
+      }
+    
+      document.addEventListener('keydown', (e) => {
+        if (e.key === '/' && !e.metaKey && !e.ctrlKey && !e.altKey) {
+          const tag = (e.target && e.target.tagName || '').toLowerCase();
+          const isTyping = tag === 'input' || tag === 'textarea';
+          if (isTyping) return;
+          e.preventDefault();
+          focusSearch();
+        }
+      });
+    })();
+    </script>
+    

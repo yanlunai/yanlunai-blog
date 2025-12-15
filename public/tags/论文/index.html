@@ -10,7 +10,7 @@
 <meta name="description" content="焱论AI：专注于大模型、RAG、行业模型与论文深度解读的个人技术品牌">
 <meta name="author" content="焱论AI">
 <link rel="canonical" href="http://localhost:1313/yanlunai-blog/tags/%E8%AE%BA%E6%96%87/">
-<link crossorigin="anonymous" href="http://localhost:1313/yanlunai-blog/assets/css/stylesheet.5196aca78668c49888cd9ba2e4cb2d35d0522cb8fa22cd3ee9dfa05b0241fe01.css" integrity="sha256-UZasp4ZoxJiIzZui5MstNdBSLLj6Is0&#43;6d&#43;gWwJB/gE=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="http://localhost:1313/yanlunai-blog/assets/css/stylesheet.a83bb8a6e5ca97374256c3dd484a873b9bb5c640e6042a043570d86aed47aaf2.css" integrity="sha256-qDu4puXKlzdCVsPdSEqHO5u1xkDmBCoENXDYau1HqvI=" rel="preload stylesheet" as="style">
 <link rel="icon" href="http://localhost:1313/yanlunai-blog/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/yanlunai-blog/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/yanlunai-blog/favicon-32x32.png">
@@ -189,7 +189,25 @@
         <path d="M12 6H0l6-6z" />
     </svg>
 </a><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
+<script>
+    (function () {
+      function focusSearch() {
+        const el = document.querySelector('.yanlunai-search-input');
+        if (el) el.focus();
+      }
+    
+      document.addEventListener('keydown', (e) => {
+        if (e.key === '/' && !e.metaKey && !e.ctrlKey && !e.altKey) {
+          const tag = (e.target && e.target.tagName || '').toLowerCase();
+          const isTyping = tag === 'input' || tag === 'textarea';
+          if (isTyping) return;
+          e.preventDefault();
+          focusSearch();
+        }
+      });
+    })();
+    </script>
+    
 
 <script>
     let menu = document.getElementById('menu');

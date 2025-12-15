@@ -1,17 +1,24 @@
 {{- define "main" -}}
 
-{{/* 取首页内容 */}}
+{{/* =========================
+     Home data
+   ========================= */}}
 {{ $pages := where site.RegularPages "Type" "in" site.Params.mainSections }}
+{{ $pages = $pages.ByDate.Reverse }}
+
 {{ $featured := where $pages "Params.featured" true }}
 {{ $featured = first 3 $featured }}
 
-{{/* ✅ 最新更新分页（受 hugo.toml 的 [pagination].pagerSize 控制） */}}
+{{/* 最新更新分页（受 hugo.toml 的 [pagination].pagerSize 控制） */}}
 {{ $paginator := .Paginate $pages }}
 
 <div class="yanlunai-home">
 
-  <!-- ========== Hero ========== -->
+  <!-- =========================
+       1) HERO
+       ========================= -->
   <section class="yanlunai-hero">
+    <!-- Left -->
     <div class="yanlunai-hero-left">
       <h1 class="yanlunai-hero-title">🔥 焱论AI · YanlunAI</h1>
       <p class="yanlunai-hero-subtitle">大模型技术栈 × 行业落地打法 × 个体成长路径</p>
@@ -23,26 +30,22 @@
         <div>👤 <b>适合人群</b>：AI 学习者、算法工程师、行业数字化从业者、想入局大模型的人</div>
       </div>
 
-      <!-- 栏目入口卡片 -->
       <div class="yanlunai-pill-grid">
         <a class="yanlunai-pill" href="{{ "categories/论文解读/" | relURL }}">
           <span class="yanlunai-pill-emoji">📄</span>
           <span class="yanlunai-pill-title">论文解读</span>
           <span class="yanlunai-pill-desc">LLM / RAG / Agent</span>
         </a>
-
         <a class="yanlunai-pill" href="{{ "categories/工程实践/" | relURL }}">
           <span class="yanlunai-pill-emoji">⚙️</span>
           <span class="yanlunai-pill-title">工程实践</span>
           <span class="yanlunai-pill-desc">部署 / 微调 / 推理服务</span>
         </a>
-
         <a class="yanlunai-pill" href="{{ "categories/工具解析/" | relURL }}">
           <span class="yanlunai-pill-emoji">🧰</span>
           <span class="yanlunai-pill-title">工具解析</span>
           <span class="yanlunai-pill-desc">框架评测 / 推理引擎</span>
         </a>
-
         <a class="yanlunai-pill" href="{{ "categories/杂谈/" | relURL }}">
           <span class="yanlunai-pill-emoji">✍️</span>
           <span class="yanlunai-pill-title">杂谈</span>
@@ -51,19 +54,23 @@
       </div>
     </div>
 
-    <!-- ✅ 右侧：Logo + 社交链接 -->
-    <div class="yanlunai-hero-right" aria-label="焱论AI Logo">
-      <div class="yanlunai-logo-wrap">
-        <div class="yanlunai-logo-stack">
-          <img class="yanlunai-logo-img"
-               src="{{ "logo/yanlunai-logo-512.png" | relURL }}"
-               alt="焱论AI Logo"
-               loading="eager"
-               decoding="async">
-        </div>
+    <!-- Right -->
+    <div class="yanlunai-hero-right" aria-label="焱论AI Brand">
+      <div class="yanlunai-hero-blobs" aria-hidden="true">
+        <span class="yanlunai-blob yanlunai-blob-left"></span>
+        <span class="yanlunai-blob yanlunai-blob-right"></span>
       </div>
 
-      <!-- ✅ 社交链接 -->
+      <!-- Logo (breath + halo) -->
+      <div class="yanlunai-logo-wrap yanlunai-logo-breathe">
+        <span class="yanlunai-logo-halo" aria-hidden="true"></span>
+        <img class="yanlunai-logo-img"
+             src="{{ "logo/yanlunai-logo-512.png" | relURL }}"
+             alt="焱论AI Logo"
+             loading="eager"
+             decoding="async">
+      </div>
+
       <div class="yanlunai-social">
         <a class="yanlunai-social-btn" href="https://github.com/yanlunai" target="_blank" rel="noopener">GitHub</a>
         <a class="yanlunai-social-btn" href="https://www.zhihu.com/" target="_blank" rel="noopener">知乎</a>
@@ -71,24 +78,55 @@
         <a class="yanlunai-social-btn" href="{{ "index.xml" | relURL }}">RSS</a>
       </div>
 
-      <div class="yanlunai-social-hint">
-        关注我：大模型 · RAG · 行业落地 · 工程实践
+      <div class="yanlunai-social-hint">关注我：大模型 · RAG · 行业落地 · 工程实践</div>
+
+      <div class="yanlunai-search-wrap">
+        <form class="yanlunai-search" action="{{ "search/" | relURL }}" method="get" role="search">
+          <input class="yanlunai-search-input"
+                 type="search"
+                 name="q"
+                 placeholder="Search: RAG / 可信 / Agent / 部署…"
+                 autocomplete="off"
+                 aria-label="Search posts">
+          <button class="yanlunai-search-btn" type="submit" aria-label="Submit search">Search</button>
+        </form>
+        <div class="yanlunai-search-hint">
+          支持关键词搜索 · <span class="yanlunai-kbd">/</span> 快捷聚焦
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- ========== Featured ========== -->
-  <section class="yanlunai-section">
-    <div class="yanlunai-section-title">⭐ 精选推荐</div>
+
+  <!-- =========================
+       2) FEATURED
+       ========================= -->
+  <section class="yanlunai-section yanlunai-section-featured">
+    <div class="yanlunai-section-head">
+      <div>
+        <div class="yanlunai-section-title">⭐ 精选推荐</div>
+        <div class="yanlunai-section-sub">为你精选 · 更值得读的 3 篇</div>
+      </div>
+    </div>
 
     {{ if gt (len $featured) 0 }}
-      <div class="yanlunai-cards">
-        {{ range $featured }}
-          <a class="yanlunai-card yanlunai-card-featured" href="{{ .RelPermalink }}">
-            <div class="yanlunai-badge">Editor’s Pick</div>
-            <div class="yanlunai-card-title">{{ .Title }}</div>
-            {{ with .Summary }}<div class="yanlunai-card-desc">{{ . }}</div>{{ end }}
-            <div class="yanlunai-card-meta">{{ .Date.Format "2006-01-02" }} · {{ .ReadingTime }} min</div>
+      <div class="yanlunai-featured-grid">
+        {{ range $post := $featured }}
+          <a class="yanlunai-fcard" href="{{ $post.RelPermalink }}">
+            <div class="yanlunai-fcard-bg" aria-hidden="true"></div>
+
+            <div class="yanlunai-fcard-body">
+              <div class="yanlunai-fcard-title">{{ $post.Title }}</div>
+              {{ with $post.Summary }}
+                <div class="yanlunai-fcard-desc">{{ . }}</div>
+              {{ end }}
+            </div>
+
+            <div class="yanlunai-fcard-meta">
+              <span>{{ $post.Date.Format "2006-01-02" }}</span>
+              <span class="yanlunai-dot">·</span>
+              <span>{{ $post.ReadingTime }} min</span>
+            </div>
           </a>
         {{ end }}
       </div>
@@ -99,33 +137,81 @@
     {{ end }}
   </section>
 
-  <!-- ========== Latest (Paginated) ========== -->
-  <section class="yanlunai-section">
-    <div class="yanlunai-section-title">🆕 最新更新</div>
 
-    <div class="yanlunai-cards">
-      {{ range $paginator.Pages }}
-        <a class="yanlunai-card yanlunai-card-compact" href="{{ .RelPermalink }}">
-          <div class="yanlunai-card-title">{{ .Title }}</div>
-          {{ with .Summary }}<div class="yanlunai-card-desc">{{ . }}</div>{{ end }}
-          <div class="yanlunai-card-meta">{{ .Date.Format "2006-01-02" }} · {{ .ReadingTime }} min</div>
-        </a>
-      {{ end }}
+  <!-- =========================
+       3) LATEST (List only, newest first)
+       - 仅列表：按时间倒序（$pages 已经 reverse）
+       - 分页由 hugo.toml 的 [pagination].pagerSize 控制
+       ========================= -->
+  <section class="yanlunai-section yanlunai-section-latest" id="yanlunai-latest">
+    <div class="yanlunai-section-head yanlunai-latest-head" id="yanlunai-latest-head">
+      <div>
+        <div class="yanlunai-section-title">🆕 最新更新</div>
+        <!-- <div class="yanlunai-section-sub">按时间倒序展示</div> -->
+      </div>
     </div>
 
-    <!-- ✅ 翻页按钮 -->
-    {{ if gt $paginator.TotalPages 1 }}
-      <nav class="pagination">
-        {{ if $paginator.HasPrev }}
-          <a class="prev" href="{{ $paginator.Prev.URL }}">« Prev</a>
-        {{ end }}
-        {{ if $paginator.HasNext }}
-          <a class="next" href="{{ $paginator.Next.URL }}">Next »</a>
-        {{ end }}
-      </nav>
+    {{ if gt (len $paginator.Pages) 0 }}
+      <div class="yanlunai-latest-stage" aria-label="Latest posts stage">
+        <div class="yanlunai-latest-cards">
+          {{ range $i, $page := $paginator.Pages }}
+
+            {{/* cover > images[0] > empty */}}
+            {{ $cover := "" }}
+            {{ with $page.Params.cover }}
+              {{ $cover = . }}
+            {{ else }}
+              {{ with $page.Params.images }}
+                {{ if gt (len .) 0 }}
+                  {{ $cover = index . 0 }}
+                {{ end }}
+              {{ end }}
+            {{ end }}
+
+            <a class="yanlunai-latest-card {{ if ne $cover "" }}has-cover{{ else }}no-cover{{ end }}"
+               href="{{ $page.RelPermalink }}"
+               style="{{ if ne $cover "" }}--yl-bg:url('{{ $cover | relURL }}');{{ end }}">
+
+              {{ if ne $cover "" }}
+                <div class="yanlunai-latest-card-media" aria-hidden="true"></div>
+              {{ end }}
+
+              <div class="yanlunai-latest-card-body">
+                <div class="yanlunai-latest-card-title">{{ $page.Title }}</div>
+
+                {{ with $page.Summary }}
+                  <div class="yanlunai-latest-card-desc">{{ . }}</div>
+                {{ end }}
+
+                <div class="yanlunai-latest-card-meta">
+                  <span>{{ $page.Date.Format "2006-01-02" }}</span>
+                  <span class="yanlunai-dot">·</span>
+                  <span>{{ $page.ReadingTime }} min</span>
+                </div>
+              </div>
+            </a>
+
+          {{ end }}
+        </div>
+      </div>
+
+      {{ if gt $paginator.TotalPages 1 }}
+        <nav class="pagination">
+          {{ if $paginator.HasPrev }}
+            <a class="prev" href="{{ $paginator.Prev.URL }}">« Prev</a>
+          {{ end }}
+          {{ if $paginator.HasNext }}
+            <a class="next" href="{{ $paginator.Next.URL }}">Next »</a>
+          {{ end }}
+        </nav>
+      {{ end }}
+
+    {{ else }}
+      <div class="yanlunai-empty">还没有文章可展示。</div>
     {{ end }}
   </section>
+  
 
 </div>
-
 {{- end -}}
+
