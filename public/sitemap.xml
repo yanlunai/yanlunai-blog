@@ -138,6 +138,8 @@
   </url><url>
     <loc>http://localhost:1313/yanlunai-blog/about/</loc>
   </url><url>
+    <loc>http://localhost:1313/yanlunai-blog/tags/github-pages/</loc>
+  </url><url>
     <loc>http://localhost:1313/yanlunai-blog/newsletter/</loc>
   </url><url>
     <loc>http://localhost:1313/yanlunai-blog/search/</loc>
@@ -145,5 +147,7 @@
     <loc>http://localhost:1313/yanlunai-blog/series/</loc>
   </url><url>
     <loc>http://localhost:1313/yanlunai-blog/talks/</loc>
+  </url><url>
+    <loc>http://localhost:1313/yanlunai-blog/tags/%E9%83%A8%E7%BD%B2/</loc>
   </url>
 </urlset>
