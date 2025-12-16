@@ -10,7 +10,7 @@
 <meta name="description" content="Search posts">
 <meta name="author" content="焱论AI">
 <link rel="canonical" href="http://localhost:1313/yanlunai-blog/search/">
-<link crossorigin="anonymous" href="http://localhost:1313/yanlunai-blog/assets/css/stylesheet.8795566e38638e1fc45d265e132ce53c910b0e8607f3f9807dfa5e79eeb3d5a5.css" integrity="sha256-h5VWbjhjjh/EXSZeEyzlPJELDoYH8/mAffpeee6z1aU=" rel="preload stylesheet" as="style"><link crossorigin="anonymous" rel="preload" as="fetch" href="../index.json">
+<link crossorigin="anonymous" href="http://localhost:1313/yanlunai-blog/assets/css/stylesheet.d33abfd1f4843536b405c3513d58fa2b1a925ce101c0d48eafca155f65dac5ed.css" integrity="sha256-0zq/0fSENTa0BcNRPVj6KxqSXOEBwNSOr8oVX2Xaxe0=" rel="preload stylesheet" as="style"><link crossorigin="anonymous" rel="preload" as="fetch" href="../index.json">
 <script defer crossorigin="anonymous" src="http://localhost:1313/yanlunai-blog/assets/js/search.79cbfd4c02e5e3efc608cdb18179804d4086871358876e5c8b6bdc2dc14273e0.js" integrity="sha256-ecv9TALl4&#43;/GCM2xgXmATUCGhxNYh25ci2vcLcFCc&#43;A="></script>
 <link rel="icon" href="http://localhost:1313/yanlunai-blog/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/yanlunai-blog/favicon-16x16.png">
@@ -220,65 +220,68 @@
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
         <path d="M12 6H0l6-6z" />
     </svg>
-</a><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</a>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
 <script>
-    (function () {
-      function focusSearch() {
-        const el = document.querySelector('.yanlunai-search-input');
-        if (el) el.focus();
+(function () {
+  function focusSearch() {
+    const el = document.querySelector('.yanlunai-search-input');
+    if (el) el.focus();
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === '/' && !e.metaKey && !e.ctrlKey && !e.altKey) {
+      const tag = ((e.target && e.target.tagName) || '').toLowerCase();
+      const isTyping = tag === 'input' || tag === 'textarea';
+      if (isTyping) return;
+      e.preventDefault();
+      focusSearch();
+    }
+  });
+})();
+</script>
+
+
+
+<script>
+(function () {
+  const root = document.querySelector("#yl-recent");
+  if (!root) return;
+
+  const body = root.querySelector(".yl-recent-body");
+  const sentinel = root.querySelector("#yl-recent-sentinel");
+  if (!body || !sentinel) return;
+
+  if (body.classList.contains("force-grid")) {
+    body.setAttribute("data-mode", "grid");
+    return;
+  }
+
+  if (body.__ylRecentObserverAttached) return;
+  body.__ylRecentObserverAttached = true;
+
+  const io = new IntersectionObserver(
+    ([entry]) => {
+      if (body.classList.contains("force-grid")) {
+        body.setAttribute("data-mode", "grid");
+        return;
       }
-    
-      document.addEventListener('keydown', (e) => {
-        if (e.key === '/' && !e.metaKey && !e.ctrlKey && !e.altKey) {
-          const tag = (e.target && e.target.tagName || '').toLowerCase();
-          const isTyping = tag === 'input' || tag === 'textarea';
-          if (isTyping) return;
-          e.preventDefault();
-          focusSearch();
-        }
-      });
-    })();
-    </script>
-    
-    <script>
-        (function () {
-          const root = document.querySelector("#yl-recent");
-          if (!root) return;
-        
-          const body = root.querySelector(".yl-recent-body");
-          const sentinel = document.querySelector("#yl-recent-sentinel");
-          if (!body || !sentinel) return;
-        
-          const io = new IntersectionObserver(
-            ([entry]) => {
-              body.setAttribute("data-mode", entry.isIntersecting ? "fan" : "grid");
-            },
-            { threshold: 0.1 }
-          );
-        
-          io.observe(sentinel);
-        })();
-        </script>
-        <script>
-            (function () {
-              const root = document.querySelector("#yl-recent");
-              if (!root) return;
-            
-              const body = root.querySelector(".yl-recent-body");
-              const sentinel = document.querySelector("#yl-recent-sentinel");
-              if (!body || !sentinel) return;
-            
-              const io = new IntersectionObserver(
-                ([entry]) => {
-                  body.setAttribute("data-mode", entry.isIntersecting ? "fan" : "grid");
-                },
-                { threshold: 0.1 }
-              );
-            
-              io.observe(sentinel);
-            })();
-            </script>
-            
+      body.setAttribute("data-mode", entry.isIntersecting ? "fan" : "grid");
+    },
+    { threshold: 0.1 }
+  );
+
+  io.observe(sentinel);
+})();
+</script>
+
 
 <script>
     let menu = document.getElementById('menu');

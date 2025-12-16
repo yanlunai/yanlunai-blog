@@ -10,7 +10,7 @@
 <meta name="description" content="焱论AI：专注于大模型、RAG、行业模型与论文深度解读的个人技术品牌">
 <meta name="author" content="焱论AI">
 <link rel="canonical" href="http://localhost:1313/yanlunai-blog/tags/rerank/">
-<link crossorigin="anonymous" href="http://localhost:1313/yanlunai-blog/assets/css/stylesheet.8795566e38638e1fc45d265e132ce53c910b0e8607f3f9807dfa5e79eeb3d5a5.css" integrity="sha256-h5VWbjhjjh/EXSZeEyzlPJELDoYH8/mAffpeee6z1aU=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="http://localhost:1313/yanlunai-blog/assets/css/stylesheet.d33abfd1f4843536b405c3513d58fa2b1a925ce101c0d48eafca155f65dac5ed.css" integrity="sha256-0zq/0fSENTa0BcNRPVj6KxqSXOEBwNSOr8oVX2Xaxe0=" rel="preload stylesheet" as="style">
 <link rel="icon" href="http://localhost:1313/yanlunai-blog/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/yanlunai-blog/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/yanlunai-blog/favicon-32x32.png">
@@ -155,17 +155,48 @@
   <div class="entry-content">
     <p>Embedding 负责“找得到”，重排负责“排得准”，这是两个完全不同的问题。</p>
   </div>
-  <footer class="entry-footer"><span id="busuanzi_container_page_pv" style="display:none;">
-    · 阅读 <span id="busuanzi_value_page_pv"></span>
-  </span>
-  <script>
-    
-    window.addEventListener("load", () => {
+  <footer class="entry-footer">
+
+<div class="post-meta">
+
+  <span>2025-12-14</span><span> · 1 min</span>
+  
+    <span id="busuanzi_container_page_pv" class="meta-item meta-views" style="display:none;">
+      · 阅读 <span id="busuanzi_value_page_pv"></span>
+    </span>
+
+    <script>
+    (function () {
       const c = document.getElementById("busuanzi_container_page_pv");
-      if (c) c.style.display = "inline";
-    });
-  </script>
-  </footer>
+      const v = document.getElementById("busuanzi_value_page_pv");
+      if (!c || !v) return;
+
+      function showIfReady() {
+        const text = (v.textContent || "").trim();
+        if (text && /^[0-9]+$/.test(text)) {
+          c.style.display = "inline";
+          return true;
+        }
+        return false;
+      }
+
+      
+      if (showIfReady()) return;
+
+      
+      const mo = new MutationObserver(() => {
+        if (showIfReady()) mo.disconnect();
+      });
+      mo.observe(v, { childList: true, characterData: true, subtree: true });
+
+      
+      setTimeout(() => mo.disconnect(), 10000);
+    })();
+    </script>
+  
+
+</div>
+</footer>
   <a class="entry-link" aria-label="post link to 为什么重排几乎总能提升 RAG 效果" href="http://localhost:1313/yanlunai-blog/posts/tools/2025-12-14-rerank-intuition/"></a>
 </article>
     </main>
@@ -183,65 +214,68 @@
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
         <path d="M12 6H0l6-6z" />
     </svg>
-</a><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</a>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
 <script>
-    (function () {
-      function focusSearch() {
-        const el = document.querySelector('.yanlunai-search-input');
-        if (el) el.focus();
+(function () {
+  function focusSearch() {
+    const el = document.querySelector('.yanlunai-search-input');
+    if (el) el.focus();
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === '/' && !e.metaKey && !e.ctrlKey && !e.altKey) {
+      const tag = ((e.target && e.target.tagName) || '').toLowerCase();
+      const isTyping = tag === 'input' || tag === 'textarea';
+      if (isTyping) return;
+      e.preventDefault();
+      focusSearch();
+    }
+  });
+})();
+</script>
+
+
+
+<script>
+(function () {
+  const root = document.querySelector("#yl-recent");
+  if (!root) return;
+
+  const body = root.querySelector(".yl-recent-body");
+  const sentinel = root.querySelector("#yl-recent-sentinel");
+  if (!body || !sentinel) return;
+
+  if (body.classList.contains("force-grid")) {
+    body.setAttribute("data-mode", "grid");
+    return;
+  }
+
+  if (body.__ylRecentObserverAttached) return;
+  body.__ylRecentObserverAttached = true;
+
+  const io = new IntersectionObserver(
+    ([entry]) => {
+      if (body.classList.contains("force-grid")) {
+        body.setAttribute("data-mode", "grid");
+        return;
       }
-    
-      document.addEventListener('keydown', (e) => {
-        if (e.key === '/' && !e.metaKey && !e.ctrlKey && !e.altKey) {
-          const tag = (e.target && e.target.tagName || '').toLowerCase();
-          const isTyping = tag === 'input' || tag === 'textarea';
-          if (isTyping) return;
-          e.preventDefault();
-          focusSearch();
-        }
-      });
-    })();
-    </script>
-    
-    <script>
-        (function () {
-          const root = document.querySelector("#yl-recent");
-          if (!root) return;
-        
-          const body = root.querySelector(".yl-recent-body");
-          const sentinel = document.querySelector("#yl-recent-sentinel");
-          if (!body || !sentinel) return;
-        
-          const io = new IntersectionObserver(
-            ([entry]) => {
-              body.setAttribute("data-mode", entry.isIntersecting ? "fan" : "grid");
-            },
-            { threshold: 0.1 }
-          );
-        
-          io.observe(sentinel);
-        })();
-        </script>
-        <script>
-            (function () {
-              const root = document.querySelector("#yl-recent");
-              if (!root) return;
-            
-              const body = root.querySelector(".yl-recent-body");
-              const sentinel = document.querySelector("#yl-recent-sentinel");
-              if (!body || !sentinel) return;
-            
-              const io = new IntersectionObserver(
-                ([entry]) => {
-                  body.setAttribute("data-mode", entry.isIntersecting ? "fan" : "grid");
-                },
-                { threshold: 0.1 }
-              );
-            
-              io.observe(sentinel);
-            })();
-            </script>
-            
+      body.setAttribute("data-mode", entry.isIntersecting ? "fan" : "grid");
+    },
+    { threshold: 0.1 }
+  );
+
+  io.observe(sentinel);
+})();
+</script>
+
 
 <script>
     let menu = document.getElementById('menu');

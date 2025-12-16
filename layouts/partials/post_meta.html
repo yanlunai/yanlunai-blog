@@ -1,11 +1,47 @@
-<span id="busuanzi_container_page_pv" style="display:none;">
-    · 阅读 <span id="busuanzi_value_page_pv"></span>
-  </span>
-  <script>
-    // busuanzi 计数出来后会自动填充；容器默认隐藏，避免闪烁
-    window.addEventListener("load", () => {
+{{/* layouts/partials/post_meta.html */}}
+
+<div class="post-meta">
+
+  <span>{{ .Date.Format "2006-01-02" }}</span>
+
+  {{- if .ReadingTime -}}
+    <span> · {{ .ReadingTime }} min</span>
+  {{- end -}}
+
+  {{/* ✅ 阅读数（Busuanzi） */}}
+  {{ if and .Site.Params.showPageViews (not .Params.disableViews) }}
+    <span id="busuanzi_container_page_pv" class="meta-item meta-views" style="display:none;">
+      · 阅读 <span id="busuanzi_value_page_pv"></span>
+    </span>
+
+    <script>
+    (function () {
       const c = document.getElementById("busuanzi_container_page_pv");
-      if (c) c.style.display = "inline";
-    });
-  </script>
-  
+      const v = document.getElementById("busuanzi_value_page_pv");
+      if (!c || !v) return;
+
+      function showIfReady() {
+        const text = (v.textContent || "").trim();
+        if (text && /^[0-9]+$/.test(text)) {
+          c.style.display = "inline";
+          return true;
+        }
+        return false;
+      }
+
+      // 先尝试一次（可能 busuanzi 已经填好）
+      if (showIfReady()) return;
+
+      // ✅ 监听 busuanzi 对该节点的注入（最稳）
+      const mo = new MutationObserver(() => {
+        if (showIfReady()) mo.disconnect();
+      });
+      mo.observe(v, { childList: true, characterData: true, subtree: true });
+
+      // 兜底：10s 后断开
+      setTimeout(() => mo.disconnect(), 10000);
+    })();
+    </script>
+  {{ end }}
+
+</div>

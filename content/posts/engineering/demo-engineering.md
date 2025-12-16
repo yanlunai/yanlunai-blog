@@ -1,4 +1,5 @@
 ---
+---
 title: "Demo：Hugo + GitHub Pages 部署踩坑记录"
 date: 2025-12-15T00:00:00+08:00
 draft: false
@@ -7,6 +8,9 @@ tags: ["Hugo", "GitHub Pages", "部署"]
 featured: true
 comments: true
 summary: "用于验证工程实践分类页与文章流展示。"
+---
+
+
 ---
 ## 目标
 

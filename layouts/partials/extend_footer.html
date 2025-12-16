@@ -1,59 +1,67 @@
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+{{/* layouts/partials/extend_footer.html */}}
+
+{{/* =========================
+   1) Page Views (Busuanzi) - load ONCE
+   ========================= */}}
+{{ if .Site.Params.showPageViews }}
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+{{ end }}
+
+
+{{/* =========================
+   2) "/" focus search
+   ========================= */}}
 <script>
-    (function () {
-      function focusSearch() {
-        const el = document.querySelector('.yanlunai-search-input');
-        if (el) el.focus();
+(function () {
+  function focusSearch() {
+    const el = document.querySelector('.yanlunai-search-input');
+    if (el) el.focus();
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === '/' && !e.metaKey && !e.ctrlKey && !e.altKey) {
+      const tag = ((e.target && e.target.tagName) || '').toLowerCase();
+      const isTyping = tag === 'input' || tag === 'textarea';
+      if (isTyping) return;
+      e.preventDefault();
+      focusSearch();
+    }
+  });
+})();
+</script>
+
+
+{{/* =========================
+   3) Recent: fan <-> grid switch (ONLY ONCE)
+   ========================= */}}
+<script>
+(function () {
+  const root = document.querySelector("#yl-recent");
+  if (!root) return;
+
+  const body = root.querySelector(".yl-recent-body");
+  const sentinel = root.querySelector("#yl-recent-sentinel");
+  if (!body || !sentinel) return;
+
+  if (body.classList.contains("force-grid")) {
+    body.setAttribute("data-mode", "grid");
+    return;
+  }
+
+  if (body.__ylRecentObserverAttached) return;
+  body.__ylRecentObserverAttached = true;
+
+  const io = new IntersectionObserver(
+    ([entry]) => {
+      if (body.classList.contains("force-grid")) {
+        body.setAttribute("data-mode", "grid");
+        return;
       }
-    
-      document.addEventListener('keydown', (e) => {
-        if (e.key === '/' && !e.metaKey && !e.ctrlKey && !e.altKey) {
-          const tag = (e.target && e.target.tagName || '').toLowerCase();
-          const isTyping = tag === 'input' || tag === 'textarea';
-          if (isTyping) return;
-          e.preventDefault();
-          focusSearch();
-        }
-      });
-    })();
-    </script>
-    
-    <script>
-        (function () {
-          const root = document.querySelector("#yl-recent");
-          if (!root) return;
-        
-          const body = root.querySelector(".yl-recent-body");
-          const sentinel = document.querySelector("#yl-recent-sentinel");
-          if (!body || !sentinel) return;
-        
-          const io = new IntersectionObserver(
-            ([entry]) => {
-              body.setAttribute("data-mode", entry.isIntersecting ? "fan" : "grid");
-            },
-            { threshold: 0.1 }
-          );
-        
-          io.observe(sentinel);
-        })();
-        </script>
-        <script>
-            (function () {
-              const root = document.querySelector("#yl-recent");
-              if (!root) return;
-            
-              const body = root.querySelector(".yl-recent-body");
-              const sentinel = document.querySelector("#yl-recent-sentinel");
-              if (!body || !sentinel) return;
-            
-              const io = new IntersectionObserver(
-                ([entry]) => {
-                  body.setAttribute("data-mode", entry.isIntersecting ? "fan" : "grid");
-                },
-                { threshold: 0.1 }
-              );
-            
-              io.observe(sentinel);
-            })();
-            </script>
-            
+      body.setAttribute("data-mode", entry.isIntersecting ? "fan" : "grid");
+    },
+    { threshold: 0.1 }
+  );
+
+  io.observe(sentinel);
+})();
+</script>

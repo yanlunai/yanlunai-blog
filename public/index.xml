@@ -51,13 +51,6 @@
       <description>我不建议一开始就做复杂指标，先把问题、证据、输出结构固定下来，效果会稳定很多。</description>
     </item>
     <item>
-      <title>Demo：Hugo &#43; GitHub Pages 部署踩坑记录</title>
-      <link>http://localhost:1313/yanlunai-blog/posts/engineering/demo-engineering/</link>
-      <pubDate>Mon, 15 Dec 2025 00:00:00 +0800</pubDate>
-      <guid>http://localhost:1313/yanlunai-blog/posts/engineering/demo-engineering/</guid>
-      <description>用于验证工程实践分类页与文章流展示。</description>
-    </item>
-    <item>
       <title>Demo：RAG 工具链清单（检索 / 重排 / 评估）</title>
       <link>http://localhost:1313/yanlunai-blog/posts/tools/demo-tools/</link>
       <pubDate>Mon, 15 Dec 2025 00:00:00 +0800</pubDate>
@@ -105,6 +98,28 @@
       <pubDate>Sun, 14 Dec 2025 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/yanlunai-blog/posts/yanlunai-why-llm-industry/</guid>
       <description>我会用“论文为主，工程为辅，工具加持，杂谈引流”的结构，持续输出大模型与行业落地的可复用方法与路线图。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>http://localhost:1313/yanlunai-blog/posts/engineering/demo-engineering/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/yanlunai-blog/posts/engineering/demo-engineering/</guid>
+      <description>&lt;h2 id=&#34;summary-用于验证工程实践分类页与文章流展示&#34;&gt;title: &amp;ldquo;Demo：Hugo + GitHub Pages 部署踩坑记录&amp;rdquo;
+date: 2025-12-15T00:00:00+08:00
+draft: false
+categories: [&amp;ldquo;工程实践&amp;rdquo;]
+tags: [&amp;ldquo;Hugo&amp;rdquo;, &amp;ldquo;GitHub Pages&amp;rdquo;, &amp;ldquo;部署&amp;rdquo;]
+featured: true
+comments: true
+summary: &amp;ldquo;用于验证工程实践分类页与文章流展示。&amp;rdquo;&lt;/h2&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;目标&#34;&gt;目标&lt;/h2&gt;
+&lt;p&gt;把「焱论AI」部署到 GitHub Pages，并记录关键配置点：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;baseURL&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;relativeURLs&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;GitHub Actions workflow&lt;/li&gt;
+&lt;/ul&gt;</description>
     </item>
   </channel>
 </rss>

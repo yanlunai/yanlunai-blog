@@ -50,6 +50,7 @@ enableInlineShortcodes = true
   ShowPostNavLinks = true
   ShowBreadCrumbs = true
   ShowToc = true
+  showPageViews= true
 
   # 首页内容来源
   mainSections = ["posts"]
