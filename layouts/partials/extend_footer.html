@@ -18,3 +18,42 @@
     })();
     </script>
     
+    <script>
+        (function () {
+          const root = document.querySelector("#yl-recent");
+          if (!root) return;
+        
+          const body = root.querySelector(".yl-recent-body");
+          const sentinel = document.querySelector("#yl-recent-sentinel");
+          if (!body || !sentinel) return;
+        
+          const io = new IntersectionObserver(
+            ([entry]) => {
+              body.setAttribute("data-mode", entry.isIntersecting ? "fan" : "grid");
+            },
+            { threshold: 0.1 }
+          );
+        
+          io.observe(sentinel);
+        })();
+        </script>
+        <script>
+            (function () {
+              const root = document.querySelector("#yl-recent");
+              if (!root) return;
+            
+              const body = root.querySelector(".yl-recent-body");
+              const sentinel = document.querySelector("#yl-recent-sentinel");
+              if (!body || !sentinel) return;
+            
+              const io = new IntersectionObserver(
+                ([entry]) => {
+                  body.setAttribute("data-mode", entry.isIntersecting ? "fan" : "grid");
+                },
+                { threshold: 0.1 }
+              );
+            
+              io.observe(sentinel);
+            })();
+            </script>
+            

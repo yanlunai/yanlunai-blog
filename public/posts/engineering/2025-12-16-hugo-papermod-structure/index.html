@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><script src="/yanlunai-blog/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=yanlunai-blog/livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Hugo &#43; PaperMod：我推荐的工程目录结构 | 焱论AI</title>
+<meta name="keywords" content="Hugo, PaperMod, 工程结构">
+<meta name="description" content="相比写主题魔改，我更建议用 layouts &#43; assets/extended 的方式，保持主题可升级、改动可控。">
+<meta name="author" content="焱论AI">
+<link rel="canonical" href="http://localhost:1313/yanlunai-blog/posts/engineering/2025-12-16-hugo-papermod-structure/">
+<link crossorigin="anonymous" href="http://localhost:1313/yanlunai-blog/assets/css/stylesheet.27ec9e3a1b5dd65cfc520aa8b5aa7cb443225f7e89915e939de3a23c9bd43795.css" integrity="sha256-J&#43;yeOhtd1lz8Ugqotap8tEMiX36JkV6TneOiPJvUN5U=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/yanlunai-blog/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/yanlunai-blog/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/yanlunai-blog/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/yanlunai-blog/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/yanlunai-blog/logo/yanlunai-logo.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/yanlunai-blog/posts/engineering/2025-12-16-hugo-papermod-structure/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            .list::-webkit-scrollbar-thumb {
+                border-color: var(--code-bg);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body);"></script>
+<meta property="og:url" content="http://localhost:1313/yanlunai-blog/posts/engineering/2025-12-16-hugo-papermod-structure/">
+  <meta property="og:site_name" content="焱论AI">
+  <meta property="og:title" content="Hugo &#43; PaperMod：我推荐的工程目录结构">
+  <meta property="og:description" content="相比写主题魔改，我更建议用 layouts &#43; assets/extended 的方式，保持主题可升级、改动可控。">
+  <meta property="og:locale" content="zh-cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-12-16T08:50:00+08:00">
+    <meta property="article:modified_time" content="2025-12-16T08:50:00+08:00">
+    <meta property="article:tag" content="Hugo">
+    <meta property="article:tag" content="PaperMod">
+    <meta property="article:tag" content="工程结构">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hugo &#43; PaperMod：我推荐的工程目录结构">
+<meta name="twitter:description" content="相比写主题魔改，我更建议用 layouts &#43; assets/extended 的方式，保持主题可升级、改动可控。">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://localhost:1313/yanlunai-blog/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Hugo + PaperMod：我推荐的工程目录结构",
+      "item": "http://localhost:1313/yanlunai-blog/posts/engineering/2025-12-16-hugo-papermod-structure/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Hugo + PaperMod：我推荐的工程目录结构",
+  "name": "Hugo \u002b PaperMod：我推荐的工程目录结构",
+  "description": "相比写主题魔改，我更建议用 layouts + assets/extended 的方式，保持主题可升级、改动可控。",
+  "keywords": [
+    "Hugo", "PaperMod", "工程结构"
+  ],
+  "articleBody": "核心原则 不改 theme 源码 所有自定义都可删除、可回滚 推荐结构 layouts/ index.html partials/ assets/ css/extended/ content/ posts/ ",
+  "wordCount" : "13",
+  "inLanguage": "en",
+  "datePublished": "2025-12-16T08:50:00+08:00",
+  "dateModified": "2025-12-16T08:50:00+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "焱论AI"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://localhost:1313/yanlunai-blog/posts/engineering/2025-12-16-hugo-papermod-structure/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "焱论AI",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://localhost:1313/yanlunai-blog/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/yanlunai-blog/" accesskey="h" title="焱论AI (Alt + H)">
+                <img src="http://localhost:1313/yanlunai-blog/logo/yanlunai-logo-512.png" alt="" aria-label="logo"
+                    height="32">焱论AI</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://localhost:1313/yanlunai-blog/about/" title="About">
+                    <span>About</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/yanlunai-blog/talks/" title="Talks">
+                    <span>Talks</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/yanlunai-blog/newsletter/" title="Newsletter">
+                    <span>Newsletter</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/yanlunai-blog/search/" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/yanlunai-blog/index.xml" title="RSS">
+                    <span>RSS</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main"><article class="post-single">
+  <header class="post-header">
+    <h1 class="post-title">Hugo &#43; PaperMod：我推荐的工程目录结构</h1><ul class="post-tags"><li><a href="http://localhost:1313/yanlunai-blog/tags/Hugo/">Hugo</a></li><li><a href="http://localhost:1313/yanlunai-blog/tags/PaperMod/">PaperMod</a></li><li><a href="http://localhost:1313/yanlunai-blog/tags/%e5%b7%a5%e7%a8%8b%e7%bb%93%e6%9e%84/">工程结构</a></li></ul></header>
+
+  <div class="post-content">
+    <h2 id="核心原则">核心原则</h2>
+<ul>
+<li>不改 theme 源码</li>
+<li>所有自定义都可删除、可回滚</li>
+</ul>
+<h2 id="推荐结构">推荐结构</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">layouts/
+</span></span><span class="line"><span class="cl">  index.html
+</span></span><span class="line"><span class="cl">  partials/
+</span></span><span class="line"><span class="cl">assets/
+</span></span><span class="line"><span class="cl">  css/extended/
+</span></span><span class="line"><span class="cl">content/
+</span></span><span class="line"><span class="cl">  posts/
+</span></span></code></pre></div>
+  </div>
+
+  
+  
+
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2025 <a href="http://localhost:1313/yanlunai-blog/">焱论AI</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script>
+    (function () {
+      function focusSearch() {
+        const el = document.querySelector('.yanlunai-search-input');
+        if (el) el.focus();
+      }
+    
+      document.addEventListener('keydown', (e) => {
+        if (e.key === '/' && !e.metaKey && !e.ctrlKey && !e.altKey) {
+          const tag = (e.target && e.target.tagName || '').toLowerCase();
+          const isTyping = tag === 'input' || tag === 'textarea';
+          if (isTyping) return;
+          e.preventDefault();
+          focusSearch();
+        }
+      });
+    })();
+    </script>
+    
+    <script>
+        (function () {
+          const root = document.querySelector("#yl-recent");
+          if (!root) return;
+        
+          const body = root.querySelector(".yl-recent-body");
+          const sentinel = document.querySelector("#yl-recent-sentinel");
+          if (!body || !sentinel) return;
+        
+          const io = new IntersectionObserver(
+            ([entry]) => {
+              body.setAttribute("data-mode", entry.isIntersecting ? "fan" : "grid");
+            },
+            { threshold: 0.1 }
+          );
+        
+          io.observe(sentinel);
+        })();
+        </script>
+        <script>
+            (function () {
+              const root = document.querySelector("#yl-recent");
+              if (!root) return;
+            
+              const body = root.querySelector(".yl-recent-body");
+              const sentinel = document.querySelector("#yl-recent-sentinel");
+              if (!body || !sentinel) return;
+            
+              const io = new IntersectionObserver(
+                ([entry]) => {
+                  body.setAttribute("data-mode", entry.isIntersecting ? "fan" : "grid");
+                },
+                { threshold: 0.1 }
+              );
+            
+              io.observe(sentinel);
+            })();
+            </script>
+            
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

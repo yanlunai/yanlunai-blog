@@ -6,14 +6,35 @@
     <description>Recent content in 工程实践 on 焱论AI</description>
     <generator>Hugo -- 0.152.2</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 15 Dec 2025 00:00:00 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 16 Dec 2025 08:50:00 +0800</lastBuildDate>
     <atom:link href="http://localhost:1313/yanlunai-blog/categories/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hugo &#43; PaperMod：我推荐的工程目录结构</title>
+      <link>http://localhost:1313/yanlunai-blog/posts/engineering/2025-12-16-hugo-papermod-structure/</link>
+      <pubDate>Tue, 16 Dec 2025 08:50:00 +0800</pubDate>
+      <guid>http://localhost:1313/yanlunai-blog/posts/engineering/2025-12-16-hugo-papermod-structure/</guid>
+      <description>相比写主题魔改，我更建议用 layouts + assets/extended 的方式，保持主题可升级、改动可控。</description>
+    </item>
+    <item>
+      <title>行业模型评估：一个最小可复用模板</title>
+      <link>http://localhost:1313/yanlunai-blog/posts/engineering/2025-12-15-industry-eval-template/</link>
+      <pubDate>Mon, 15 Dec 2025 15:10:00 +0800</pubDate>
+      <guid>http://localhost:1313/yanlunai-blog/posts/engineering/2025-12-15-industry-eval-template/</guid>
+      <description>我不建议一开始就做复杂指标，先把问题、证据、输出结构固定下来，效果会稳定很多。</description>
+    </item>
     <item>
       <title>Demo：Hugo &#43; GitHub Pages 部署踩坑记录</title>
       <link>http://localhost:1313/yanlunai-blog/posts/engineering/demo-engineering/</link>
       <pubDate>Mon, 15 Dec 2025 00:00:00 +0800</pubDate>
       <guid>http://localhost:1313/yanlunai-blog/posts/engineering/demo-engineering/</guid>
       <description>用于验证工程实践分类页与文章流展示。</description>
+    </item>
+    <item>
+      <title>FastAPI &#43; 大模型推理服务的最小骨架</title>
+      <link>http://localhost:1313/yanlunai-blog/posts/engineering/2025-12-14-fastapi-llm-skeleton/</link>
+      <pubDate>Sun, 14 Dec 2025 21:00:00 +0800</pubDate>
+      <guid>http://localhost:1313/yanlunai-blog/posts/engineering/2025-12-14-fastapi-llm-skeleton/</guid>
+      <description>与其堆功能，不如先把日志、限流、超时这些‘无聊但关键’的东西做好。</description>
     </item>
   </channel>
 </rss>

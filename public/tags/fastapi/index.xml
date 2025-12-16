@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>FastAPI on 焱论AI</title>
+    <link>http://localhost:1313/yanlunai-blog/tags/fastapi/</link>
+    <description>Recent content in FastAPI on 焱论AI</description>
+    <generator>Hugo -- 0.152.2</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sun, 14 Dec 2025 21:00:00 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/yanlunai-blog/tags/fastapi/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>FastAPI &#43; 大模型推理服务的最小骨架</title>
+      <link>http://localhost:1313/yanlunai-blog/posts/engineering/2025-12-14-fastapi-llm-skeleton/</link>
+      <pubDate>Sun, 14 Dec 2025 21:00:00 +0800</pubDate>
+      <guid>http://localhost:1313/yanlunai-blog/posts/engineering/2025-12-14-fastapi-llm-skeleton/</guid>
+      <description>与其堆功能，不如先把日志、限流、超时这些‘无聊但关键’的东西做好。</description>
+    </item>
+  </channel>
+</rss>

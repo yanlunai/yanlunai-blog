@@ -10,7 +10,7 @@
 <meta name="description" content="焱论AI：专注于大模型、RAG、行业模型与论文深度解读的个人技术品牌">
 <meta name="author" content="焱论AI">
 <link rel="canonical" href="http://localhost:1313/yanlunai-blog/tags/%E8%AE%BA%E6%96%87/">
-<link crossorigin="anonymous" href="http://localhost:1313/yanlunai-blog/assets/css/stylesheet.a83bb8a6e5ca97374256c3dd484a873b9bb5c640e6042a043570d86aed47aaf2.css" integrity="sha256-qDu4puXKlzdCVsPdSEqHO5u1xkDmBCoENXDYau1HqvI=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="http://localhost:1313/yanlunai-blog/assets/css/stylesheet.27ec9e3a1b5dd65cfc520aa8b5aa7cb443225f7e89915e939de3a23c9bd43795.css" integrity="sha256-J&#43;yeOhtd1lz8Ugqotap8tEMiX36JkV6TneOiPJvUN5U=" rel="preload stylesheet" as="style">
 <link rel="icon" href="http://localhost:1313/yanlunai-blog/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/yanlunai-blog/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/yanlunai-blog/favicon-32x32.png">
@@ -208,6 +208,45 @@
     })();
     </script>
     
+    <script>
+        (function () {
+          const root = document.querySelector("#yl-recent");
+          if (!root) return;
+        
+          const body = root.querySelector(".yl-recent-body");
+          const sentinel = document.querySelector("#yl-recent-sentinel");
+          if (!body || !sentinel) return;
+        
+          const io = new IntersectionObserver(
+            ([entry]) => {
+              body.setAttribute("data-mode", entry.isIntersecting ? "fan" : "grid");
+            },
+            { threshold: 0.1 }
+          );
+        
+          io.observe(sentinel);
+        })();
+        </script>
+        <script>
+            (function () {
+              const root = document.querySelector("#yl-recent");
+              if (!root) return;
+            
+              const body = root.querySelector(".yl-recent-body");
+              const sentinel = document.querySelector("#yl-recent-sentinel");
+              if (!body || !sentinel) return;
+            
+              const io = new IntersectionObserver(
+                ([entry]) => {
+                  body.setAttribute("data-mode", entry.isIntersecting ? "fan" : "grid");
+                },
+                { threshold: 0.1 }
+              );
+            
+              io.observe(sentinel);
+            })();
+            </script>
+            
 
 <script>
     let menu = document.getElementById('menu');

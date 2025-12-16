@@ -6,8 +6,50 @@
     <description>Recent content in Posts on 焱论AI</description>
     <generator>Hugo -- 0.152.2</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 15 Dec 2025 00:00:00 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 16 Dec 2025 09:30:00 +0800</lastBuildDate>
     <atom:link href="http://localhost:1313/yanlunai-blog/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>RAG 工具链全景：从数据到评估的最小闭环</title>
+      <link>http://localhost:1313/yanlunai-blog/posts/tools/2025-12-16-rag-toolchain-overview/</link>
+      <pubDate>Tue, 16 Dec 2025 09:30:00 +0800</pubDate>
+      <guid>http://localhost:1313/yanlunai-blog/posts/tools/2025-12-16-rag-toolchain-overview/</guid>
+      <description>把 RAG 当成一条工程流水线来看：数据、切分、索引、检索、重排、生成、评估，任何一环都可能成为瓶颈。</description>
+    </item>
+    <item>
+      <title>Hugo &#43; PaperMod：我推荐的工程目录结构</title>
+      <link>http://localhost:1313/yanlunai-blog/posts/engineering/2025-12-16-hugo-papermod-structure/</link>
+      <pubDate>Tue, 16 Dec 2025 08:50:00 +0800</pubDate>
+      <guid>http://localhost:1313/yanlunai-blog/posts/engineering/2025-12-16-hugo-papermod-structure/</guid>
+      <description>相比写主题魔改，我更建议用 layouts + assets/extended 的方式，保持主题可升级、改动可控。</description>
+    </item>
+    <item>
+      <title>焱论AI：为什么我要系统性写大模型与行业落地</title>
+      <link>http://localhost:1313/yanlunai-blog/posts/notes/2025-12-15-why-yanlunai/</link>
+      <pubDate>Mon, 15 Dec 2025 23:20:00 +0800</pubDate>
+      <guid>http://localhost:1313/yanlunai-blog/posts/notes/2025-12-15-why-yanlunai/</guid>
+      <description>这不是一个“追热点”的博客，而是一个把论文、工程与行业经验沉淀为长期资产的地方。</description>
+    </item>
+    <item>
+      <title>从 Chat 到 Agent：规划能力才是分水岭</title>
+      <link>http://localhost:1313/yanlunai-blog/posts/papers/2025-12-15-agent-planning-view/</link>
+      <pubDate>Mon, 15 Dec 2025 20:10:00 +0800</pubDate>
+      <guid>http://localhost:1313/yanlunai-blog/posts/papers/2025-12-15-agent-planning-view/</guid>
+      <description>真正的 Agent 不只是多轮对话，而是能把复杂目标拆成可执行步骤，并在失败时自我修正。</description>
+    </item>
+    <item>
+      <title>Clean RAG 的工程化理解</title>
+      <link>http://localhost:1313/yanlunai-blog/posts/papers/2025-12-15-clean-rag-engineering/</link>
+      <pubDate>Mon, 15 Dec 2025 17:40:00 +0800</pubDate>
+      <guid>http://localhost:1313/yanlunai-blog/posts/papers/2025-12-15-clean-rag-engineering/</guid>
+      <description>可信不是加一句提示词，而是一整套可追溯、可评估、可拒答的系统设计。</description>
+    </item>
+    <item>
+      <title>行业模型评估：一个最小可复用模板</title>
+      <link>http://localhost:1313/yanlunai-blog/posts/engineering/2025-12-15-industry-eval-template/</link>
+      <pubDate>Mon, 15 Dec 2025 15:10:00 +0800</pubDate>
+      <guid>http://localhost:1313/yanlunai-blog/posts/engineering/2025-12-15-industry-eval-template/</guid>
+      <description>我不建议一开始就做复杂指标，先把问题、证据、输出结构固定下来，效果会稳定很多。</description>
+    </item>
     <item>
       <title>Demo：Hugo &#43; GitHub Pages 部署踩坑记录</title>
       <link>http://localhost:1313/yanlunai-blog/posts/engineering/demo-engineering/</link>
@@ -35,6 +77,27 @@
       <pubDate>Mon, 15 Dec 2025 00:00:00 +0800</pubDate>
       <guid>http://localhost:1313/yanlunai-blog/posts/notes/demo-notes/</guid>
       <description>用于验证杂谈分类页与站点定位文案。</description>
+    </item>
+    <item>
+      <title>FastAPI &#43; 大模型推理服务的最小骨架</title>
+      <link>http://localhost:1313/yanlunai-blog/posts/engineering/2025-12-14-fastapi-llm-skeleton/</link>
+      <pubDate>Sun, 14 Dec 2025 21:00:00 +0800</pubDate>
+      <guid>http://localhost:1313/yanlunai-blog/posts/engineering/2025-12-14-fastapi-llm-skeleton/</guid>
+      <description>与其堆功能，不如先把日志、限流、超时这些‘无聊但关键’的东西做好。</description>
+    </item>
+    <item>
+      <title>为什么重排几乎总能提升 RAG 效果</title>
+      <link>http://localhost:1313/yanlunai-blog/posts/tools/2025-12-14-rerank-intuition/</link>
+      <pubDate>Sun, 14 Dec 2025 18:20:00 +0800</pubDate>
+      <guid>http://localhost:1313/yanlunai-blog/posts/tools/2025-12-14-rerank-intuition/</guid>
+      <description>Embedding 负责“找得到”，重排负责“排得准”，这是两个完全不同的问题。</description>
+    </item>
+    <item>
+      <title>把博客当产品：内容路线图怎么设计</title>
+      <link>http://localhost:1313/yanlunai-blog/posts/notes/2025-12-14-content-map/</link>
+      <pubDate>Sun, 14 Dec 2025 12:30:00 +0800</pubDate>
+      <guid>http://localhost:1313/yanlunai-blog/posts/notes/2025-12-14-content-map/</guid>
+      <description>栏目不是分类，而是信息架构；节奏不是勤奋，而是供给控制。</description>
     </item>
     <item>
       <title>焱论AI：为什么我要系统性写大模型与行业落地</title>

@@ -1,0 +1,364 @@
+/* ========== Recent Dual (Fan -> Grid) ========== */
+/* Fixes:
+   1) Dark theme: card background truly dark + PaperMod compatible
+   2) Pagination / last page: cards should be top-to-bottom (not left-to-right)
+   3) No cover image block in latest grid cards
+*/
+
+/* -------------------------
+   0) Tokens
+   ------------------------- */
+   :root{
+    /* Light */
+    --rd-radius: 22px;
+    --rd-pad: 18px;
+  
+    --rd-bg1: rgba(255,255,255,.92);
+    --rd-bg2: rgba(246,247,255,.78);
+    --rd-border: rgba(0,0,0,.06);
+    --rd-shadow: 0 10px 26px rgba(0,0,0,.08);
+    --rd-shadow-hover: 0 16px 40px rgba(0,0,0,.12);
+  
+    /* Distinct (NOT featured): cyan/indigo */
+    --rd-glow-a: rgba(40,170,255,.12);
+    --rd-glow-b: rgba(120,110,255,.10);
+  
+    --rd-title: rgba(0,0,0,.90);
+    --rd-text:  rgba(0,0,0,.70);
+    --rd-meta:  rgba(0,0,0,.56);
+  }
+  
+  /* PaperMod dark */
+  body.dark{
+    /* ✅ 真正暗：贴近 PaperMod 背景 */
+    --rd-bg1: rgba(18,19,22,.92);
+    --rd-bg2: rgba(14,15,18,.88);
+    --rd-border: rgba(255,255,255,.12);
+  
+    /* 阴影更沉、边缘更干净 */
+    --rd-shadow: 0 18px 46px rgba(0,0,0,.62);
+    --rd-shadow-hover: 0 22px 60px rgba(0,0,0,.72);
+  
+    /* 暗色光晕：降低饱和度，避免发灰发紫 */
+    --rd-glow-a: rgba(50,160,255,.16);
+    --rd-glow-b: rgba(150,130,255,.14);
+  
+    --rd-title: rgba(255,255,255,.92);
+    --rd-text:  rgba(255,255,255,.74);
+    --rd-meta:  rgba(255,255,255,.60);
+  }
+  
+  /* -------------------------
+     1) Container + Divider
+     ------------------------- */
+  .yl-recent{ margin-top: 18px; padding-bottom: 28px; }
+  .yl-recent-body{ position: relative; }
+  
+  .yl-recent-header{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:14px;
+    margin: 24px 0 28px;
+  }
+  
+  .yl-line{
+    height: 1px;
+    flex: 1;
+    background: linear-gradient(to right,
+      rgba(0,0,0,0),
+      rgba(0,0,0,.12),
+      rgba(0,0,0,0)
+    );
+  }
+  body.dark .yl-line{
+    background: linear-gradient(to right,
+      rgba(255,255,255,0),
+      rgba(255,255,255,.14),
+      rgba(255,255,255,0)
+    );
+  }
+  
+  .yl-pill{
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 800;
+    background: rgba(0,0,0,.06);
+    color: rgba(0,0,0,.72);
+    border: 1px solid rgba(0,0,0,.06);
+  }
+  body.dark .yl-pill{
+    background: rgba(255,255,255,.06);
+    color: rgba(255,255,255,.86);
+    border: 1px solid rgba(255,255,255,.10);
+  }
+  
+  .yl-switch-sentinel{ height: 1px; }
+  
+  /* -------------------------
+     2) Fan (visual-only layer)
+     ------------------------- */
+  .yl-fan{
+    position: absolute;
+    left: 0; right: 0;
+    height: 240px;
+    margin: 0 auto 12px;
+    max-width: 980px;
+    perspective: 1200px;
+    z-index: 2;
+    pointer-events: auto;
+  }
+  @media (max-width: 720px){
+    .yl-fan{ height: 220px; }
+  }
+  
+  .yl-fan-card{
+    position:absolute;
+    left:50%; top: 20px;
+    width: 380px; height: 200px;
+    transform-origin: center bottom;
+    border-radius: 18px;
+    overflow:hidden;
+    text-decoration:none;
+  
+    border: 1px solid rgba(0,0,0,.06);
+    box-shadow: 0 10px 30px rgba(0,0,0,.10);
+    background: linear-gradient(180deg, rgba(255,255,255,.88), rgba(246,247,255,.74));
+    will-change: transform, opacity;
+  }
+  body.dark .yl-fan-card{
+    border: 1px solid rgba(255,255,255,.12);
+    box-shadow: 0 18px 46px rgba(0,0,0,.62);
+    background: linear-gradient(180deg, rgba(18,19,22,.92), rgba(14,15,18,.88));
+  }
+  
+  .yl-fan-media{
+    position:absolute; inset:0;
+    background-image: var(--yl-bg, none);
+    background-size: cover;
+    background-position: center;
+    filter: blur(10px) saturate(1.05);
+    transform: scale(1.10);
+    opacity: .14;
+  }
+  body.dark .yl-fan-media{ opacity: .08; }
+  
+  .yl-fan-text{
+    position:absolute; left:0; right:0; bottom:0;
+    padding: 14px 16px 12px;
+  }
+  
+  .yl-fan-title{
+    font-size: 16px;
+    font-weight: 900;
+    line-height: 1.25;
+    color: rgba(0,0,0,.90);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow:hidden;
+  }
+  body.dark .yl-fan-title{ color: rgba(255,255,255,.92); }
+  
+  .yl-fan-desc{
+    margin-top: 8px;
+    font-size: 13px;
+    line-height: 1.4;
+    color: rgba(0,0,0,.72);
+    opacity: .9;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  body.dark .yl-fan-desc{ color: rgba(255,255,255,.72); }
+  
+  .yl-fan-meta{
+    margin-top: 10px;
+    font-size: 12px;
+    color: rgba(0,0,0,.56);
+  }
+  body.dark .yl-fan-meta{ color: rgba(255,255,255,.60); }
+  
+  /* Fan: first 7 */
+  .yl-fan-card[data-idx="0"]{ transform: translateX(-50%) rotateZ(0deg) scale(1); z-index: 10; }
+  .yl-fan-card[data-idx="1"]{ transform: translateX(calc(-50% - 150px)) rotateZ(-10deg) scale(.92); z-index: 9; opacity:.95; }
+  .yl-fan-card[data-idx="2"]{ transform: translateX(calc(-50% - 280px)) rotateZ(-18deg) scale(.84); z-index: 8; opacity:.85; }
+  .yl-fan-card[data-idx="3"]{ transform: translateX(calc(-50% - 390px)) rotateZ(-24deg) scale(.78); z-index: 7; opacity:.75; }
+  .yl-fan-card[data-idx="4"]{ transform: translateX(calc(-50% + 150px)) rotateZ(10deg) scale(.92); z-index: 9; opacity:.95; }
+  .yl-fan-card[data-idx="5"]{ transform: translateX(calc(-50% + 280px)) rotateZ(18deg) scale(.84); z-index: 8; opacity:.85; }
+  .yl-fan-card[data-idx="6"]{ transform: translateX(calc(-50% + 390px)) rotateZ(24deg) scale(.78); z-index: 7; opacity:.75; }
+  .yl-fan-card[data-idx]:not([data-idx="0"]):not([data-idx="1"]):not([data-idx="2"]):not([data-idx="3"]):not([data-idx="4"]):not([data-idx="5"]):not([data-idx="6"]){
+    display:none;
+  }
+  
+  /* -------------------------
+     3) Latest Grid (REAL grid, top-to-bottom stable)
+     ✅ Replace columns with CSS Grid to avoid pagination "left-to-right" weirdness
+     ------------------------- */
+  .yl-grid{
+    position: relative;
+    z-index: 1;
+  
+    max-width: 1120px;
+    margin: 0 auto;
+  
+    /* Fan is absolute => reserve space */
+    padding-top: 260px;
+  
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+  
+    /* ✅ 强制行流：从上到下排（不是列流/不是 columns） */
+    grid-auto-flow: row;
+  
+    align-items: start;
+  }
+  @media (max-width: 1100px){
+    .yl-grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 720px){
+    .yl-grid{ grid-template-columns: 1fr; padding-top: 240px; }
+  }
+  
+  /* Card (high priority, dark must work) */
+  .yl-recent .yl-grid-card{
+    position: relative;
+    overflow: hidden;
+  
+    width: 100%;
+    display: block;
+  
+    text-decoration:none !important;
+    color: inherit;
+  
+    border-radius: var(--rd-radius);
+    padding: var(--rd-pad);
+  
+    /* ✅ lock: prevents being overwritten */
+    border: 1px solid var(--rd-border) !important;
+    background: linear-gradient(180deg, var(--rd-bg1), var(--rd-bg2)) !important;
+    box-shadow: var(--rd-shadow) !important;
+  
+    transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease;
+  }
+  
+  /* Inner glow */
+  .yl-recent .yl-grid-card::before{
+    content:"";
+    position:absolute;
+    inset:-2px;
+    z-index:0;
+    pointer-events:none;
+  
+    background:
+      radial-gradient(240px 190px at 12% 20%, var(--rd-glow-a), rgba(0,0,0,0) 60%),
+      radial-gradient(280px 210px at 88% 24%, var(--rd-glow-b), rgba(0,0,0,0) 62%),
+      radial-gradient(360px 280px at 70% 110%, rgba(0,0,0,.10), rgba(0,0,0,0) 66%);
+    opacity: .95;
+  }
+  
+  /* Texture (subtle) */
+  .yl-recent .yl-grid-card::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    z-index:0;
+    pointer-events:none;
+  
+    background:
+      repeating-linear-gradient(
+        135deg,
+        rgba(255,255,255,.10) 0px,
+        rgba(255,255,255,.10) 1px,
+        rgba(255,255,255,0) 11px,
+        rgba(255,255,255,0) 20px
+      ),
+      radial-gradient(120% 90% at 50% 0%, rgba(255,255,255,.10), rgba(0,0,0,.06));
+    opacity: .20;
+  }
+  body.dark .yl-recent .yl-grid-card::after{
+    background:
+      repeating-linear-gradient(
+        135deg,
+        rgba(255,255,255,.06) 0px,
+        rgba(255,255,255,.06) 1px,
+        rgba(255,255,255,0) 11px,
+        rgba(255,255,255,0) 20px
+      ),
+      radial-gradient(120% 90% at 50% 0%, rgba(255,255,255,.06), rgba(0,0,0,.26));
+    opacity: .24;
+  }
+  
+  .yl-recent .yl-grid-card:hover{
+    transform: translateY(-2px);
+    box-shadow: var(--rd-shadow-hover) !important;
+    border-color: rgba(70,170,255,.22) !important;
+  }
+  
+  /* No image/cover */
+  .yl-recent .yl-grid-cover,
+  .yl-recent .yl-grid-cover--ph{
+    display: none !important;
+  }
+  
+  /* Content above overlays */
+  .yl-recent .yl-grid-title,
+  .yl-recent .yl-grid-desc,
+  .yl-recent .yl-grid-meta{
+    position: relative;
+    z-index: 1;
+  }
+  
+  /* Typography */
+  .yl-recent .yl-grid-title{
+    margin-top: 2px;
+    font-size: 1.05rem;
+    font-weight: 900;
+    line-height: 1.28;
+    letter-spacing: .1px;
+    color: var(--rd-title);
+  
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow:hidden;
+  }
+  
+  .yl-recent .yl-grid-desc{
+    margin-top: 10px;
+    font-size: .95rem;
+    line-height: 1.60;
+    color: var(--rd-text);
+  
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow:hidden;
+  }
+  
+  .yl-recent .yl-grid-meta{
+    margin-top: 14px;
+    font-size: .88rem;
+    color: var(--rd-meta);
+    display:flex;
+    align-items:center;
+    gap: 6px;
+  }
+  
+  /* -------------------------
+     4) Mode switching (keep scroll)
+     ------------------------- */
+  .yl-recent-body[data-mode="fan"] .yl-grid{
+    opacity: 0;
+    pointer-events: none;
+  }
+  .yl-recent-body[data-mode="grid"] .yl-fan{ display: none; }
+  .yl-recent-body[data-mode="grid"] .yl-grid{
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .yl-grid{ transition: opacity .18s ease; }
+  

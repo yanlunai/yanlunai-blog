@@ -145,70 +145,11 @@
        ========================= -->
   <section class="yanlunai-section yanlunai-section-latest" id="yanlunai-latest">
     <div class="yanlunai-section-head yanlunai-latest-head" id="yanlunai-latest-head">
-      <div>
-        <div class="yanlunai-section-title">🆕 最新更新</div>
-        <!-- <div class="yanlunai-section-sub">按时间倒序展示</div> -->
-      </div>
     </div>
+    {{ partial "recent-dual.html" (dict "ctx" . "paginator" $paginator) }}
 
-    {{ if gt (len $paginator.Pages) 0 }}
-      <div class="yanlunai-latest-stage" aria-label="Latest posts stage">
-        <div class="yanlunai-latest-cards">
-          {{ range $i, $page := $paginator.Pages }}
 
-            {{/* cover > images[0] > empty */}}
-            {{ $cover := "" }}
-            {{ with $page.Params.cover }}
-              {{ $cover = . }}
-            {{ else }}
-              {{ with $page.Params.images }}
-                {{ if gt (len .) 0 }}
-                  {{ $cover = index . 0 }}
-                {{ end }}
-              {{ end }}
-            {{ end }}
 
-            <a class="yanlunai-latest-card {{ if ne $cover "" }}has-cover{{ else }}no-cover{{ end }}"
-               href="{{ $page.RelPermalink }}"
-               style="{{ if ne $cover "" }}--yl-bg:url('{{ $cover | relURL }}');{{ end }}">
-
-              {{ if ne $cover "" }}
-                <div class="yanlunai-latest-card-media" aria-hidden="true"></div>
-              {{ end }}
-
-              <div class="yanlunai-latest-card-body">
-                <div class="yanlunai-latest-card-title">{{ $page.Title }}</div>
-
-                {{ with $page.Summary }}
-                  <div class="yanlunai-latest-card-desc">{{ . }}</div>
-                {{ end }}
-
-                <div class="yanlunai-latest-card-meta">
-                  <span>{{ $page.Date.Format "2006-01-02" }}</span>
-                  <span class="yanlunai-dot">·</span>
-                  <span>{{ $page.ReadingTime }} min</span>
-                </div>
-              </div>
-            </a>
-
-          {{ end }}
-        </div>
-      </div>
-
-      {{ if gt $paginator.TotalPages 1 }}
-        <nav class="pagination">
-          {{ if $paginator.HasPrev }}
-            <a class="prev" href="{{ $paginator.Prev.URL }}">« Prev</a>
-          {{ end }}
-          {{ if $paginator.HasNext }}
-            <a class="next" href="{{ $paginator.Next.URL }}">Next »</a>
-          {{ end }}
-        </nav>
-      {{ end }}
-
-    {{ else }}
-      <div class="yanlunai-empty">还没有文章可展示。</div>
-    {{ end }}
   </section>
   
 

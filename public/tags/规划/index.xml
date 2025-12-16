@@ -6,8 +6,15 @@
     <description>Recent content in 规划 on 焱论AI</description>
     <generator>Hugo -- 0.152.2</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 15 Dec 2025 00:00:00 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 15 Dec 2025 20:10:00 +0800</lastBuildDate>
     <atom:link href="http://localhost:1313/yanlunai-blog/tags/%E8%A7%84%E5%88%92/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>从 Chat 到 Agent：规划能力才是分水岭</title>
+      <link>http://localhost:1313/yanlunai-blog/posts/papers/2025-12-15-agent-planning-view/</link>
+      <pubDate>Mon, 15 Dec 2025 20:10:00 +0800</pubDate>
+      <guid>http://localhost:1313/yanlunai-blog/posts/papers/2025-12-15-agent-planning-view/</guid>
+      <description>真正的 Agent 不只是多轮对话，而是能把复杂目标拆成可执行步骤，并在失败时自我修正。</description>
+    </item>
     <item>
       <title>Demo：焱论AI · 内容路线图</title>
       <link>http://localhost:1313/yanlunai-blog/posts/notes/demo-notes/</link>

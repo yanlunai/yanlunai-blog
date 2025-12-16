@@ -1,0 +1,91 @@
+{{/* layouts/partials/recent-dual.html */}}
+
+{{ $ctx := .ctx }}
+{{ $paginator := .paginator }}
+
+{{/* 当前分页页的数据 */}}
+{{ $list := $paginator.Pages }}
+
+{{/* Fan 展示数量：建议 12 内 */}}
+{{ $fanList := first 12 $list }}
+
+<div class="yl-recent" id="yl-recent">
+
+  {{/* 中线 + 胶囊标题 */}}
+  <div class="yl-recent-header">
+    <span class="yl-line"></span>
+    <span class="yl-pill">🆕 最新更新</span>
+    <span class="yl-line"></span>
+  </div>
+
+  <div class="yl-recent-body" data-mode="fan">
+
+    <!-- A) Fan Carousel -->
+    <div class="yl-fan" aria-label="Latest fan carousel">
+      {{ range $i, $p := $fanList }}
+        {{ $cover := "" }}
+        {{ with $p.Params.cover }}{{ $cover = . }}{{ end }}
+        {{ with $p.Params.cover.image }}{{ $cover = . }}{{ end }}
+        {{ if eq $cover "" }}
+          {{ with $p.Params.images }}{{ if gt (len .) 0 }}{{ $cover = index . 0 }}{{ end }}{{ end }}
+        {{ end }}
+
+        <a class="yl-fan-card"
+           href="{{ $p.RelPermalink }}"
+           data-idx="{{ $i }}"
+           {{ if ne $cover "" }}style="--yl-bg:url({{ $cover | relURL }});"{{ end }}>
+          <div class="yl-fan-media" aria-hidden="true"></div>
+          <div class="yl-fan-text">
+            <div class="yl-fan-title">{{ $p.Title }}</div>
+            {{ with $p.Summary }}
+              <div class="yl-fan-desc">{{ . | plainify }}</div>
+            {{ end }}
+            <div class="yl-fan-meta">
+              {{ $p.Date.Format "2006-01-02" }} · {{ $p.ReadingTime }} min
+            </div>
+          </div>
+        </a>
+      {{ end }}
+    </div>
+
+    {{/* sentinel：放在 Fan 后面，更符合“下滑一段再切换” */}}
+    <div class="yl-switch-sentinel" id="yl-recent-sentinel"></div>
+
+    <!-- B) Masonry Grid -->
+    <div class="yl-grid" aria-label="Latest grid">
+      {{ range $p := $list }}
+        {{ $cover := "" }}
+        {{ with $p.Params.cover }}{{ $cover = . }}{{ end }}
+        {{ with $p.Params.cover.image }}{{ $cover = . }}{{ end }}
+        {{ if eq $cover "" }}
+          {{ with $p.Params.images }}{{ if gt (len .) 0 }}{{ $cover = index . 0 }}{{ end }}{{ end }}
+        {{ end }}
+
+        <a class="yl-grid-card" href="{{ $p.RelPermalink }}">
+          {{ if ne $cover "" }}
+            <div class="yl-grid-cover" style="--yl-bg:url({{ $cover | relURL }});"></div>
+          {{ else }}
+            <div class="yl-grid-cover yl-grid-cover--ph" aria-hidden="true"></div>
+          {{ end }}
+
+          <div class="yl-grid-title">{{ $p.Title }}</div>
+
+          {{ with $p.Summary }}
+            <div class="yl-grid-desc">{{ . | plainify }}</div>
+          {{ end }}
+
+          <div class="yl-grid-meta">
+            {{ $p.Date.Format "2006-01-02" }} · {{ $p.ReadingTime }} min
+          </div>
+        </a>
+      {{ end }}
+    </div>
+
+  </div>
+
+  {{/* 分页 */}}
+  <div class="yl-pagination">
+    {{ template "_internal/pagination.html" $ctx }}
+  </div>
+
+</div>

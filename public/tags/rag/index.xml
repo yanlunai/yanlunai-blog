@@ -6,8 +6,22 @@
     <description>Recent content in RAG on 焱论AI</description>
     <generator>Hugo -- 0.152.2</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 15 Dec 2025 00:00:00 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 16 Dec 2025 09:30:00 +0800</lastBuildDate>
     <atom:link href="http://localhost:1313/yanlunai-blog/tags/rag/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>RAG 工具链全景：从数据到评估的最小闭环</title>
+      <link>http://localhost:1313/yanlunai-blog/posts/tools/2025-12-16-rag-toolchain-overview/</link>
+      <pubDate>Tue, 16 Dec 2025 09:30:00 +0800</pubDate>
+      <guid>http://localhost:1313/yanlunai-blog/posts/tools/2025-12-16-rag-toolchain-overview/</guid>
+      <description>把 RAG 当成一条工程流水线来看：数据、切分、索引、检索、重排、生成、评估，任何一环都可能成为瓶颈。</description>
+    </item>
+    <item>
+      <title>Clean RAG 的工程化理解</title>
+      <link>http://localhost:1313/yanlunai-blog/posts/papers/2025-12-15-clean-rag-engineering/</link>
+      <pubDate>Mon, 15 Dec 2025 17:40:00 +0800</pubDate>
+      <guid>http://localhost:1313/yanlunai-blog/posts/papers/2025-12-15-clean-rag-engineering/</guid>
+      <description>可信不是加一句提示词，而是一整套可追溯、可评估、可拒答的系统设计。</description>
+    </item>
     <item>
       <title>Demo：RAG 工具链清单（检索 / 重排 / 评估）</title>
       <link>http://localhost:1313/yanlunai-blog/posts/tools/demo-tools/</link>

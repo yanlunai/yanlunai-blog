@@ -6,14 +6,28 @@
     <description>Recent content in 杂谈 on 焱论AI</description>
     <generator>Hugo -- 0.152.2</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 15 Dec 2025 00:00:00 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 15 Dec 2025 23:20:00 +0800</lastBuildDate>
     <atom:link href="http://localhost:1313/yanlunai-blog/categories/%E6%9D%82%E8%B0%88/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>焱论AI：为什么我要系统性写大模型与行业落地</title>
+      <link>http://localhost:1313/yanlunai-blog/posts/notes/2025-12-15-why-yanlunai/</link>
+      <pubDate>Mon, 15 Dec 2025 23:20:00 +0800</pubDate>
+      <guid>http://localhost:1313/yanlunai-blog/posts/notes/2025-12-15-why-yanlunai/</guid>
+      <description>这不是一个“追热点”的博客，而是一个把论文、工程与行业经验沉淀为长期资产的地方。</description>
+    </item>
     <item>
       <title>Demo：焱论AI · 内容路线图</title>
       <link>http://localhost:1313/yanlunai-blog/posts/notes/demo-notes/</link>
       <pubDate>Mon, 15 Dec 2025 00:00:00 +0800</pubDate>
       <guid>http://localhost:1313/yanlunai-blog/posts/notes/demo-notes/</guid>
       <description>用于验证杂谈分类页与站点定位文案。</description>
+    </item>
+    <item>
+      <title>把博客当产品：内容路线图怎么设计</title>
+      <link>http://localhost:1313/yanlunai-blog/posts/notes/2025-12-14-content-map/</link>
+      <pubDate>Sun, 14 Dec 2025 12:30:00 +0800</pubDate>
+      <guid>http://localhost:1313/yanlunai-blog/posts/notes/2025-12-14-content-map/</guid>
+      <description>栏目不是分类，而是信息架构；节奏不是勤奋，而是供给控制。</description>
     </item>
     <item>
       <title>焱论AI：为什么我要系统性写大模型与行业落地</title>

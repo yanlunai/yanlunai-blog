@@ -6,8 +6,15 @@
     <description>Recent content in Hugo on 焱论AI</description>
     <generator>Hugo -- 0.152.2</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 15 Dec 2025 00:00:00 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 16 Dec 2025 08:50:00 +0800</lastBuildDate>
     <atom:link href="http://localhost:1313/yanlunai-blog/tags/hugo/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hugo &#43; PaperMod：我推荐的工程目录结构</title>
+      <link>http://localhost:1313/yanlunai-blog/posts/engineering/2025-12-16-hugo-papermod-structure/</link>
+      <pubDate>Tue, 16 Dec 2025 08:50:00 +0800</pubDate>
+      <guid>http://localhost:1313/yanlunai-blog/posts/engineering/2025-12-16-hugo-papermod-structure/</guid>
+      <description>相比写主题魔改，我更建议用 layouts + assets/extended 的方式，保持主题可升级、改动可控。</description>
+    </item>
     <item>
       <title>Demo：Hugo &#43; GitHub Pages 部署踩坑记录</title>
       <link>http://localhost:1313/yanlunai-blog/posts/engineering/demo-engineering/</link>

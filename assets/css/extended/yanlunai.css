@@ -3,6 +3,7 @@
    Path: assets/css/extended/yanlunai.css
    Goals: no conflicts, no duplicates, stable fan/grid (scroll-driven)
    ========================= */
+@import "recent-dual.css";
 
 /* -------------------------
    0) Tokens
@@ -1215,5 +1216,4 @@ body.dark #yanlunai-latest .yanlunai-latest-card{
   border-color: rgba(255,255,255,.10);
   box-shadow: 0 10px 28px rgba(0,0,0,.45);
 }
-
 
