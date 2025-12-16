@@ -1,97 +1,164 @@
-/* ========== Recent Dual (Fan -> Grid) ========== */
-/* Fixes:
-   1) Dark theme: card background truly dark + PaperMod compatible
-   2) Pagination / last page: cards should be top-to-bottom (not left-to-right)
-   3) No cover image block in latest grid cards
-*/
+/* =========================================================
+   YanlunAI Recent Cards (PaperMod friendly) - FULL CSS (CLEAN + FINAL)
+   Fixes:
+   1) Dark cards match PaperMod background (no gray/fog)
+   2) Few cards auto expand (1 card => full width)
+   3) Section header ("最新更新") matches "精选推荐" typography
+   4) Divider line is ALWAYS visible in dark (double-layer line + z-index)
+   5) Pagination follows theme (light/dark)
+   ---------------------------------------------------------
+   ✅ IMPORTANT:
+   - 你当前 CSS 里重复定义了 .yl-recent-header / .yl-line / .yl-pill
+     导致“暗色分割线存在但看不见”。
+   - 下面是一份【去重后的全量可替换版本】。
+   ========================================================= */
 
 /* -------------------------
-   0) Tokens
+   0) Theme Tokens
    ------------------------- */
    :root{
-    /* Light */
     --rd-radius: 22px;
     --rd-pad: 18px;
   
-    --rd-bg1: rgba(255,255,255,.92);
-    --rd-bg2: rgba(246,247,255,.78);
-    --rd-border: rgba(0,0,0,.06);
+    /* PaperMod-aware surfaces */
+    --rd-bg1: color-mix(in srgb, var(--entry) 92%, transparent);
+    --rd-bg2: color-mix(in srgb, var(--entry) 82%, transparent);
+    --rd-border: color-mix(in srgb, var(--border) 65%, transparent);
+  
     --rd-shadow: 0 10px 26px rgba(0,0,0,.08);
     --rd-shadow-hover: 0 16px 40px rgba(0,0,0,.12);
   
-    /* Distinct (NOT featured): cyan/indigo */
     --rd-glow-a: rgba(40,170,255,.12);
     --rd-glow-b: rgba(120,110,255,.10);
   
-    --rd-title: rgba(0,0,0,.90);
-    --rd-text:  rgba(0,0,0,.70);
-    --rd-meta:  rgba(0,0,0,.56);
+    --rd-title: var(--primary);
+    --rd-text:  var(--secondary);
+    --rd-meta:  color-mix(in srgb, var(--secondary) 80%, transparent);
   }
   
-  /* PaperMod dark */
-  body.dark{
-    /* ✅ 真正暗：贴近 PaperMod 背景 */
-    --rd-bg1: rgba(18,19,22,.92);
-    --rd-bg2: rgba(14,15,18,.88);
-    --rd-border: rgba(255,255,255,.12);
+  body.dark, html.dark{
+    --rd-bg1: color-mix(in srgb, var(--entry) 96%, transparent);
+    --rd-bg2: color-mix(in srgb, var(--entry) 90%, transparent);
+    --rd-border: color-mix(in srgb, var(--border) 75%, transparent);
   
-    /* 阴影更沉、边缘更干净 */
     --rd-shadow: 0 18px 46px rgba(0,0,0,.62);
     --rd-shadow-hover: 0 22px 60px rgba(0,0,0,.72);
   
-    /* 暗色光晕：降低饱和度，避免发灰发紫 */
-    --rd-glow-a: rgba(50,160,255,.16);
-    --rd-glow-b: rgba(150,130,255,.14);
+    --rd-glow-a: rgba(50,160,255,.14);
+    --rd-glow-b: rgba(150,130,255,.12);
   
-    --rd-title: rgba(255,255,255,.92);
-    --rd-text:  rgba(255,255,255,.74);
-    --rd-meta:  rgba(255,255,255,.60);
+    --rd-title: var(--primary);
+    --rd-text:  var(--secondary);
+    --rd-meta:  color-mix(in srgb, var(--secondary) 80%, transparent);
   }
   
   /* -------------------------
-     1) Container + Divider
+     1) Container + Section Header (最新更新)
      ------------------------- */
   .yl-recent{ margin-top: 18px; padding-bottom: 28px; }
   .yl-recent-body{ position: relative; }
   
   .yl-recent-header{
+    position: relative;
+    z-index: 10;                 /* ✅ 关键：压过 fan 的渐变/阴影 */
     display:flex;
     align-items:center;
     justify-content:center;
-    gap:14px;
-    margin: 24px 0 28px;
+    gap:16px;
+    margin: 22px 0 26px;
   }
   
+  /* ✅ 分割线：亮色清晰；暗色用“双层线”防止被吞 */
   .yl-line{
+    position: relative;
     height: 1px;
     flex: 1;
-    background: linear-gradient(to right,
+    background: linear-gradient(
+      to right,
       rgba(0,0,0,0),
-      rgba(0,0,0,.12),
+      rgba(0,0,0,.18),
       rgba(0,0,0,0)
     );
   }
-  body.dark .yl-line{
-    background: linear-gradient(to right,
+  
+  /* 暗色第一层（亮线） */
+  body.dark .yl-line,
+  html.dark .yl-line{
+    background: linear-gradient(
+      to right,
       rgba(255,255,255,0),
-      rgba(255,255,255,.14),
+      rgba(255,255,255,.22),
       rgba(255,255,255,0)
     );
   }
   
-  .yl-pill{
-    padding: 6px 14px;
-    border-radius: 999px;
-    font-size: 13px;
-    font-weight: 800;
-    background: rgba(0,0,0,.06);
-    color: rgba(0,0,0,.72);
-    border: 1px solid rgba(0,0,0,.06);
+  /* 暗色第二层（阴影线）——制造“浮在背景上”的体感厚度 */
+  body.dark .yl-line::after,
+  html.dark .yl-line::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    transform: translateY(1px);
+    background: linear-gradient(
+      to right,
+      rgba(0,0,0,0),
+      rgba(0,0,0,.45),
+      rgba(0,0,0,0)
+    );
+    opacity: .55;
+    pointer-events:none;
   }
-  body.dark .yl-pill{
-    background: rgba(255,255,255,.06);
-    color: rgba(255,255,255,.86);
-    border: 1px solid rgba(255,255,255,.10);
+  
+  /* ✅ 标题：与“精选推荐”一致的 section title 风格 */
+  .yl-pill{
+    position: relative;
+    display:inline-flex;
+    align-items:center;
+    gap: 8px;
+  
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  
+    font-size: 1.25rem;
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: .2px;
+    white-space: nowrap;
+  
+    color: var(--primary);
+  }
+  
+  /* 左侧徽标：🆕 */
+  .yl-pill::before{
+    content: "🆕";
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width: 28px;
+    height: 28px;
+    border-radius: 10px;
+  
+    font-size: 14px;
+    line-height: 1;
+  
+    background: color-mix(in srgb, var(--entry) 92%, transparent);
+    border: 1px solid color-mix(in srgb, var(--border) 75%, transparent);
+    color: var(--secondary);
+  }
+  
+  body.dark .yl-pill::before,
+  html.dark .yl-pill::before{
+    background: color-mix(in srgb, var(--entry) 96%, transparent);
+    border-color: color-mix(in srgb, var(--border) 80%, transparent);
+  }
+  
+  /* 暗色标题加一点锚定感（可见但不抢） */
+  body.dark .yl-pill,
+  html.dark .yl-pill{
+    text-shadow: 0 1px 0 rgba(0,0,0,.65);
   }
   
   .yl-switch-sentinel{ height: 1px; }
@@ -122,15 +189,10 @@
     overflow:hidden;
     text-decoration:none;
   
-    border: 1px solid rgba(0,0,0,.06);
-    box-shadow: 0 10px 30px rgba(0,0,0,.10);
-    background: linear-gradient(180deg, rgba(255,255,255,.88), rgba(246,247,255,.74));
+    border: 1px solid var(--rd-border);
+    box-shadow: var(--rd-shadow);
+    background: linear-gradient(180deg, var(--rd-bg1), var(--rd-bg2));
     will-change: transform, opacity;
-  }
-  body.dark .yl-fan-card{
-    border: 1px solid rgba(255,255,255,.12);
-    box-shadow: 0 18px 46px rgba(0,0,0,.62);
-    background: linear-gradient(180deg, rgba(18,19,22,.92), rgba(14,15,18,.88));
   }
   
   .yl-fan-media{
@@ -142,7 +204,7 @@
     transform: scale(1.10);
     opacity: .14;
   }
-  body.dark .yl-fan-media{ opacity: .08; }
+  body.dark .yl-fan-media, html.dark .yl-fan-media{ opacity: .08; }
   
   .yl-fan-text{
     position:absolute; left:0; right:0; bottom:0;
@@ -153,35 +215,32 @@
     font-size: 16px;
     font-weight: 900;
     line-height: 1.25;
-    color: rgba(0,0,0,.90);
+    color: var(--rd-title);
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow:hidden;
   }
-  body.dark .yl-fan-title{ color: rgba(255,255,255,.92); }
   
   .yl-fan-desc{
     margin-top: 8px;
     font-size: 13px;
     line-height: 1.4;
-    color: rgba(0,0,0,.72);
+    color: var(--rd-text);
     opacity: .9;
     display: -webkit-box;
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
-  body.dark .yl-fan-desc{ color: rgba(255,255,255,.72); }
   
   .yl-fan-meta{
     margin-top: 10px;
     font-size: 12px;
-    color: rgba(0,0,0,.56);
+    color: var(--rd-meta);
   }
-  body.dark .yl-fan-meta{ color: rgba(255,255,255,.60); }
   
-  /* Fan: first 7 */
+  /* Fan positions: first 7 */
   .yl-fan-card[data-idx="0"]{ transform: translateX(-50%) rotateZ(0deg) scale(1); z-index: 10; }
   .yl-fan-card[data-idx="1"]{ transform: translateX(calc(-50% - 150px)) rotateZ(-10deg) scale(.92); z-index: 9; opacity:.95; }
   .yl-fan-card[data-idx="2"]{ transform: translateX(calc(-50% - 280px)) rotateZ(-18deg) scale(.84); z-index: 8; opacity:.85; }
@@ -194,8 +253,7 @@
   }
   
   /* -------------------------
-     3) Latest Grid (REAL grid, top-to-bottom stable)
-     ✅ Replace columns with CSS Grid to avoid pagination "left-to-right" weirdness
+     3) Latest Grid
      ------------------------- */
   .yl-grid{
     position: relative;
@@ -208,22 +266,16 @@
     padding-top: 260px;
   
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 18px;
   
-    /* ✅ 强制行流：从上到下排（不是列流/不是 columns） */
     grid-auto-flow: row;
-  
     align-items: start;
-  }
-  @media (max-width: 1100px){
-    .yl-grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
   @media (max-width: 720px){
     .yl-grid{ grid-template-columns: 1fr; padding-top: 240px; }
   }
   
-  /* Card (high priority, dark must work) */
   .yl-recent .yl-grid-card{
     position: relative;
     overflow: hidden;
@@ -237,7 +289,6 @@
     border-radius: var(--rd-radius);
     padding: var(--rd-pad);
   
-    /* ✅ lock: prevents being overwritten */
     border: 1px solid var(--rd-border) !important;
     background: linear-gradient(180deg, var(--rd-bg1), var(--rd-bg2)) !important;
     box-shadow: var(--rd-shadow) !important;
@@ -245,7 +296,6 @@
     transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease;
   }
   
-  /* Inner glow */
   .yl-recent .yl-grid-card::before{
     content:"";
     position:absolute;
@@ -260,7 +310,6 @@
     opacity: .95;
   }
   
-  /* Texture (subtle) */
   .yl-recent .yl-grid-card::after{
     content:"";
     position:absolute;
@@ -279,32 +328,32 @@
       radial-gradient(120% 90% at 50% 0%, rgba(255,255,255,.10), rgba(0,0,0,.06));
     opacity: .20;
   }
-  body.dark .yl-recent .yl-grid-card::after{
+  
+  body.dark .yl-recent .yl-grid-card::after,
+  html.dark .yl-recent .yl-grid-card::after{
     background:
       repeating-linear-gradient(
         135deg,
-        rgba(255,255,255,.06) 0px,
-        rgba(255,255,255,.06) 1px,
-        rgba(255,255,255,0) 11px,
-        rgba(255,255,255,0) 20px
+        rgba(255,255,255,.03) 0px,
+        rgba(255,255,255,.03) 1px,
+        rgba(255,255,255,0) 12px,
+        rgba(255,255,255,0) 22px
       ),
-      radial-gradient(120% 90% at 50% 0%, rgba(255,255,255,.06), rgba(0,0,0,.26));
-    opacity: .24;
+      radial-gradient(120% 90% at 50% 0%, rgba(255,255,255,.04), rgba(0,0,0,.34));
+    opacity: .18;
   }
   
   .yl-recent .yl-grid-card:hover{
     transform: translateY(-2px);
     box-shadow: var(--rd-shadow-hover) !important;
-    border-color: rgba(70,170,255,.22) !important;
+    border-color: color-mix(in srgb, rgba(70,170,255,.22) 100%, transparent) !important;
   }
   
-  /* No image/cover */
   .yl-recent .yl-grid-cover,
   .yl-recent .yl-grid-cover--ph{
     display: none !important;
   }
   
-  /* Content above overlays */
   .yl-recent .yl-grid-title,
   .yl-recent .yl-grid-desc,
   .yl-recent .yl-grid-meta{
@@ -312,7 +361,6 @@
     z-index: 1;
   }
   
-  /* Typography */
   .yl-recent .yl-grid-title{
     margin-top: 2px;
     font-size: 1.05rem;
@@ -349,7 +397,7 @@
   }
   
   /* -------------------------
-     4) Mode switching (keep scroll)
+     4) Mode switching + Force grid
      ------------------------- */
   .yl-recent-body[data-mode="fan"] .yl-grid{
     opacity: 0;
@@ -361,4 +409,119 @@
     pointer-events: auto;
   }
   .yl-grid{ transition: opacity .18s ease; }
+  
+  /* Force grid when few items */
+  .yl-recent-body.force-grid .yl-fan{ display: none !important; }
+  .yl-recent-body.force-grid .yl-grid{
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    padding-top: 0 !important;
+  }
+  
+  /* -------------------------
+     5) Pagination (theme-following)
+     ------------------------- */
+  .yl-pagination{ margin-top: 14px; }
+  
+  .yl-pagination .pagination{
+    display:flex;
+    gap: 8px;
+    justify-content:flex-start;
+    align-items:center;
+    flex-wrap: wrap;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+  
+  .yl-pagination .pagination a,
+  .yl-pagination .pagination span{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    height: 32px;
+    min-width: 32px;
+    padding: 0 10px;
+  
+    border-radius: 999px;
+    text-decoration: none !important;
+  
+    background: color-mix(in srgb, var(--entry) 92%, transparent);
+    border: 1px solid color-mix(in srgb, var(--border) 75%, transparent);
+    color: var(--secondary);
+  
+    box-shadow: 0 8px 22px rgba(0,0,0,.10);
+    transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease, background .15s ease;
+  }
+  
+  body.dark .yl-pagination .pagination a,
+  html.dark .yl-pagination .pagination a,
+  body.dark .yl-pagination .pagination span,
+  html.dark .yl-pagination .pagination span{
+    background: color-mix(in srgb, var(--entry) 96%, transparent);
+    border-color: color-mix(in srgb, var(--border) 80%, transparent);
+    box-shadow: 0 14px 34px rgba(0,0,0,.40);
+  }
+  
+  .yl-pagination .pagination a:hover{
+    transform: translateY(-1px);
+    border-color: color-mix(in srgb, rgba(70,170,255,.28) 100%, transparent);
+    box-shadow: 0 12px 30px rgba(0,0,0,.16);
+  }
+  
+  .yl-pagination .pagination .active a,
+  .yl-pagination .pagination a[aria-current="page"],
+  .yl-pagination .pagination span[aria-current="page"],
+  .yl-pagination .pagination .page-item.active .page-link{
+    color: var(--primary);
+    border-color: color-mix(in srgb, var(--primary) 35%, transparent);
+    background: color-mix(in srgb, var(--entry) 98%, transparent);
+    font-weight: 800;
+  }
+  
+  .yl-pagination .pagination .disabled a,
+  .yl-pagination .pagination .disabled span,
+  .yl-pagination .pagination a[aria-disabled="true"]{
+    opacity: .55;
+    pointer-events: none;
+    box-shadow: none;
+  }
+  
+  /* nav.pagination variant (if used) */
+  .yl-pagination nav.pagination{
+    display:flex;
+    gap: 8px;
+    align-items:center;
+    flex-wrap: wrap;
+  }
+  
+  .yl-pagination nav.pagination a{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    height: 32px;
+    min-width: 32px;
+    padding: 0 10px;
+    border-radius: 999px;
+    text-decoration:none !important;
+  
+    background: color-mix(in srgb, var(--entry) 92%, transparent);
+    border: 1px solid color-mix(in srgb, var(--border) 75%, transparent);
+    color: var(--secondary);
+    box-shadow: 0 8px 22px rgba(0,0,0,.10);
+    transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease, background .15s ease;
+  }
+  
+  body.dark .yl-pagination nav.pagination a,
+  html.dark .yl-pagination nav.pagination a{
+    background: color-mix(in srgb, var(--entry) 96%, transparent);
+    border-color: color-mix(in srgb, var(--border) 80%, transparent);
+    box-shadow: 0 14px 34px rgba(0,0,0,.40);
+  }
+  
+  .yl-pagination nav.pagination a:hover{
+    transform: translateY(-1px);
+    border-color: color-mix(in srgb, rgba(70,170,255,.28) 100%, transparent);
+    box-shadow: 0 12px 30px rgba(0,0,0,.16);
+  }
   

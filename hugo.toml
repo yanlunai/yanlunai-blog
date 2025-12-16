@@ -120,14 +120,9 @@ enableInlineShortcodes = true
     url = "newsletter/"
     weight = 30
 
-  [[menu.main]]
-    identifier = "search"
-    name = "Search"
-    url = "search/"
-    weight = 35
 
   [[menu.main]]
     identifier = "rss"
     name = "RSS"
     url = "index.xml"
-    weight = 40
+    weight = 35

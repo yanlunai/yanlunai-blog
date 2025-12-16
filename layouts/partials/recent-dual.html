@@ -9,16 +9,23 @@
 {{/* Fan 展示数量：建议 12 内 */}}
 {{ $fanList := first 12 $list }}
 
+{{/* ✅ 阈值：少于该数量，直接强制 grid（禁用 fan） */}}
+{{ $fanMin := 5 }}
+{{ $forceGrid := lt (len $list) $fanMin }}
+
 <div class="yl-recent" id="yl-recent">
 
   {{/* 中线 + 胶囊标题 */}}
   <div class="yl-recent-header">
     <span class="yl-line"></span>
-    <span class="yl-pill">🆕 最新更新</span>
+    <span class="yl-pill">最新更新</span>
     <span class="yl-line"></span>
   </div>
 
-  <div class="yl-recent-body" data-mode="fan">
+  {{/* ✅ 服务器侧兜底：少量卡片时直接 grid */}}
+  <div class="yl-recent-body {{ if $forceGrid }}force-grid{{ end }}"
+       data-mode="{{ if $forceGrid }}grid{{ else }}fan{{ end }}"
+       data-fan-min="{{ $fanMin }}">
 
     <!-- A) Fan Carousel -->
     <div class="yl-fan" aria-label="Latest fan carousel">
@@ -51,7 +58,7 @@
     {{/* sentinel：放在 Fan 后面，更符合“下滑一段再切换” */}}
     <div class="yl-switch-sentinel" id="yl-recent-sentinel"></div>
 
-    <!-- B) Masonry Grid -->
+    <!-- B) Grid -->
     <div class="yl-grid" aria-label="Latest grid">
       {{ range $p := $list }}
         {{ $cover := "" }}
@@ -89,3 +96,30 @@
   </div>
 
 </div>
+
+{{/* =====================================================
+   ✅ JS：根据卡片数量自动决定模式（运行时兜底）
+   - 服务器侧已处理：$forceGrid
+   - JS 侧再兜一次：防止未来改动/异步渲染/DOM 差异
+   ===================================================== */}}
+<script>
+(function () {
+  const body = document.querySelector('#yl-recent .yl-recent-body');
+  if (!body) return;
+
+  const cards = body.querySelectorAll('.yl-grid-card');
+  const fanMin = Number(body.getAttribute('data-fan-min') || '5');
+
+  // ✅ 少于阈值：强制 grid，禁用 fan（“不到一页必须展开”）
+  if (cards.length < fanMin) {
+    body.classList.add('force-grid');
+    body.setAttribute('data-mode', 'grid');
+    return;
+  }
+
+  // ✅ 达到阈值：默认 fan（保持你原本设计）
+  // 若你还有“滚动切换 fan->grid”的逻辑，这里不抢它的控制权
+  body.classList.remove('force-grid');
+  if (!body.getAttribute('data-mode')) body.setAttribute('data-mode', 'fan');
+})();
+</script>
