@@ -15,5 +15,12 @@
       <guid>http://localhost:1313/yanlunai-blog/posts/engineering/2025-12-16-hugo-papermod-structure/</guid>
       <description>相比写主题魔改，我更建议用 layouts + assets/extended 的方式，保持主题可升级、改动可控。</description>
     </item>
+    <item>
+      <title>Demo：Hugo &#43; GitHub Pages 部署踩坑记录</title>
+      <link>http://localhost:1313/yanlunai-blog/posts/engineering/demo-engineering/</link>
+      <pubDate>Mon, 15 Dec 2025 00:00:00 +0800</pubDate>
+      <guid>http://localhost:1313/yanlunai-blog/posts/engineering/demo-engineering/</guid>
+      <description>用于验证工程实践分类页与文章流展示。</description>
+    </item>
   </channel>
 </rss>

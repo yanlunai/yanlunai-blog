@@ -23,6 +23,13 @@
       <description>我不建议一开始就做复杂指标，先把问题、证据、输出结构固定下来，效果会稳定很多。</description>
     </item>
     <item>
+      <title>Demo：Hugo &#43; GitHub Pages 部署踩坑记录</title>
+      <link>http://localhost:1313/yanlunai-blog/posts/engineering/demo-engineering/</link>
+      <pubDate>Mon, 15 Dec 2025 00:00:00 +0800</pubDate>
+      <guid>http://localhost:1313/yanlunai-blog/posts/engineering/demo-engineering/</guid>
+      <description>用于验证工程实践分类页与文章流展示。</description>
+    </item>
+    <item>
       <title>FastAPI &#43; 大模型推理服务的最小骨架</title>
       <link>http://localhost:1313/yanlunai-blog/posts/engineering/2025-12-14-fastapi-llm-skeleton/</link>
       <pubDate>Sun, 14 Dec 2025 21:00:00 +0800</pubDate>
