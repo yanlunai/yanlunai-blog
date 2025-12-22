@@ -482,6 +482,59 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">Demo：Hugo &#43; GitHub Pages 部署踩坑记录
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>用于验证工程实践分类页与文章流展示。</p>
+  </div>
+  <footer class="entry-footer">
+
+<div class="post-meta">
+
+  <span>2025-12-15</span><span> · 1 min</span>
+  
+    <span id="busuanzi_container_page_pv" class="meta-item meta-views" style="display:none;">
+      · 阅读 <span id="busuanzi_value_page_pv"></span>
+    </span>
+
+    <script>
+    (function () {
+      const c = document.getElementById("busuanzi_container_page_pv");
+      const v = document.getElementById("busuanzi_value_page_pv");
+      if (!c || !v) return;
+
+      function showIfReady() {
+        const text = (v.textContent || "").trim();
+        if (text && /^[0-9]+$/.test(text)) {
+          c.style.display = "inline";
+          return true;
+        }
+        return false;
+      }
+
+      
+      if (showIfReady()) return;
+
+      
+      const mo = new MutationObserver(() => {
+        if (showIfReady()) mo.disconnect();
+      });
+      mo.observe(v, { childList: true, characterData: true, subtree: true });
+
+      
+      setTimeout(() => mo.disconnect(), 10000);
+    })();
+    </script>
+  
+
+</div>
+</footer>
+  <a class="entry-link" aria-label="post link to Demo：Hugo &#43; GitHub Pages 部署踩坑记录" href="http://localhost:1313/yanlunai-blog/posts/engineering/demo-engineering/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">Demo：RAG 工具链清单（检索 / 重排 / 评估）
     </h2>
   </header>
@@ -637,59 +690,6 @@
 </div>
 </footer>
   <a class="entry-link" aria-label="post link to Demo：焱论AI · 内容路线图" href="http://localhost:1313/yanlunai-blog/posts/notes/demo-notes/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">FastAPI &#43; 大模型推理服务的最小骨架
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>与其堆功能，不如先把日志、限流、超时这些‘无聊但关键’的东西做好。</p>
-  </div>
-  <footer class="entry-footer">
-
-<div class="post-meta">
-
-  <span>2025-12-14</span><span> · 1 min</span>
-  
-    <span id="busuanzi_container_page_pv" class="meta-item meta-views" style="display:none;">
-      · 阅读 <span id="busuanzi_value_page_pv"></span>
-    </span>
-
-    <script>
-    (function () {
-      const c = document.getElementById("busuanzi_container_page_pv");
-      const v = document.getElementById("busuanzi_value_page_pv");
-      if (!c || !v) return;
-
-      function showIfReady() {
-        const text = (v.textContent || "").trim();
-        if (text && /^[0-9]+$/.test(text)) {
-          c.style.display = "inline";
-          return true;
-        }
-        return false;
-      }
-
-      
-      if (showIfReady()) return;
-
-      
-      const mo = new MutationObserver(() => {
-        if (showIfReady()) mo.disconnect();
-      });
-      mo.observe(v, { childList: true, characterData: true, subtree: true });
-
-      
-      setTimeout(() => mo.disconnect(), 10000);
-    })();
-    </script>
-  
-
-</div>
-</footer>
-  <a class="entry-link" aria-label="post link to FastAPI &#43; 大模型推理服务的最小骨架" href="http://localhost:1313/yanlunai-blog/posts/engineering/2025-12-14-fastapi-llm-skeleton/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">
