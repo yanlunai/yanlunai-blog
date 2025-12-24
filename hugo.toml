@@ -38,7 +38,9 @@ enableInlineShortcodes = true
 [params]
   env = "production"
   author = "焱论AI"
-  description = "焱论AI：专注于大模型、RAG、行业模型与论文深度解读的个人技术品牌"
+
+  # ✅ 站点一句话定位（SEO & 分享卡片）
+  description = "焱论AI（yanlunai）：面向一线工程实践的大模型与行业模型研究型个人品牌，聚焦 RAG 可信性、推理能力、行业场景落地与信创生态。"
 
   defaultTheme = "auto"
   disableThemeToggle = false
@@ -50,12 +52,12 @@ enableInlineShortcodes = true
   ShowPostNavLinks = true
   ShowBreadCrumbs = true
   ShowToc = true
-  showPageViews= true
+  showPageViews = true
 
   # 首页内容来源
   mainSections = ["posts"]
 
-  # ✅ 强制加载自定义 CSS（你现在所有 UI 都依赖这个）
+  # ✅ 强制加载自定义 CSS
   customCSS = ["css/extended/yanlunai.css"]
 
   # =============================
@@ -66,27 +68,71 @@ enableInlineShortcodes = true
     icon = "logo/yanlunai-logo-512.png"
     iconHeight = 32
 
-  # =============================
-  # 站内搜索（Fuse.js）
-  # =============================
-  [params.fuseOpts]
-    isCaseSensitive = false
-    shouldSort = true
-    location = 0
-    distance = 1000
-    threshold = 0.3
-    minMatchCharLength = 2
-    keys = ["title", "permalink", "summary", "content"]
+# ✅ 主页首屏介绍（PaperMod 首页 Info）
+[params.homeInfoParams]
+  Title = "焱论AI：行业模型 × 工程可复现 × 论文深读"
+  Content = "这里分享面向一线落地的大模型/行业模型工程实践与研究思考：从数据集构建与训练、垂直 RAG 可信性评测，到 FastAPI + Docker 的工程架构与信创生态适配。拒绝“翻译式内容”，只做原创、深度、可复现的技术文章。"
 
-  # =============================
-  # favicon / PWA
-  # =============================
-  [params.assets]
-    favicon = "favicon.ico"
-    favicon16x16 = "favicon-16x16.png"
-    favicon32x32 = "favicon-32x32.png"
-    apple_touch_icon = "apple-touch-icon.png"
-    safari_pinned_tab = "logo/yanlunai-logo.svg"
+# ✅ Profile 模式（如果你不想首页只显示 Profile，把 enabled 改为 false）
+[params.profileMode]
+  enabled = true
+  title = "焱论AI / yanlunai"
+  subtitle = "大模型 & 行业模型工程实践｜RAG 可信性｜推理能力｜行业落地｜信创生态"
+  imageUrl = "logo/yanlunai-logo-512.png"
+  imageWidth = 120
+  imageHeight = 120
+  imageTitle = "焱论AI"
+
+  [[params.profileMode.buttons]]
+    name = "工程实践"
+    url = "categories/工程实践/"
+
+  [[params.profileMode.buttons]]
+    name = "论文精读"
+    url = "categories/论文精读/"
+
+  [[params.profileMode.buttons]]
+    name = "工具解析"
+    url = "categories/工具解析/"
+
+  [[params.profileMode.buttons]]
+    name = "行业杂谈"
+    url = "categories/行业杂谈/"
+
+  [[params.profileMode.buttons]]
+    name = "关于 / About"
+    url = "about/"
+
+# =============================
+# 站内搜索（Fuse.js）
+# =============================
+[params.fuseOpts]
+  isCaseSensitive = false
+  shouldSort = true
+  location = 0
+  distance = 1000
+  threshold = 0.3
+  minMatchCharLength = 2
+  keys = ["title", "permalink", "summary", "content"]
+
+# =============================
+# favicon / PWA
+# =============================
+[params.assets]
+  favicon = "favicon.ico"
+  favicon16x16 = "favicon-16x16.png"
+  favicon32x32 = "favicon-32x32.png"
+  apple_touch_icon = "apple-touch-icon.png"
+  safari_pinned_tab = "logo/yanlunai-logo.svg"
+
+# ✅ 社交 / 联系方式（按需改）
+[[params.socialIcons]]
+  name = "github"
+  url = "https://github.com/yanlunai"
+
+[[params.socialIcons]]
+  name = "rss"
+  url = "index.xml"
 
 # =============================
 # Markdown 渲染（支持 HTML）
@@ -105,25 +151,19 @@ enableInlineShortcodes = true
 [menu]
   [[menu.main]]
     identifier = "about"
-    name = "About"
+    name = "关于 / About"
     url = "about/"
     weight = 10
 
-  [[menu.main]]
-    identifier = "talks"
-    name = "Talks"
-    url = "talks/"
-    weight = 20
 
   [[menu.main]]
     identifier = "newsletter"
-    name = "Newsletter"
+    name = "订阅 / Newsletter"
     url = "newsletter/"
-    weight = 30
-
+    weight = 20
 
   [[menu.main]]
     identifier = "rss"
     name = "RSS"
     url = "index.xml"
-    weight = 35
+    weight = 30

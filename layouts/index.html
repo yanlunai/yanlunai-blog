@@ -22,18 +22,22 @@
     <div class="yanlunai-hero-left">
       <h1 class="yanlunai-hero-title">🔥 焱论AI · YanlunAI</h1>
       <p class="yanlunai-hero-subtitle">大模型技术栈 × 行业落地打法 × 个体成长路径</p>
+      <div class="yanlunai-hero-tagline">
+        把模型能力，变成在真实行业里可评估、可部署、可交付的系统
+      </div>
 
       <div class="yanlunai-hero-points">
         <div>🎯 <b>IP 定位</b>：面向一线工程实践的大模型 & 行业模型研究型个人品牌</div>
         <div>📚 <b>内容矩阵</b>：论文精读 / 工程实践 / 工具解析 / 行业杂谈</div>
-        <div>🧠 <b>关键词</b>：RAG 可信性 · 推理能力 · 行业场景落地 · 信创生态</div>
+        <div>🧠 <b>关键词</b>：RAG 幻觉控制 · 推理链建模 · 行业数据对齐 · 算法到服务 · 信创适配</div>
         <div>👤 <b>适合人群</b>：AI 学习者、算法工程师、行业数字化从业者、想入局大模型的人</div>
       </div>
 
+
       <div class="yanlunai-pill-grid">
-        <a class="yanlunai-pill" href="{{ "categories/论文解读/" | relURL }}">
+        <a class="yanlunai-pill" href="{{ "categories/论文精读/" | relURL }}">
           <span class="yanlunai-pill-emoji">📄</span>
-          <span class="yanlunai-pill-title">论文解读</span>
+          <span class="yanlunai-pill-title">论文精读</span>
           <span class="yanlunai-pill-desc">LLM / RAG / Agent</span>
         </a>
         <a class="yanlunai-pill" href="{{ "categories/工程实践/" | relURL }}">
@@ -46,9 +50,9 @@
           <span class="yanlunai-pill-title">工具解析</span>
           <span class="yanlunai-pill-desc">框架评测 / 推理引擎</span>
         </a>
-        <a class="yanlunai-pill" href="{{ "categories/杂谈/" | relURL }}">
+        <a class="yanlunai-pill" href="{{ "categories/行业杂谈/" | relURL }}">
           <span class="yanlunai-pill-emoji">✍️</span>
-          <span class="yanlunai-pill-title">杂谈</span>
+          <span class="yanlunai-pill-title">行业杂谈</span>
           <span class="yanlunai-pill-desc">行业趋势 / 踩坑复盘</span>
         </a>
       </div>
@@ -146,13 +150,9 @@
   <section class="yanlunai-section yanlunai-section-latest" id="yanlunai-latest">
     <div class="yanlunai-section-head yanlunai-latest-head" id="yanlunai-latest-head">
     </div>
+
     {{ partial "recent-dual.html" (dict "ctx" . "paginator" $paginator) }}
-
-
-
   </section>
-  
 
 </div>
 {{- end -}}
-

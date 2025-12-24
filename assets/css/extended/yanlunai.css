@@ -1,1231 +1,945 @@
 /* =========================
    焱论AI - YanlunAI theme pack (PaperMod)
    Path: assets/css/extended/yanlunai.css
-   Goals: no conflicts, no duplicates, stable fan/grid (scroll-driven)
+   Goals:
+   - no conflicts, no duplicates
+   - stable hero/featured/latest layout
+   - Latest: always grid (no fan), no blank stage
    ========================= */
-@import "recent-dual.css";
+   @import "recent-dual.css";
 
-/* -------------------------
-   0) Tokens
-   ------------------------- */
+   /* -------------------------
+      0) Tokens
+      ------------------------- */
    :root{
-    --yanlunai-max-width: 1120px;
-  
-    --yanlunai-title-size: 1.06rem;
-    --yanlunai-title-lh: 1.28;
-    --yanlunai-title-weight: 900;
-  
-    --yanlunai-desc-size: .96rem;
-    --yanlunai-desc-lh: 1.72;
-    --yanlunai-desc-weight: 500;
-  
-    --yanlunai-meta-size: .86rem;
-    --yanlunai-meta-lh: 1.4;
-    --yanlunai-meta-weight: 600;
-  
-    --yanlunai-desc-opacity: .92;
-    --yanlunai-meta-opacity: .72;
-  }
-  
-  @media (max-width: 768px){
-    :root{
-      --yanlunai-max-width: 92vw;
-      --yanlunai-title-size: 1.02rem;
-      --yanlunai-desc-size: .95rem;
-      --yanlunai-meta-size: .84rem;
-    }
-  }
-  
-  /* -------------------------
-     A) PaperMod Global polish
-     ------------------------- */
-  .main,
-  .post-single,
-  .page-header,
-  .first-entry,
-  .post-entry{
-    max-width: var(--yanlunai-max-width) !important;
-  }
-  
-  /* Home hero-like card for PaperMod HomeInfo */
-  .first-entry{
-    border: 1px solid var(--border);
-    border-radius: 18px;
-    padding: 22px 22px 18px;
-    background: var(--entry);
-    box-shadow: 0 8px 24px rgba(0,0,0,.06);
-  }
-  
-  .post-entry{
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 16px 18px;
-    background: var(--entry);
-    transition: transform .15s ease, box-shadow .15s ease;
-  }
-  .post-entry:hover{
-    transform: translateY(-2px);
-    box-shadow: 0 12px 30px rgba(0,0,0,.08);
-  }
-  
-  .entry-header h2{
-    font-size: 1.15rem;
-    line-height: 1.35;
-    margin: 0 0 6px;
-  }
-  .entry-content{
-    color: var(--secondary);
-    line-height: 1.65;
-  }
-  
-  /* Top nav */
-  .nav{ max-width: var(--yanlunai-max-width) !important; }
-  .logo a{ gap: 10px; }
-  .logo img{ border-radius: 10px; }
-  
-  /* Mobile tweaks */
-  @media (max-width: 768px){
-    .first-entry{ padding: 18px 16px; border-radius: 16px; }
-    .post-entry{ padding: 14px 14px; border-radius: 14px; }
-  }
-  
-  /* -------------------------
-     B) Hero layout (left + right)
-     ------------------------- */
-  .yanlunai-home{ padding-top: 6px; }
-  
-  .yanlunai-hero{
-    position: relative;
-    overflow: visible !important;
-  
-    display: grid;
-    grid-template-columns: 1.15fr 0.85fr;
-    gap: 22px;
-    align-items: center;
-  
-    border: 1px solid var(--border);
-    border-radius: 18px;
-    background: var(--entry);
-    padding: 22px;
-    box-shadow: 0 10px 28px rgba(0,0,0,.06);
-  }
-  
-  .yanlunai-hero-title{
-    font-size: 2.05rem;
-    line-height: 1.12;
-    margin: 0 0 10px;
-  }
-  .yanlunai-hero-subtitle{
-    margin: 0 0 14px;
-    color: var(--secondary);
-    font-size: 1.05rem;
-  }
-  .yanlunai-hero-points{
-    display: grid;
-    gap: 8px;
-    color: var(--content);
-    margin: 10px 0 16px;
-    line-height: 1.7;
-  }
-  
-  .yanlunai-pill-grid{
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
-  }
-  .yanlunai-pill{
-    display: grid;
-    grid-template-columns: 32px 1fr;
-    grid-template-rows: auto auto;
-    column-gap: 10px;
-    row-gap: 2px;
-  
-    padding: 12px 12px;
-    border-radius: 14px;
-    border: 1px solid var(--border);
-    background: var(--entry);
-    text-decoration: none !important;
-  
-    transition: transform .15s ease, box-shadow .15s ease;
-  }
-  .yanlunai-pill:hover{
-    transform: translateY(-2px);
-    box-shadow: 0 14px 30px rgba(0,0,0,.08);
-  }
-  .yanlunai-pill-emoji{
-    grid-row: 1 / span 2;
-    font-size: 1.15rem;
-    display:flex;
-    align-items:flex-start;
-    justify-content:center;
-    padding-top: 1px;
-  }
-  .yanlunai-pill-title{ font-weight: 800; color: var(--content); }
-  .yanlunai-pill-desc{ color: var(--secondary); font-size: .92rem; }
-  
-  /* Hero right: center stack */
-  .yanlunai-hero-right{
-    position: relative;
-    isolation: isolate;
-  
-    display:flex;
-    flex-direction: column;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    gap: 12px;
-  
-    padding-top: 18px;
-  }
-  
-  /* Vercel-ish blobs (only right side) */
-  .yanlunai-hero-blobs{
-    position:absolute;
-    inset: -80px -60px -80px -60px;
-    z-index: 0;
-    pointer-events:none;
-  }
-  .yanlunai-blob{
-    position:absolute;
-    width: 360px;
-    height: 280px;
-    filter: blur(110px);
-    opacity: .60;
-    transform: translateZ(0);
-  }
-  .yanlunai-blob-left{
-    left: -140px;
-    top: 20px;
-    background: radial-gradient(circle at 30% 30%,
-      rgba(106,76,255,.42) 0%,
-      rgba(106,76,255,.18) 30%,
-      rgba(255,255,255,0) 68%
-    );
-  }
-  .yanlunai-blob-right{
-    right: -140px;
-    bottom: 0px;
-    background: radial-gradient(circle at 70% 60%,
-      rgba(255,106,26,.38) 0%,
-      rgba(255,106,26,.16) 30%,
-      rgba(255,255,255,0) 68%
-    );
-  }
-  body.dark .yanlunai-blob{ opacity: .70; }
-  body.dark .yanlunai-blob-left{
-    background: radial-gradient(circle at 30% 30%,
-      rgba(106,76,255,.46) 0%,
-      rgba(106,76,255,.20) 32%,
-      rgba(20,24,38,0) 72%
-    );
-  }
-  body.dark .yanlunai-blob-right{
-    background: radial-gradient(circle at 70% 60%,
-      rgba(255,106,26,.42) 0%,
-      rgba(255,106,26,.18) 32%,
-      rgba(20,24,38,0) 72%
-    );
-  }
-  
-  /* Foreground above blobs */
-  .yanlunai-logo-wrap,
-  .yanlunai-social,
-  .yanlunai-social-hint,
-  .yanlunai-search-wrap{
-    position: relative;
-    z-index: 2;
-  }
-  
-  /* Responsive hero */
-  @media (max-width: 980px){
-    .yanlunai-hero{ grid-template-columns: 1fr; }
-    .yanlunai-hero-right{ order: -1; padding-top: 0; }
-    .yanlunai-pill-grid{ grid-template-columns: 1fr; }
-  }
-  
-  /* -------------------------
-     C) Logo (breath + halo)
-     ------------------------- */
-  .yanlunai-logo-wrap{
-    position: relative;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    width: 260px;
-    min-height: 140px;
-    margin: 0;
-  }
-  @media (max-width: 980px){
-    .yanlunai-logo-wrap{ width: 100%; min-height: 120px; }
-  }
-  
-  .yanlunai-logo-breathe{
-    position: relative;
-  }
-  .yanlunai-logo-halo{
-    position:absolute;
-    inset: -26px;
-    border-radius: 999px;
-    filter: blur(22px);
-    opacity: .55;
-    background:
-      radial-gradient(circle at 35% 30%, rgba(106,76,255,.28), transparent 60%),
-      radial-gradient(circle at 70% 70%, rgba(255,106,26,.24), transparent 62%);
-    animation: yanlunaiHaloBreath 2.8s ease-in-out infinite;
-    pointer-events:none;
-  }
-  .yanlunai-logo-img{
-    width: 118px;
-    height: 118px;
-    border-radius: 999px;
-    display:block;
-    animation: yanlunaiLogoBreath 2.8s ease-in-out infinite;
-    will-change: transform, filter;
-    box-shadow: none;
-  }
-  
-  @keyframes yanlunaiLogoBreath{
-    0%,100%{ transform: translateY(0) scale(1); }
-    50%{ transform: translateY(-2px) scale(1.03); }
-  }
-  @keyframes yanlunaiHaloBreath{
-    0%,100%{ transform: scale(1); opacity: .48; }
-    50%{ transform: scale(1.07); opacity: .62; }
-  }
-  
-  body.dark .yanlunai-logo-halo{
-    opacity: .62;
-    background:
-      radial-gradient(circle at 35% 30%, rgba(138,180,248,.28), transparent 60%),
-      radial-gradient(circle at 70% 70%, rgba(255,138,76,.22), transparent 62%);
-  }
-  
-  /* -------------------------
-     D) Social buttons + hint
-     ------------------------- */
-  .yanlunai-social{
-    margin-top: 12px;
-    display:flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: center;
-  }
-  .yanlunai-social-btn{
-    padding: 8px 12px;
-    border-radius: 999px;
-    border: 1px solid var(--border);
-    background: var(--entry);
-    color: var(--content);
-    text-decoration: none !important;
-    font-size: .92rem;
-    line-height: 1;
-    transition: transform .15s ease, box-shadow .15s ease;
-  }
-  .yanlunai-social-btn:hover{
-    transform: translateY(-1px);
-    box-shadow: 0 12px 26px rgba(0,0,0,.08);
-  }
-  .yanlunai-social-hint{
-    margin-top: 2px;
-    text-align:center;
-    color: var(--secondary);
-    font-size: .92rem;
-  }
-  
-  /* -------------------------
-     E) Hero search (Vercel-ish)
-     ------------------------- */
-  .yanlunai-search-wrap{
-    width: min(420px, 92%);
-    margin-top: 8px;
-  }
-  .yanlunai-search{
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 10px;
-  
-    padding: 10px;
-    border-radius: 14px;
-    border: 1px solid var(--border);
-    background: var(--entry);
-    box-shadow: 0 10px 28px rgba(0,0,0,.06);
-  }
-  body.dark .yanlunai-search{ box-shadow: 0 16px 40px rgba(0,0,0,.35); }
-  
-  .yanlunai-search-input{
-    width: 100%;
-    border: 0;
-    outline: none;
-    background: transparent;
-    font-size: .96rem;
-    color: var(--content);
-    padding: 6px 8px;
-  }
-  .yanlunai-search-input::placeholder{ color: var(--secondary); }
-  
-  .yanlunai-search-btn{
-    border: 1px solid var(--border);
-    background: transparent;
-    color: var(--content);
-  
-    padding: 8px 12px;
-    border-radius: 12px;
-  
-    font-weight: 800;
-    font-size: .92rem;
-  
-    cursor: pointer;
-    transition: transform .14s ease, box-shadow .14s ease, background-color .14s ease, border-color .14s ease;
-  }
-  .yanlunai-search-btn:hover{
-    transform: translateY(-1px);
-    background: rgba(0,0,0,.035);
-    border-color: rgba(0,0,0,.10);
-    box-shadow: 0 10px 26px rgba(0,0,0,.06);
-  }
-  body.dark .yanlunai-search-btn:hover{
-    background: rgba(255,255,255,.06);
-    border-color: rgba(255,255,255,.14);
-    box-shadow: 0 12px 30px rgba(0,0,0,.35);
-  }
-  
-  .yanlunai-search:focus-within{
-    border-color: rgba(106,76,255,.34);
-    box-shadow:
-      0 10px 28px rgba(0,0,0,.06),
-      0 0 0 6px rgba(106,76,255,.12);
-  }
-  body.dark .yanlunai-search:focus-within{
-    box-shadow:
-      0 16px 40px rgba(0,0,0,.35),
-      0 0 0 6px rgba(106,76,255,.18);
-  }
-  
-  .yanlunai-search-hint{
-    margin-top: 8px;
-    color: var(--secondary);
-    font-size: .9rem;
-    text-align: center;
-  }
-  .yanlunai-kbd{
-    display: inline-block;
-    padding: 2px 8px;
-    border-radius: 10px;
-    border: 1px solid var(--border);
-    background: var(--entry);
-    font-weight: 900;
-    font-size: .85rem;
-    transform: translateY(-1px);
-  }
-  
-  /* -------------------------
-     F) Top menu as product pills
-     ------------------------- */
-  .header{ backdrop-filter: saturate(1.1); }
-  
-  .menu{
-    display:flex !important;
-    align-items:center;
-    gap: 10px;
-    padding-left: 12px;
-    border-left: 1px solid var(--border);
-  }
-  .menu a{
-    display:inline-flex !important;
-    align-items:center;
-    justify-content:center;
-  
-    padding: 8px 12px;
-    border-radius: 999px;
-  
-    font-weight: 700;
-    font-size: .95rem;
-  
-    text-decoration:none !important;
-  
-    border: 1px solid transparent;
-    background: transparent;
-  
-    transition: transform .14s ease, background-color .14s ease, border-color .14s ease, box-shadow .14s ease, color .14s ease;
-  }
-  .menu a:hover{
-    transform: translateY(-1px);
-    background: rgba(0,0,0,.035);
-    border-color: rgba(0,0,0,.08);
-    box-shadow: 0 10px 26px rgba(0,0,0,.06);
-  }
-  .menu a[aria-current="page"]{
-    background: linear-gradient(135deg, rgba(255,106,26,.12), rgba(106,76,255,.10));
-    border-color: rgba(255,106,26,.22);
-    box-shadow: 0 12px 28px rgba(0,0,0,.08);
-  }
-  .menu a[href$="/index.xml"]::after{
-    content: "•";
-    margin-left: 6px;
-    opacity: .55;
-    font-size: 1.1rem;
-    line-height: 1;
-  }
-  body.dark .menu a:hover{
-    background: rgba(255,255,255,.06);
-    border-color: rgba(255,255,255,.10);
-    box-shadow: 0 12px 30px rgba(0,0,0,.35);
-  }
-  body.dark .menu a[aria-current="page"]{
-    background: linear-gradient(135deg, rgba(255,106,26,.16), rgba(106,76,255,.14));
-    border-color: rgba(255,255,255,.12);
-  }
-  @media (max-width: 768px){
-    .menu{ gap: 8px; }
-    .menu a{ padding: 7px 10px; font-size: .92rem; }
-  }
-  
-  /* -------------------------
-     G) Sections + Featured cards
-     ------------------------- */
-  .yanlunai-section{ margin-top: 18px; }
-  
-  .yanlunai-section-head{
-    display:flex;
-    align-items:flex-end;
-    justify-content:space-between;
-    gap: 14px;
-    margin: 6px 0 12px;
-  }
-  .yanlunai-section-title{
-    font-size: 1.12rem;
-    font-weight: 900;
-    letter-spacing: .2px;
-    margin: 0;
-  }
-  .yanlunai-section-sub{
-    color: var(--secondary);
-    font-size: .92rem;
-    font-weight: 600;
-    margin: 2px 0 0;
-  }
-  .yanlunai-dot{ opacity: .65; padding: 0 6px; }
-  
-  .yanlunai-featured-grid{
-    display:grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 14px;
-  }
-  @media (max-width: 980px){
-    .yanlunai-featured-grid{ grid-template-columns: 1fr; }
-  }
-  
-  .yanlunai-fcard{
-    position: relative;
-    overflow:hidden;
-    display:flex;
-    flex-direction: column;
-    min-height: 168px;
-  
-    border-radius: 18px;
-    border: 1px solid var(--border);
-    background: var(--entry);
-  
-    padding: 16px 16px 14px;
-    text-decoration: none !important;
-  
-    box-shadow: 0 10px 28px rgba(0,0,0,.06);
-    transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease;
-    transform: translateZ(0);
-  }
-  .yanlunai-fcard-bg{
-    position:absolute;
-    inset:-2px;
-    pointer-events:none;
-    z-index:0;
-    background:
-      radial-gradient(140px 140px at 12% 18%, rgba(106,76,255,.14), transparent 60%),
-      radial-gradient(180px 180px at 88% 20%, rgba(255,106,26,.12), transparent 62%),
-      radial-gradient(220px 220px at 82% 90%, rgba(106,76,255,.08), transparent 66%);
-    opacity: .85;
-  }
-  .yanlunai-fcard-body,
-  .yanlunai-fcard-meta{ position: relative; z-index: 1; }
-  
-  .yanlunai-fcard:hover{
-    transform: translateY(-2px);
-    box-shadow: 0 16px 40px rgba(0,0,0,.10);
-    border-color: rgba(106,76,255,.20);
-  }
-  body.dark .yanlunai-fcard{
-    border-color: rgba(255,255,255,.10);
-    background: linear-gradient(135deg, rgba(88,80,236,.10), rgba(255,138,76,.08));
-    box-shadow: 0 10px 30px rgba(0,0,0,.35), inset 0 0 0 1px rgba(255,255,255,.02);
-  }
-  body.dark .yanlunai-fcard-bg{ opacity: .75; }
-  body.dark .yanlunai-fcard:hover{
-    box-shadow: 0 18px 50px rgba(0,0,0,.45), 0 0 0 1px rgba(138,180,248,.14);
-    border-color: rgba(255,255,255,.16);
-  }
-  
-  .yanlunai-fcard-title{
-    font-size: 1.05rem;
-    font-weight: 900;
-    line-height: 1.28;
-    letter-spacing: .1px;
-    color: var(--content);
-  
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-  .yanlunai-fcard-desc{
-    margin-top: 8px;
-    font-size: .95rem;
-    line-height: 1.55;
-    color: var(--secondary);
-  
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-  .yanlunai-fcard-meta{
-    margin-top: auto;
-    padding-top: 12px;
-    font-size: .88rem;
-    color: var(--secondary);
-    display:flex;
-    align-items:center;
-    gap: 6px;
-  }
-  
-  /* -------------------------
-     H) Latest: scroll-driven Fan -> Grid (single source of truth)
-     ------------------------- */
-  .yanlunai-section-latest{ position: relative; }
-  
-  #yanlunai-latest .yanlunai-section-sub{
-    display:inline-flex;
-    align-items:center;
-    gap: 8px;
-  }
-  #yanlunai-latest .yanlunai-section-sub::before{
-    content:"TIP";
-    font-weight: 900;
-    font-size: .72rem;
-    letter-spacing: .22em;
-    padding: 2px 8px;
-    border-radius: 999px;
-    border: 1px solid rgba(0,0,0,.08);
-    background: rgba(255,255,255,.55);
-  }
-  body.dark #yanlunai-latest .yanlunai-section-sub::before{
-    border: 1px solid rgba(255,255,255,.12);
-    background: rgba(20,24,38,.55);
-  }
-  
-  /* --- Stage: curvature driven by JS vars --yl-rx/--yl-ry/--yl-cy --- */
-  #yanlunai-latest .yanlunai-latest-stage{
-    position: relative;
-    border-radius: 18px;
-    border: 1px solid var(--border);
-    background: var(--entry);
-    overflow: hidden;
-    box-shadow: 0 14px 40px rgba(0,0,0,.06);
-  
-    /* default: very round */
-    --yl-rx: 205%;
-    --yl-ry: 190%;
-    --yl-cy: 165%;
-    clip-path: ellipse(var(--yl-rx) var(--yl-ry) at 50% var(--yl-cy));
-    transition: clip-path .55s cubic-bezier(.2,.8,.2,1);
-  }
-  
-  /* Vercel-ish ambient blobs on stage */
-  #yanlunai-latest .yanlunai-latest-stage::before,
-  #yanlunai-latest .yanlunai-latest-stage::after{
-    content:"";
-    position:absolute;
-    width: 520px;
-    height: 520px;
-    border-radius: 50%;
-    filter: blur(40px);
-    opacity: .45;
-    pointer-events:none;
-    z-index:0;
-  }
-  #yanlunai-latest .yanlunai-latest-stage::before{
-    left:-220px; top:-260px;
-    background: radial-gradient(circle, rgba(106,76,255,.38), rgba(106,76,255,0) 60%);
-  }
-  #yanlunai-latest .yanlunai-latest-stage::after{
-    right:-220px; top:-260px;
-    background: radial-gradient(circle, rgba(255,106,26,.34), rgba(255,106,26,0) 60%);
-  }
-  body.dark #yanlunai-latest .yanlunai-latest-stage::before{ opacity: .34; }
-  body.dark #yanlunai-latest .yanlunai-latest-stage::after{ opacity: .32; }
-  
-  /* Cards wrapper */
-  #yanlunai-latest .yanlunai-latest-cards{
-    position: relative;
-    z-index: 1;
-    padding: 16px;
-    height: 100%;
-  }
-  
-  /* --- Card (match Featured style, but keep media block) --- */
-  #yanlunai-latest .yanlunai-latest-card{
-    text-decoration:none !important;
-    color: var(--content);
-  
-    position: relative;
-    overflow:hidden;
-  
-    border-radius: 18px;
-    border: 1px solid var(--border);
-    background: var(--entry);
-  
-    box-shadow: 0 10px 28px rgba(0,0,0,.06);
-    transition:
-      transform .38s cubic-bezier(.2,.8,.2,1),
-      opacity .28s ease,
-      box-shadow .28s ease,
-      border-color .28s ease,
-      background-color .28s ease;
-    will-change: transform;
-  }
-  
-  /* inner ambient (like featured bg) */
-  #yanlunai-latest .yanlunai-latest-card::before{
-    content:"";
-    position:absolute;
-    inset:-2px;
-    pointer-events:none;
-    z-index:0;
-    background:
-      radial-gradient(140px 140px at 12% 18%, rgba(106,76,255,.14), transparent 60%),
-      radial-gradient(180px 180px at 88% 20%, rgba(255,106,26,.12), transparent 62%),
-      radial-gradient(220px 220px at 82% 90%, rgba(106,76,255,.08), transparent 66%);
-    opacity: .85;
-  }
-  #yanlunai-latest .yanlunai-latest-card-media,
-  #yanlunai-latest .yanlunai-latest-card-body{
-    position: relative;
-    z-index: 1;
-  }
-  
-  #yanlunai-latest .yanlunai-latest-card-media{
-    height: 132px;
-    background:
-      var(--yl-bg),
-      radial-gradient(circle at 20% 10%, rgba(106,76,255,.26), rgba(106,76,255,0) 55%),
-      radial-gradient(circle at 80% 0%, rgba(255,106,26,.22), rgba(255,106,26,0) 60%),
-      linear-gradient(180deg, rgba(0,0,0,.02), rgba(0,0,0,.06));
-    background-size: cover;
-    background-position: center;
-  }
-  #yanlunai-latest .yanlunai-latest-card-media::after{
-    content:"";
-    position:absolute;
-    inset:0;
-    background: radial-gradient(circle at 50% 0%, rgba(255,255,255,.08), rgba(0,0,0,.10));
-    pointer-events:none;
-  }
-  body.dark #yanlunai-latest .yanlunai-latest-card-media::after{
-    background: radial-gradient(circle at 50% 0%, rgba(255,255,255,.05), rgba(0,0,0,.30));
-  }
-  
-  #yanlunai-latest .yanlunai-latest-card-body{ padding: 12px 14px 14px; }
-  #yanlunai-latest .yanlunai-latest-card-title{
-    font-size: 1.05rem;
-    font-weight: 900;
-    line-height: 1.28;
-    letter-spacing: .1px;
-    margin-bottom: 8px;
-  
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-  #yanlunai-latest .yanlunai-latest-card-desc{
-    margin-top: 8px;
-    font-size: .95rem;
-    line-height: 1.55;
-    color: var(--secondary);
-  
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-  #yanlunai-latest .yanlunai-latest-card-meta{
-    margin-top: 12px;
-    font-size: .88rem;
-    color: var(--secondary);
-    display:flex;
-    align-items:center;
-    gap: 6px;
-  }
-  
-  #yanlunai-latest .yanlunai-latest-card:hover{
-    transform: translateY(-2px);
-    box-shadow: 0 16px 40px rgba(0,0,0,.10);
-    border-color: rgba(106,76,255,.20);
-  }
-  body.dark #yanlunai-latest .yanlunai-latest-card{
-    border-color: rgba(255,255,255,.10);
-    background: linear-gradient(135deg, rgba(88,80,236,.10), rgba(255,138,76,.08));
-    box-shadow: 0 14px 36px rgba(0,0,0,.40);
-  }
-  body.dark #yanlunai-latest .yanlunai-latest-card:hover{
-    box-shadow: 0 18px 50px rgba(0,0,0,.45), 0 0 0 1px rgba(138,180,248,.14);
-    border-color: rgba(255,255,255,.16);
-  }
-  
-  /* --- Fan state (ONLY 3 visible; matches JS visibleCount=3) --- */
-  #yanlunai-latest.is-fan .yanlunai-latest-stage{ height: 380px; }
-  #yanlunai-latest.is-fan .yanlunai-latest-cards{ padding: 18px 10px 0; }
-  
-  #yanlunai-latest.is-fan .yanlunai-latest-card{
-    position:absolute;
-    left: 50%;
-    top: 61%;
-    width: 252px;                 /* slightly wider, less “挤” */
-    transform-origin: 50% 155%;
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-  
-    /* JS will set these, but we keep safe defaults */
-    --yl-rot: 0deg;
-    --yl-ty: -36px;
-    transform: translate(-50%,-50%) rotate(var(--yl-rot)) translateY(var(--yl-ty));
-  }
-  
-  /* show only first 3; hide rest in fan */
-  #yanlunai-latest.is-fan .yanlunai-latest-card.is-hidden{
-    opacity: 0 !important;
-    pointer-events:none !important;
-    transform: translate(-50%,-50%) scale(.98) !important;
-  }
-  
-  /* Fan: shorter desc */
-  #yanlunai-latest.is-fan .yanlunai-latest-card-desc{
-    -webkit-line-clamp: 1;
-    opacity: .90;
-  }
-  
-  /* Fan hover: lift out of disc (JS writes --yl-hoverLift) */
-  #yanlunai-latest.is-fan .yanlunai-latest-card:hover{
-    transform: var(--yl-hoverLift, translate(-50%,-57%) rotate(var(--yl-rot)) translateY(calc(var(--yl-ty) - 26px)) scale(1.05));
-    box-shadow: 0 26px 80px rgba(0,0,0,.18);
-    border-color: rgba(106,76,255,.22);
-    z-index: 99;
-  }
-  body.dark #yanlunai-latest.is-fan .yanlunai-latest-card:hover{
-    box-shadow: 0 26px 80px rgba(0,0,0,.55);
-  }
-  
-  /* --- Grid state --- */
-  #yanlunai-latest.is-grid .yanlunai-latest-stage{
-    clip-path: inset(0 round 18px);
-    height: auto;
-  }
-  #yanlunai-latest.is-grid .yanlunai-latest-cards{
-    display:grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 14px;
-    padding: 16px;
-    height:auto;
-  }
-  @media (max-width: 1100px){
-    #yanlunai-latest.is-grid .yanlunai-latest-cards{ grid-template-columns: repeat(3, 1fr); }
-  }
-  @media (max-width: 880px){
-    #yanlunai-latest.is-grid .yanlunai-latest-cards{ grid-template-columns: repeat(2, 1fr); }
-  }
-  @media (max-width: 620px){
-    #yanlunai-latest.is-grid .yanlunai-latest-cards{ grid-template-columns: 1fr; }
-  }
-  #yanlunai-latest.is-grid .yanlunai-latest-card{
-    position: relative;
-    left:auto; top:auto;
-    width:auto;
-    transform:none !important;
-    opacity:1;
-    pointer-events:auto;
-  }
-  
-  /* -------------------------
-     📱 Mobile: force grid + spacing (no fan)
-     ------------------------- */
-  @media (max-width: 980px){
-    #yanlunai-latest{
-      /* keep class toggles, but force appearance to grid */
-    }
-    #yanlunai-latest .yanlunai-latest-stage{
-      clip-path: inset(0 round 18px) !important;
-      height: auto !important;
-    }
-    #yanlunai-latest .yanlunai-latest-cards{
-      display:grid !important;
-      grid-template-columns: 1fr !important;
-      gap: 12px !important;
-      padding: 14px !important;
-      height: auto !important;
-    }
-    #yanlunai-latest .yanlunai-latest-card{
-      position: relative !important;
-      left:auto !important; top:auto !important;
-      width:auto !important;
-      transform:none !important;
-      opacity:1 !important;
-      pointer-events:auto !important;
-    }
-  }
-  
-  /* -------------------------
-     Debug safety: prevent any global a::before attr(href) from leaking
-     ------------------------- */
-  #yanlunai-latest a::before,
-  #yanlunai-latest a::after{
-    content: "" !important;
-  }
-  
-  /* -------------------------
-     I) Giscus (foldable card)
-     ------------------------- */
-  .yanlunai-comments{
-    margin-top: 28px;
-    padding-top: 18px;
-    border-top: 1px solid var(--border);
-    position: relative;
-  }
-  .yanlunai-comments::before{
-    content:"";
-    position:absolute;
-    left:-60px;
-    right:-60px;
-    top: -10px;
-    height: 160px;
-    z-index: -1;
-    filter: blur(90px);
-    opacity: .55;
-    background: radial-gradient(circle at 35% 30%, rgba(106,76,255,.18), rgba(255,255,255,0) 70%);
-  }
-  body.dark .yanlunai-comments::before{
-    opacity: .65;
-    background: radial-gradient(circle at 35% 30%, rgba(106,76,255,.22), rgba(20,24,38,0) 70%);
-  }
-  
-  .yanlunai-comments-box{
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    background: var(--entry);
-    box-shadow: 0 10px 28px rgba(0,0,0,.06);
-    overflow: hidden;
-  }
-  body.dark .yanlunai-comments-box{ box-shadow: 0 16px 40px rgba(0,0,0,.35); }
-  
-  .yanlunai-comments-summary{
-    list-style: none;
-    cursor: pointer;
-    padding: 14px 16px;
-    display:flex;
-    align-items: baseline;
-    gap: 10px;
-    user-select:none;
-  }
-  .yanlunai-comments-summary::-webkit-details-marker{ display:none; }
-  .yanlunai-comments-title{ font-weight: 900; font-size: 1.02rem; color: var(--content); }
-  .yanlunai-comments-hint,
-  .yanlunai-comments-count{ color: var(--secondary); font-size: .92rem; }
-  
-  .yanlunai-comments-summary::after{
-    content:"▾";
-    margin-left:auto;
-    color: var(--secondary);
-    transition: transform .15s ease;
-  }
-  .yanlunai-comments-box[open] .yanlunai-comments-summary::after{ transform: rotate(180deg); }
-  
-  .yanlunai-comments-body{ padding: 0 12px 12px; }
-  .yanlunai-comments .giscus,
-  .yanlunai-comments iframe.giscus-frame{ width: 100%; }
-  
-  /* -------------------------
-     J) Motion safety
-     ------------------------- */
-  @media (prefers-reduced-motion: reduce){
-    *{ animation: none !important; transition: none !important; }
-  }
-  
-  #yanlunai-latest .yanlunai-latest-card.no-cover .yanlunai-latest-card-body{
-    padding-top: 14px;
-  }
-
-  #yanlunai-latest.is-fan .yanlunai-latest-card{
-    left: 50%;
-    top: 63%;
-    width: 284px;            /* 更宽，扇面更舒展 */
-    transform-origin: 50% 200%;
-  }
-
-  /* ✅ 最小补丁：放到 assets/css/extended/yanlunai.css 末尾 */
-
-/* 顶部 3 张强调区：自适应三列 -> 一列 */
-.yanlunai-latest-top{
-  display:grid;
-  gap:14px;
-  grid-template-columns:repeat(3, minmax(0, 1fr));
-  margin: 10px 0 18px;
-}
-@media (max-width: 980px){
-  .yanlunai-latest-top{ grid-template-columns:1fr; }
-}
-
-/* 顶部卡片：更大一点、更像“主推” */
-.yanlunai-latest-card--top{
-  min-height: 220px;
-}
-.yanlunai-latest-card--top .yanlunai-latest-card-title{
-  font-size: 1.12rem;
-}
-.yanlunai-latest-card--top.has-cover .yanlunai-latest-card-media{
-  opacity: .95;
-}
-
-/* 去掉圆盘阶段的 clipPath 依赖（如果你之前用了变量裁剪） */
-#yanlunai-latest .yanlunai-latest-stage{
-  clip-path: inset(0 round 18px);
-}
-
-/* ✅ 放到 assets/css/extended/yanlunai.css 末尾（最小改动补丁）
-   目标：
-   1) 去掉“圆盘阶段”遗留的固定高度/裁剪/绝对定位，消灭大块留白
-   2) 最新更新：上面 3 张更“主推”，下面列表更紧凑、更像正常博客首页
-*/
-
-/* -------------------------
-   A) 修复 Latest 区域的“大留白”
-   （通常来自 stage 以前为圆盘预留的 min-height / padding / clip-path）
-   ------------------------- */
+     --yanlunai-max-width: 1120px;
+   
+     --yanlunai-title-size: 1.06rem;
+     --yanlunai-title-lh: 1.28;
+     --yanlunai-title-weight: 900;
+   
+     --yanlunai-desc-size: .96rem;
+     --yanlunai-desc-lh: 1.72;
+     --yanlunai-desc-weight: 500;
+   
+     --yanlunai-meta-size: .86rem;
+     --yanlunai-meta-lh: 1.4;
+     --yanlunai-meta-weight: 600;
+   
+     --yanlunai-desc-opacity: .92;
+     --yanlunai-meta-opacity: .72;
+   }
+   
+   @media (max-width: 768px){
+     :root{
+       --yanlunai-max-width: 92vw;
+       --yanlunai-title-size: 1.02rem;
+       --yanlunai-desc-size: .95rem;
+       --yanlunai-meta-size: .84rem;
+     }
+   }
+   
+   /* -------------------------
+      A) PaperMod Global polish
+      ------------------------- */
+   .main,
+   .post-single,
+   .page-header,
+   .first-entry,
+   .post-entry{
+     max-width: var(--yanlunai-max-width) !important;
+   }
+   
+   /* Home hero-like card for PaperMod HomeInfo */
+   .first-entry{
+     border: 1px solid var(--border);
+     border-radius: 18px;
+     padding: 22px 22px 18px;
+     background: var(--entry);
+     box-shadow: 0 8px 24px rgba(0,0,0,.06);
+   }
+   
+   .post-entry{
+     border: 1px solid var(--border);
+     border-radius: 16px;
+     padding: 16px 18px;
+     background: var(--entry);
+     transition: transform .15s ease, box-shadow .15s ease;
+   }
+   .post-entry:hover{
+     transform: translateY(-2px);
+     box-shadow: 0 12px 30px rgba(0,0,0,.08);
+   }
+   
+   .entry-header h2{
+     font-size: 1.15rem;
+     line-height: 1.35;
+     margin: 0 0 6px;
+   }
+   .entry-content{
+     color: var(--secondary);
+     line-height: 1.65;
+   }
+   
+   /* Top nav */
+   .nav{ max-width: var(--yanlunai-max-width) !important; }
+   .logo a{ gap: 10px; }
+   .logo img{ border-radius: 10px; }
+   
+   /* Mobile tweaks */
+   @media (max-width: 768px){
+     .first-entry{ padding: 18px 16px; border-radius: 16px; }
+     .post-entry{ padding: 14px 14px; border-radius: 14px; }
+   }
+   
+   /* -------------------------
+      B) Hero layout (left + right)
+      ------------------------- */
+   .yanlunai-home{ padding-top: 6px; }
+   
+   .yanlunai-hero{
+     position: relative;
+     overflow: visible !important;
+   
+     display: grid;
+     grid-template-columns: 1.15fr 0.85fr;
+     gap: 22px;
+     align-items: center;
+   
+     border: 1px solid var(--border);
+     border-radius: 18px;
+     background: var(--entry);
+     padding: 22px;
+     box-shadow: 0 10px 28px rgba(0,0,0,.06);
+   }
+   
+   .yanlunai-hero-title{
+     font-size: 2.05rem;
+     line-height: 1.12;
+     margin: 0 0 10px;
+   }
+   .yanlunai-hero-subtitle{
+     margin: 0 0 14px;
+     color: var(--secondary);
+     font-size: 1.05rem;
+   }
+   .yanlunai-hero-points{
+     display: grid;
+     gap: 8px;
+     color: var(--content);
+     margin: 10px 0 16px;
+     line-height: 1.7;
+   }
+   .yanlunai-muted{
+     color: var(--secondary);
+     font-size: .92rem;
+     margin-top: 4px;
+   }
+   
+   .yanlunai-pill-grid{
+     display: grid;
+     grid-template-columns: repeat(2, minmax(0, 1fr));
+     gap: 12px;
+   }
+   .yanlunai-pill{
+     display: grid;
+     grid-template-columns: 32px 1fr;
+     grid-template-rows: auto auto;
+     column-gap: 10px;
+     row-gap: 2px;
+   
+     padding: 12px 12px;
+     border-radius: 14px;
+     border: 1px solid var(--border);
+     background: var(--entry);
+     text-decoration: none !important;
+   
+     transition: transform .15s ease, box-shadow .15s ease;
+   }
+   .yanlunai-pill:hover{
+     transform: translateY(-2px);
+     box-shadow: 0 14px 30px rgba(0,0,0,.08);
+   }
+   .yanlunai-pill-emoji{
+     grid-row: 1 / span 2;
+     font-size: 1.15rem;
+     display:flex;
+     align-items:flex-start;
+     justify-content:center;
+     padding-top: 1px;
+   }
+   .yanlunai-pill-title{ font-weight: 800; color: var(--content); }
+   .yanlunai-pill-desc{ color: var(--secondary); font-size: .92rem; }
+   
+   /* Hero right: center stack */
+   .yanlunai-hero-right{
+     position: relative;
+     isolation: isolate;
+   
+     display:flex;
+     flex-direction: column;
+     align-items:center;
+     justify-content:center;
+     text-align:center;
+     gap: 12px;
+   
+     padding-top: 18px;
+   }
+   
+   /* Ambient blobs (right side only) */
+   .yanlunai-hero-blobs{
+     position:absolute;
+     inset: -80px -60px -80px -60px;
+     z-index: 0;
+     pointer-events:none;
+   }
+   .yanlunai-blob{
+     position:absolute;
+     width: 360px;
+     height: 280px;
+     filter: blur(110px);
+     opacity: .60;
+     transform: translateZ(0);
+   }
+   .yanlunai-blob-left{
+     left: -140px;
+     top: 20px;
+     background: radial-gradient(circle at 30% 30%,
+       rgba(106,76,255,.42) 0%,
+       rgba(106,76,255,.18) 30%,
+       rgba(255,255,255,0) 68%
+     );
+   }
+   .yanlunai-blob-right{
+     right: -140px;
+     bottom: 0px;
+     background: radial-gradient(circle at 70% 60%,
+       rgba(255,106,26,.38) 0%,
+       rgba(255,106,26,.16) 30%,
+       rgba(255,255,255,0) 68%
+     );
+   }
+   body.dark .yanlunai-blob{ opacity: .70; }
+   body.dark .yanlunai-blob-left{
+     background: radial-gradient(circle at 30% 30%,
+       rgba(106,76,255,.46) 0%,
+       rgba(106,76,255,.20) 32%,
+       rgba(20,24,38,0) 72%
+     );
+   }
+   body.dark .yanlunai-blob-right{
+     background: radial-gradient(circle at 70% 60%,
+       rgba(255,106,26,.42) 0%,
+       rgba(255,106,26,.18) 32%,
+       rgba(20,24,38,0) 72%
+     );
+   }
+   
+   /* Foreground above blobs */
+   .yanlunai-logo-wrap,
+   .yanlunai-social,
+   .yanlunai-social-hint,
+   .yanlunai-search-wrap{
+     position: relative;
+     z-index: 2;
+   }
+   
+   /* Responsive hero */
+   @media (max-width: 980px){
+     .yanlunai-hero{ grid-template-columns: 1fr; }
+     .yanlunai-hero-right{ order: -1; padding-top: 0; }
+     .yanlunai-pill-grid{ grid-template-columns: 1fr; }
+   }
+   
+   /* -------------------------
+      C) Logo (breath + halo)
+      ------------------------- */
+   .yanlunai-logo-wrap{
+     position: relative;
+     display:flex;
+     justify-content:center;
+     align-items:center;
+     width: 260px;
+     min-height: 140px;
+     margin: 0;
+   }
+   @media (max-width: 980px){
+     .yanlunai-logo-wrap{ width: 100%; min-height: 120px; }
+   }
+   
+   .yanlunai-logo-breathe{ position: relative; }
+   
+   .yanlunai-logo-halo{
+     position:absolute;
+     inset: -26px;
+     border-radius: 999px;
+     filter: blur(22px);
+     opacity: .55;
+     background:
+       radial-gradient(circle at 35% 30%, rgba(106,76,255,.28), transparent 60%),
+       radial-gradient(circle at 70% 70%, rgba(255,106,26,.24), transparent 62%);
+     animation: yanlunaiHaloBreath 2.8s ease-in-out infinite;
+     pointer-events:none;
+   }
+   .yanlunai-logo-img{
+     width: 118px;
+     height: 118px;
+     border-radius: 999px;
+     display:block;
+     animation: yanlunaiLogoBreath 2.8s ease-in-out infinite;
+     will-change: transform, filter;
+     box-shadow: none;
+   }
+   
+   @keyframes yanlunaiLogoBreath{
+     0%,100%{ transform: translateY(0) scale(1); }
+     50%{ transform: translateY(-2px) scale(1.03); }
+   }
+   @keyframes yanlunaiHaloBreath{
+     0%,100%{ transform: scale(1); opacity: .48; }
+     50%{ transform: scale(1.07); opacity: .62; }
+   }
+   body.dark .yanlunai-logo-halo{
+     opacity: .62;
+     background:
+       radial-gradient(circle at 35% 30%, rgba(138,180,248,.28), transparent 60%),
+       radial-gradient(circle at 70% 70%, rgba(255,138,76,.22), transparent 62%);
+   }
+   
+   /* -------------------------
+      D) Social buttons + hint
+      ------------------------- */
+   .yanlunai-social{
+     margin-top: 12px;
+     display:flex;
+     flex-wrap: wrap;
+     gap: 10px;
+     justify-content: center;
+   }
+   .yanlunai-social-btn{
+     padding: 8px 12px;
+     border-radius: 999px;
+     border: 1px solid var(--border);
+     background: var(--entry);
+     color: var(--content);
+     text-decoration: none !important;
+     font-size: .92rem;
+     line-height: 1;
+     transition: transform .15s ease, box-shadow .15s ease;
+   }
+   .yanlunai-social-btn:hover{
+     transform: translateY(-1px);
+     box-shadow: 0 12px 26px rgba(0,0,0,.08);
+   }
+   .yanlunai-social-hint{
+     margin-top: 2px;
+     text-align:center;
+     color: var(--secondary);
+     font-size: .92rem;
+   }
+   
+   /* -------------------------
+      E) Hero search (Vercel-ish)
+      ------------------------- */
+   .yanlunai-search-wrap{
+     width: min(420px, 92%);
+     margin-top: 8px;
+   }
+   .yanlunai-search{
+     display: grid;
+     grid-template-columns: 1fr auto;
+     gap: 10px;
+   
+     padding: 10px;
+     border-radius: 14px;
+     border: 1px solid var(--border);
+     background: var(--entry);
+     box-shadow: 0 10px 28px rgba(0,0,0,.06);
+   }
+   body.dark .yanlunai-search{ box-shadow: 0 16px 40px rgba(0,0,0,.35); }
+   
+   .yanlunai-search-input{
+     width: 100%;
+     border: 0;
+     outline: none;
+     background: transparent;
+     font-size: .96rem;
+     color: var(--content);
+     padding: 6px 8px;
+   }
+   .yanlunai-search-input::placeholder{ color: var(--secondary); }
+   
+   .yanlunai-search-btn{
+     border: 1px solid var(--border);
+     background: transparent;
+     color: var(--content);
+   
+     padding: 8px 12px;
+     border-radius: 12px;
+   
+     font-weight: 800;
+     font-size: .92rem;
+   
+     cursor: pointer;
+     transition: transform .14s ease, box-shadow .14s ease, background-color .14s ease, border-color .14s ease;
+   }
+   .yanlunai-search-btn:hover{
+     transform: translateY(-1px);
+     background: rgba(0,0,0,.035);
+     border-color: rgba(0,0,0,.10);
+     box-shadow: 0 10px 26px rgba(0,0,0,.06);
+   }
+   body.dark .yanlunai-search-btn:hover{
+     background: rgba(255,255,255,.06);
+     border-color: rgba(255,255,255,.14);
+     box-shadow: 0 12px 30px rgba(0,0,0,.35);
+   }
+   
+   .yanlunai-search:focus-within{
+     border-color: rgba(106,76,255,.34);
+     box-shadow:
+       0 10px 28px rgba(0,0,0,.06),
+       0 0 0 6px rgba(106,76,255,.12);
+   }
+   body.dark .yanlunai-search:focus-within{
+     box-shadow:
+       0 16px 40px rgba(0,0,0,.35),
+       0 0 0 6px rgba(106,76,255,.18);
+   }
+   
+   .yanlunai-search-hint{
+     margin-top: 8px;
+     color: var(--secondary);
+     font-size: .9rem;
+     text-align: center;
+   }
+   .yanlunai-kbd{
+     display: inline-block;
+     padding: 2px 8px;
+     border-radius: 10px;
+     border: 1px solid var(--border);
+     background: var(--entry);
+     font-weight: 900;
+     font-size: .85rem;
+     transform: translateY(-1px);
+   }
+   
+   /* -------------------------
+      F) Top menu as product pills
+      ------------------------- */
+   .header{ backdrop-filter: saturate(1.1); }
+   
+   .menu{
+     display:flex !important;
+     align-items:center;
+     gap: 10px;
+     padding-left: 12px;
+     border-left: 1px solid var(--border);
+   }
+   .menu a{
+     display:inline-flex !important;
+     align-items:center;
+     justify-content:center;
+   
+     padding: 8px 12px;
+     border-radius: 999px;
+   
+     font-weight: 700;
+     font-size: .95rem;
+   
+     text-decoration:none !important;
+   
+     border: 1px solid transparent;
+     background: transparent;
+   
+     transition: transform .14s ease, background-color .14s ease, border-color .14s ease, box-shadow .14s ease, color .14s ease;
+   }
+   .menu a:hover{
+     transform: translateY(-1px);
+     background: rgba(0,0,0,.035);
+     border-color: rgba(0,0,0,.08);
+     box-shadow: 0 10px 26px rgba(0,0,0,.06);
+   }
+   .menu a[aria-current="page"]{
+     background: linear-gradient(135deg, rgba(255,106,26,.12), rgba(106,76,255,.10));
+     border-color: rgba(255,106,26,.22);
+     box-shadow: 0 12px 28px rgba(0,0,0,.08);
+   }
+   .menu a[href$="/index.xml"]::after{
+     content: "•";
+     margin-left: 6px;
+     opacity: .55;
+     font-size: 1.1rem;
+     line-height: 1;
+   }
+   body.dark .menu a:hover{
+     background: rgba(255,255,255,.06);
+     border-color: rgba(255,255,255,.10);
+     box-shadow: 0 12px 30px rgba(0,0,0,.35);
+   }
+   body.dark .menu a[aria-current="page"]{
+     background: linear-gradient(135deg, rgba(255,106,26,.16), rgba(106,76,255,.14));
+     border-color: rgba(255,255,255,.12);
+   }
+   @media (max-width: 768px){
+     .menu{ gap: 8px; }
+     .menu a{ padding: 7px 10px; font-size: .92rem; }
+   }
+   
+   /* -------------------------
+      G) Sections + Featured cards
+      ------------------------- */
+   .yanlunai-section{ margin-top: 18px; }
+   
+   .yanlunai-section-head{
+     display:flex;
+     align-items:flex-end;
+     justify-content:space-between;
+     gap: 14px;
+     margin: 6px 0 12px;
+   }
+   .yanlunai-section-title{
+     font-size: 1.12rem;
+     font-weight: 900;
+     letter-spacing: .2px;
+     margin: 0;
+   }
+   .yanlunai-section-sub{
+     color: var(--secondary);
+     font-size: .92rem;
+     font-weight: 600;
+     margin: 2px 0 0;
+   }
+   .yanlunai-dot{ opacity: .65; padding: 0 6px; }
+   
+   .yanlunai-featured-grid{
+     display:grid;
+     grid-template-columns: repeat(3, minmax(0, 1fr));
+     gap: 14px;
+   }
+   @media (max-width: 980px){
+     .yanlunai-featured-grid{ grid-template-columns: 1fr; }
+   }
+   
+   .yanlunai-fcard{
+     position: relative;
+     overflow:hidden;
+     display:flex;
+     flex-direction: column;
+     min-height: 168px;
+   
+     border-radius: 18px;
+     border: 1px solid var(--border);
+     background: var(--entry);
+   
+     padding: 16px 16px 14px;
+     text-decoration: none !important;
+   
+     box-shadow: 0 10px 28px rgba(0,0,0,.06);
+     transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease;
+     transform: translateZ(0);
+   }
+   .yanlunai-fcard-bg{
+     position:absolute;
+     inset:-2px;
+     pointer-events:none;
+     z-index:0;
+     background:
+       radial-gradient(140px 140px at 12% 18%, rgba(106,76,255,.14), transparent 60%),
+       radial-gradient(180px 180px at 88% 20%, rgba(255,106,26,.12), transparent 62%),
+       radial-gradient(220px 220px at 82% 90%, rgba(106,76,255,.08), transparent 66%);
+     opacity: .85;
+   }
+   .yanlunai-fcard-body,
+   .yanlunai-fcard-meta{ position: relative; z-index: 1; }
+   
+   .yanlunai-fcard:hover{
+     transform: translateY(-2px);
+     box-shadow: 0 16px 40px rgba(0,0,0,.10);
+     border-color: rgba(106,76,255,.20);
+   }
+   body.dark .yanlunai-fcard{
+     border-color: rgba(255,255,255,.10);
+     background: linear-gradient(135deg, rgba(88,80,236,.10), rgba(255,138,76,.08));
+     box-shadow: 0 10px 30px rgba(0,0,0,.35), inset 0 0 0 1px rgba(255,255,255,.02);
+   }
+   body.dark .yanlunai-fcard-bg{ opacity: .75; }
+   body.dark .yanlunai-fcard:hover{
+     box-shadow: 0 18px 50px rgba(0,0,0,.45), 0 0 0 1px rgba(138,180,248,.14);
+     border-color: rgba(255,255,255,.16);
+   }
+   
+   .yanlunai-fcard-title{
+     font-size: 1.05rem;
+     font-weight: 900;
+     line-height: 1.28;
+     letter-spacing: .1px;
+     color: var(--content);
+   
+     display: -webkit-box;
+     -webkit-line-clamp: 2;
+     -webkit-box-orient: vertical;
+     overflow: hidden;
+   }
+   .yanlunai-fcard-desc{
+     margin-top: 8px;
+     font-size: .95rem;
+     line-height: 1.55;
+     color: var(--secondary);
+   
+     display: -webkit-box;
+     -webkit-line-clamp: 2;
+     -webkit-box-orient: vertical;
+     overflow: hidden;
+   }
+   .yanlunai-fcard-meta{
+     margin-top: auto;
+     padding-top: 12px;
+     font-size: .88rem;
+     color: var(--secondary);
+     display:flex;
+     align-items:center;
+     gap: 6px;
+   }
+   
+   /* -------------------------
+      H) Latest: ALWAYS GRID (no fan), no stage blank
+      ------------------------- */
+   .yanlunai-section-latest{ position: relative; }
+   
+   /* optional tip badge style if you want */
+   #yanlunai-latest .yanlunai-section-sub{
+     display:inline-flex;
+     align-items:center;
+     gap: 8px;
+   }
+   #yanlunai-latest .yanlunai-section-sub::before{
+     content:"TIP";
+     font-weight: 900;
+     font-size: .72rem;
+     letter-spacing: .22em;
+     padding: 2px 8px;
+     border-radius: 999px;
+     border: 1px solid rgba(0,0,0,.08);
+     background: rgba(255,255,255,.55);
+   }
+   body.dark #yanlunai-latest .yanlunai-section-sub::before{
+     border: 1px solid rgba(255,255,255,.12);
+     background: rgba(20,24,38,.55);
+   }
+   
+   /* 1) stage: become transparent container (no big card, no clip-path, no fixed height) */
    #yanlunai-latest .yanlunai-latest-stage{
-    height: auto !important;
-    min-height: 0 !important;
-    padding: 0 !important;
-    margin-top: 10px;
-    clip-path: none !important;   /* 不再裁剪圆盘 */
+     background: transparent !important;
+     border: none !important;
+     box-shadow: none !important;
+     padding: 0 !important;
+     margin-top: 10px;
+   
+     clip-path: none !important;
+     height: auto !important;
+     min-height: 0 !important;
+     overflow: visible !important;
+   }
+   /* kill old fan-stage blobs */
+   #yanlunai-latest .yanlunai-latest-stage::before,
+   #yanlunai-latest .yanlunai-latest-stage::after{
+     content: none !important;
+   }
+   
+   /* 2) cards wrapper: always grid */
+   #yanlunai-latest .yanlunai-latest-cards{
+     position: static !important;
+     display: grid !important;
+     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+     gap: 14px !important;
+     padding: 0 !important;
+     height: auto !important;
+     align-items: stretch;
+   }
+   @media (max-width: 1100px){
+     #yanlunai-latest .yanlunai-latest-cards{
+       grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+     }
+   }
+   @media (max-width: 880px){
+     #yanlunai-latest .yanlunai-latest-cards{
+       grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+     }
+   }
+   @media (max-width: 620px){
+     #yanlunai-latest .yanlunai-latest-cards{
+       grid-template-columns: 1fr !important;
+     }
+   }
+   
+   /* 3) card: clean old absolute/transform & unify style */
+   #yanlunai-latest .yanlunai-latest-card{
+     text-decoration:none !important;
+     color: var(--content);
+   
+     position: relative !important;
+     left: auto !important;
+     top: auto !important;
+     width: auto !important;
+     transform: none !important;
+   
+     opacity: 1 !important;
+     pointer-events: auto !important;
+   
+     overflow:hidden;
+     border-radius: 16px;
+     border: 1px solid var(--border);
+     background: var(--entry);
+   
+     box-shadow: 0 6px 18px rgba(0,0,0,.04);
+     transition:
+       transform .18s ease,
+       box-shadow .18s ease,
+       border-color .18s ease,
+       background-color .18s ease;
+   }
+   
+   /* inner ambient like featured bg */
+   #yanlunai-latest .yanlunai-latest-card::before{
+     content:"";
+     position:absolute;
+     inset:-2px;
+     pointer-events:none;
+     z-index:0;
+     background:
+       radial-gradient(140px 140px at 12% 18%, rgba(106,76,255,.14), transparent 60%),
+       radial-gradient(180px 180px at 88% 20%, rgba(255,106,26,.12), transparent 62%),
+       radial-gradient(220px 220px at 82% 90%, rgba(106,76,255,.08), transparent 66%);
+     opacity: .78;
+   }
+   
+   #yanlunai-latest .yanlunai-latest-card-media,
+   #yanlunai-latest .yanlunai-latest-card-body{
+     position: relative;
+     z-index: 1;
+   }
+   
+   /* cover/media: more “blog-like”, lower height */
+   #yanlunai-latest .yanlunai-latest-card-media{
+     height: 96px;
+     background:
+       var(--yl-bg),
+       radial-gradient(circle at 20% 10%, rgba(106,76,255,.22), rgba(106,76,255,0) 55%),
+       radial-gradient(circle at 80% 0%, rgba(255,106,26,.18), rgba(255,106,26,0) 60%),
+       linear-gradient(180deg, rgba(0,0,0,.02), rgba(0,0,0,.06));
+     background-size: cover;
+     background-position: center;
+   }
+   #yanlunai-latest .yanlunai-latest-card-media::after{
+     content:"";
+     position:absolute;
+     inset:0;
+     background: radial-gradient(circle at 50% 0%, rgba(255,255,255,.08), rgba(0,0,0,.10));
+     pointer-events:none;
+   }
+   body.dark #yanlunai-latest .yanlunai-latest-card-media::after{
+     background: radial-gradient(circle at 50% 0%, rgba(255,255,255,.05), rgba(0,0,0,.30));
+   }
+   
+   /* body */
+   #yanlunai-latest .yanlunai-latest-card-body{
+     padding: 12px 14px 14px;
+     display:flex;
+     flex-direction: column;
+     height: 100%;
+   }
+   
+   #yanlunai-latest .yanlunai-latest-card-title{
+     font-size: 1.05rem;
+     font-weight: 900;
+     line-height: 1.35;
+     letter-spacing: .1px;
+     margin-bottom: 8px;
+   
+     display: -webkit-box;
+     -webkit-line-clamp: 2;
+     -webkit-box-orient: vertical;
+     overflow: hidden;
+   }
+   #yanlunai-latest .yanlunai-latest-card-desc{
+     margin-top: 6px;
+     font-size: .95rem;
+     line-height: 1.55;
+     color: var(--secondary);
+     opacity: .85;
+   
+     display: -webkit-box;
+     -webkit-line-clamp: 2;
+     -webkit-box-orient: vertical;
+     overflow: hidden;
+   }
+   #yanlunai-latest .yanlunai-latest-card-meta{
+     margin-top: auto;
+     padding-top: 10px;
+     font-size: .88rem;
+     color: var(--secondary);
+     display:flex;
+     align-items:center;
+     gap: 6px;
+     opacity: .82;
+   }
+   
+   /* hover: restrained */
+   #yanlunai-latest .yanlunai-latest-card:hover{
+     transform: translateY(-1px);
+     box-shadow: 0 10px 26px rgba(0,0,0,.08);
+     border-color: rgba(106,76,255,.18);
+   }
+   
+   /* dark mode */
+   body.dark #yanlunai-latest .yanlunai-latest-card{
+     background: rgba(20,24,38,.72);
+     border-color: rgba(255,255,255,.10);
+     box-shadow: 0 10px 28px rgba(0,0,0,.45);
+   }
+   body.dark #yanlunai-latest .yanlunai-latest-card:hover{
+     box-shadow: 0 14px 34px rgba(0,0,0,.55);
+     border-color: rgba(255,255,255,.14);
+   }
+   
+   /* If you render “no-cover” posts, keep padding tidy */
+   #yanlunai-latest .yanlunai-latest-card.no-cover .yanlunai-latest-card-body{
+     padding-top: 14px;
+   }
+   
+   /* Safety: prevent any global a::before/after weirdness leaking into Latest */
+   #yanlunai-latest a::before,
+   #yanlunai-latest a::after{
+     content: "" !important;
+   }
+   
+   /* -------------------------
+      I) Giscus (foldable card)
+      ------------------------- */
+   .yanlunai-comments{
+     margin-top: 28px;
+     padding-top: 18px;
+     border-top: 1px solid var(--border);
+     position: relative;
+   }
+   .yanlunai-comments::before{
+     content:"";
+     position:absolute;
+     left:-60px;
+     right:-60px;
+     top: -10px;
+     height: 160px;
+     z-index: -1;
+     filter: blur(90px);
+     opacity: .55;
+     background: radial-gradient(circle at 35% 30%, rgba(106,76,255,.18), rgba(255,255,255,0) 70%);
+   }
+   body.dark .yanlunai-comments::before{
+     opacity: .65;
+     background: radial-gradient(circle at 35% 30%, rgba(106,76,255,.22), rgba(20,24,38,0) 70%);
+   }
+   
+   .yanlunai-comments-box{
+     border: 1px solid var(--border);
+     border-radius: 16px;
+     background: var(--entry);
+     box-shadow: 0 10px 28px rgba(0,0,0,.06);
+     overflow: hidden;
+   }
+   body.dark .yanlunai-comments-box{ box-shadow: 0 16px 40px rgba(0,0,0,.35); }
+   
+   .yanlunai-comments-summary{
+     list-style: none;
+     cursor: pointer;
+     padding: 14px 16px;
+     display:flex;
+     align-items: baseline;
+     gap: 10px;
+     user-select:none;
+   }
+   .yanlunai-comments-summary::-webkit-details-marker{ display:none; }
+   .yanlunai-comments-title{ font-weight: 900; font-size: 1.02rem; color: var(--content); }
+   .yanlunai-comments-hint,
+   .yanlunai-comments-count{ color: var(--secondary); font-size: .92rem; }
+   
+   .yanlunai-comments-summary::after{
+     content:"▾";
+     margin-left:auto;
+     color: var(--secondary);
+     transition: transform .15s ease;
+   }
+   .yanlunai-comments-box[open] .yanlunai-comments-summary::after{ transform: rotate(180deg); }
+   
+   .yanlunai-comments-body{ padding: 0 12px 12px; }
+   .yanlunai-comments .giscus,
+   .yanlunai-comments iframe.giscus-frame{ width: 100%; }
+   
+   /* -------------------------
+      J) Motion safety
+      ------------------------- */
+   @media (prefers-reduced-motion: reduce){
+     *{ animation: none !important; transition: none !important; }
+   }
+   
+   /* -------------------------
+      K) Post meta + views (busuanzi)
+      ------------------------- */
+   .post-meta{
+     color: var(--secondary);
+     font-size: .95rem;
+     margin-top: 10px;
+   }
+   .post-meta .meta-views #busuanzi_value_page_pv{
+     font-weight: 800;
+     color: var(--primary);
+   }
+/* =========================
+   Hero tagline (卖点强调条)
+   ========================= */
+   .yanlunai-hero-tagline{
+    margin: 10px 0 2px;
+    padding: 10px 12px 10px 12px;
+  
+    border: 1px solid var(--border);
+    border-left-width: 4px;
+    border-left-color: rgba(255,106,26,.55);
+  
+    border-radius: 12px;
+    background: linear-gradient(
+      135deg,
+      rgba(255,106,26,.08),
+      rgba(106,76,255,.06)
+    );
+  
+    color: var(--content);
+    font-size: .96rem;
+    line-height: 1.75;
+    font-weight: 650;
+  
+    /* 让中文断行更好看 */
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    text-wrap: pretty;
   }
   
-  /* 如果之前圆盘用过 position/overflow 控制，这里统一恢复 */
-  #yanlunai-latest .yanlunai-latest-cards{
-    position: static !important;
-    display: grid !important;
-    gap: 14px !important;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    align-items: stretch;
-  }
-  @media (max-width: 980px){
-    #yanlunai-latest .yanlunai-latest-cards{
-      grid-template-columns: 1fr;
+  /* 小屏更紧凑 */
+  @media (max-width: 768px){
+    .yanlunai-hero-tagline{
+      padding: 10px 11px;
+      font-size: .95rem;
+      line-height: 1.7;
     }
   }
   
-  /* 关键：把圆盘时期给 card 的 absolute/transform 清掉（造成空白和重叠的常见元凶） */
-  #yanlunai-latest .yanlunai-latest-card{
-    position: relative !important;
-    left: auto !important;
-    top: auto !important;
-    transform: none !important;
-    width: auto !important;
+  /* 深色模式：避免灰一片 */
+  body.dark .yanlunai-hero-tagline{
+    border-color: rgba(255,255,255,.10);
+    border-left-color: rgba(255,138,76,.60);
+    background: linear-gradient(
+      135deg,
+      rgba(255,106,26,.12),
+      rgba(106,76,255,.10)
+    );
   }
   
-  /* -------------------------
-     B) 顶部 3 张主推（你已经有 yanlunai-latest-top）
-     ------------------------- */
-  .yanlunai-latest-top{
-    display: grid;
-    gap: 14px;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    margin: 10px 0 14px;
-  }
-  @media (max-width: 980px){
-    .yanlunai-latest-top{ grid-template-columns: 1fr; }
-  }
-  
-  /* 主推卡片：更高一点 + 标题更醒目 */
-  .yanlunai-latest-card--top{
-    min-height: 210px;
-  }
-  .yanlunai-latest-card--top .yanlunai-latest-card-title{
-    font-size: 1.08rem;
-    line-height: 1.35;
-  }
-  
-  /* -------------------------
-     C) 卡片内容更“好看”：摘要最多两行，信息密度更舒服
-     ------------------------- */
-  .yanlunai-latest-card-title{
-    line-height: 1.35;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-  
-  .yanlunai-latest-card-desc{
-    margin-top: 8px;
-    opacity: .85;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-  
-  /* meta 靠下，避免卡片高度不一致时“飘” */
-  .yanlunai-latest-card-body{
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-  }
-  .yanlunai-latest-card-meta{
-    margin-top: auto;
-    padding-top: 10px;
-    opacity: .8;
-  }
-  
-  /* -------------------------
-     D) 有封面才显示 media：让封面更像“卡片背景图”
-     （你模板已经按 has-cover / no-cover 控制了 media 输出）
-     ------------------------- */
-  .yanlunai-latest-card.has-cover{
-    overflow: hidden;
-  }
-  .yanlunai-latest-card.has-cover .yanlunai-latest-card-media{
-    /* 假设你原本用 --yl-bg 做背景图 */
-    background: var(--yl-bg) center/cover no-repeat;
-    height: 110px;              /* 小封面条：更克制、更像博客 */
-    border-radius: 16px;
-    margin: 12px 12px 0 12px;
-    opacity: .95;
-  }
-  
-  /* 没封面：减少顶部空白 */
-  .yanlunai-latest-card.no-cover .yanlunai-latest-card-body{
-    padding-top: 14px;
-  }
-
-  /* =========================
-   ✅ Latest: 强制网格（彻底不走圆盘）
-   放在 yanlunai.css 最末尾
-   ========================= */
-
-#yanlunai-latest .yanlunai-latest-stage{
-  clip-path: inset(0 round 18px) !important;
-  height: auto !important;
-  min-height: 0 !important;
-}
-
-/* 圆盘时期的舞台光斑不要（否则显得像“舞台”而不是列表） */
-#yanlunai-latest .yanlunai-latest-stage::before,
-#yanlunai-latest .yanlunai-latest-stage::after{
-  content: none !important;
-}
-
-/* 永远用 grid */
-#yanlunai-latest .yanlunai-latest-cards{
-  position: static !important;
-  display: grid !important;
-  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-  gap: 14px !important;
-  padding: 16px !important;
-  height: auto !important;
-}
-
-@media (max-width: 880px){
-  #yanlunai-latest .yanlunai-latest-cards{
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  }
-}
-@media (max-width: 620px){
-  #yanlunai-latest .yanlunai-latest-cards{
-    grid-template-columns: 1fr !important;
-  }
-}
-
-/* 清理圆盘时期卡片 absolute/transform */
-#yanlunai-latest .yanlunai-latest-card{
-  position: relative !important;
-  left: auto !important;
-  top: auto !important;
-  width: auto !important;
-  transform: none !important;
-  opacity: 1 !important;
-  pointer-events: auto !important;
-}
-
-/* 封面更“博客化”：别太高，否则卡片显得胖 */
-#yanlunai-latest .yanlunai-latest-card.has-cover .yanlunai-latest-card-media{
-  height: 110px !important;
-}
-
-/* =========================
-   Latest：去掉“大白底容器卡片”
-   ========================= */
-
-/* 1️⃣ 外层 stage 不再是卡片 */
-#yanlunai-latest .yanlunai-latest-stage{
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  padding: 0 !important;
-}
-
-/* 2️⃣ 去掉 stage 的装饰光斑（你之前做 fan 用的） */
-#yanlunai-latest .yanlunai-latest-stage::before,
-#yanlunai-latest .yanlunai-latest-stage::after{
-  content: none !important;
-}
-
-/* 3️⃣ cards 网格直接“裸”在页面上 */
-#yanlunai-latest .yanlunai-latest-cards{
-  padding: 0 !important;
-  gap: 14px;
-}
-
-/* 4️⃣ 单条卡片：改成轻量风格（而不是嵌套在大卡片里） */
-#yanlunai-latest .yanlunai-latest-card{
-  background: var(--entry);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  box-shadow: 0 6px 18px rgba(0,0,0,.04);
-}
-
-/* hover 保留，但更克制 */
-#yanlunai-latest .yanlunai-latest-card:hover{
-  transform: translateY(-1px);
-  box-shadow: 0 10px 26px rgba(0,0,0,.08);
-}
-
-/* 5️⃣ 如果你想“更像列表”，可以把封面高度再压一压 */
-#yanlunai-latest .yanlunai-latest-card.has-cover .yanlunai-latest-card-media{
-  height: 96px;
-}
-
-/* 6️⃣ 深色模式下避免一整块发灰 */
-body.dark #yanlunai-latest .yanlunai-latest-card{
-  background: rgba(20,24,38,.72);
-  border-color: rgba(255,255,255,.10);
-  box-shadow: 0 10px 28px rgba(0,0,0,.45);
-}
-
-.post-meta{
-  color: var(--secondary);
-  font-size: .95rem;
-  margin-top: 10px;
-}
-
-.post-meta .meta-views #busuanzi_value_page_pv{
-  font-weight: 800;
-  color: var(--primary);
-}
-
-
