@@ -85,8 +85,14 @@
       <div class="yanlunai-social-hint">关注我：大模型 · RAG · 行业落地 · 工程实践</div>
 
       <div class="yanlunai-search-wrap">
-        <form class="yanlunai-search" action="{{ "search/" | relURL }}" method="get" role="search">
-          <input class="yanlunai-search-input"
+        <!-- ✅ 修改点：加 id + input id，便于首页直接拦截 submit 并就地出结果 -->
+        <form id="yanlunai-home-search"
+              class="yanlunai-search"
+              action="{{ "search/" | relURL }}"
+              method="get"
+              role="search">
+          <input id="yanlunai-home-search-input"
+                 class="yanlunai-search-input"
                  type="search"
                  name="q"
                  placeholder="Search: RAG / 可信 / Agent / 部署…"
@@ -94,6 +100,16 @@
                  aria-label="Search posts">
           <button class="yanlunai-search-btn" type="submit" aria-label="Submit search">Search</button>
         </form>
+
+        <!-- ✅ 你原本新增的：即时搜索结果面板（保留，JS 会驱动它） -->
+        <div id="yanlunaiSearchPanel" class="yanlunai-search-panel" hidden>
+          <div class="yanlunai-search-meta">
+            <span id="yanlunaiSearchCount">0</span> results
+            <button type="button" id="yanlunaiSearchClose" class="yanlunai-search-close" aria-label="Close">×</button>
+          </div>
+          <ul id="yanlunaiSearchResults" class="yanlunai-search-results" role="listbox" aria-label="Search results"></ul>
+        </div>
+
         <div class="yanlunai-search-hint">
           支持关键词搜索 · <span class="yanlunai-kbd">/</span> 快捷聚焦
         </div>

@@ -942,4 +942,164 @@
       rgba(106,76,255,.10)
     );
   }
+/* Home instant search */
+.yanlunai-search-panel {
+  margin-top: 12px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--entry);
+  overflow: hidden;
+}
+
+.yanlunai-search-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  font-size: 13px;
+  opacity: 0.8;
+  border-bottom: 1px solid var(--border);
+}
+
+.yanlunai-search-close {
+  background: transparent;
+  border: 0;
+  font-size: 18px;
+  cursor: pointer;
+  line-height: 1;
+  opacity: 0.8;
+}
+
+.yanlunai-search-results {
+  list-style: none;
+  margin: 0;
+  padding: 6px;
+  max-height: 360px;
+  overflow: auto;
+}
+
+.yanlunai-search-item {
+  border-radius: 12px;
+}
+
+.yanlunai-search-item a {
+  display: block;
+  padding: 10px 12px;
+  text-decoration: none;
+}
+
+.yanlunai-search-item:hover,
+.yanlunai-search-item.active {
+  background: rgba(255,255,255,0.06);
+}
+
+.yanlunai-search-title {
+  font-weight: 650;
+  margin-bottom: 4px;
+}
+
+.yanlunai-search-summary {
+  font-size: 13px;
+  opacity: 0.78;
+  line-height: 1.35;
+}
+
+.yanlunai-search-tags {
+  margin-top: 6px;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.yanlunai-search-tags .tag {
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  opacity: 0.85;
+}
+
+.yanlunai-search-empty {
+  padding: 14px 12px;
+  opacity: 0.7;
+}
+/* =========================
+   Home Instant Search Panel
+   ========================= */
+
+   .yanlunai-search-panel{
+    margin-top: 12px;
+    border-radius: 16px;
+    padding: 10px;
+    background: rgba(20,20,20,.25);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,.08);
+  }
   
+  .yanlunai-search-meta{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: 14px;
+    opacity: .9;
+    padding: 6px 8px 10px 8px;
+  }
+  
+  .yanlunai-search-close{
+    border: 0;
+    background: transparent;
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+    opacity: .85;
+  }
+  
+  .yanlunai-search-close:hover{
+    opacity: 1;
+  }
+  
+  .yanlunai-search-results{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 6px;
+  }
+  
+  .yanlunai-search-li{
+    margin: 0;
+    padding: 0;
+  }
+  
+  .yanlunai-search-item{
+    display: block;
+    padding: 12px 12px;
+    border-radius: 12px;
+    text-decoration: none;
+    border: 1px solid rgba(255,255,255,.06);
+  }
+  
+  .yanlunai-search-item:hover{
+    background: rgba(255,255,255,.06);
+    border-color: rgba(255,255,255,.10);
+  }
+  
+  .yanlunai-search-item-title{
+    font-weight: 700;
+    line-height: 1.25;
+  }
+  
+  .yanlunai-search-item-summary{
+    margin-top: 6px;
+    opacity: .78;
+    font-size: 14px;
+    line-height: 1.35;
+  }
+  
+  .yanlunai-search-empty{
+    padding: 12px;
+    opacity: .85;
+    border-radius: 12px;
+    border: 1px dashed rgba(255,255,255,.10);
+  }

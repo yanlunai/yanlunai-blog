@@ -37,6 +37,7 @@ enableInlineShortcodes = true
 # =============================
 [params]
   env = "production"
+  ShowSearch = true
   author = "焱论AI"
 
   # ✅ 站点一句话定位（SEO & 分享卡片）

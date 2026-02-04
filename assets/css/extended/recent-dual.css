@@ -524,4 +524,40 @@
     border-color: color-mix(in srgb, rgba(70,170,255,.28) 100%, transparent);
     box-shadow: 0 12px 30px rgba(0,0,0,.16);
   }
-  
+/* Home search results */
+.yanlunai-search-results{
+  margin-top: 14px;
+  border-radius: 16px;
+  padding: 10px;
+  background: rgba(20,20,20,.25);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,.08);
+}
+
+.yanlunai-search-item{
+  display: block;
+  padding: 12px 12px;
+  border-radius: 12px;
+  text-decoration: none;
+}
+
+.yanlunai-search-item:hover{
+  background: rgba(255,255,255,.06);
+}
+
+.yanlunai-search-item-title{
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.yanlunai-search-item-summary{
+  margin-top: 6px;
+  opacity: .78;
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.yanlunai-search-empty{
+  padding: 12px;
+  opacity: .85;
+}

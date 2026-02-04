@@ -7,32 +7,8 @@
   <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 {{ end }}
 
-
 {{/* =========================
-   2) "/" focus search
-   ========================= */}}
-<script>
-(function () {
-  function focusSearch() {
-    const el = document.querySelector('.yanlunai-search-input');
-    if (el) el.focus();
-  }
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === '/' && !e.metaKey && !e.ctrlKey && !e.altKey) {
-      const tag = ((e.target && e.target.tagName) || '').toLowerCase();
-      const isTyping = tag === 'input' || tag === 'textarea';
-      if (isTyping) return;
-      e.preventDefault();
-      focusSearch();
-    }
-  });
-})();
-</script>
-
-
-{{/* =========================
-   3) Recent: fan <-> grid switch (ONLY ONCE)
+   2) Recent: fan <-> grid switch (ONLY ONCE)
    ========================= */}}
 <script>
 (function () {
@@ -65,3 +41,16 @@
   io.observe(sentinel);
 })();
 </script>
+
+{{/* =========================
+   3) Home Instant Search (index.json + Fuse.js)
+   ========================= */}}
+{{ $homeSearch := resources.Get "js/yanlunai-home-search.js" | minify | fingerprint }}
+<script defer src="{{ $homeSearch.RelPermalink }}"></script>
+
+{{/* =========================
+   4) Search Page Query Bridge
+   - Make /search/?q=xxx populate the search input
+   ========================= */}}
+{{ $searchBridge := resources.Get "js/yanlunai-search-bridge.js" | minify | fingerprint }}
+<script defer src="{{ $searchBridge.RelPermalink }}"></script>
