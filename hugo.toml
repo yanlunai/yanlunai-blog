@@ -1,4 +1,4 @@
-baseURL = "https://yanlunai.github.io/yanlunai-blog/"
+baseURL = "https://yanlunai.com/"
 languageCode = "zh-cn"
 title = "焱论AI"
 theme = "PaperMod"
