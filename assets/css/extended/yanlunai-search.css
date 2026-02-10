@@ -62,31 +62,3 @@
       font-size: 15px;
     }
   }
-/* Search results styling */
-.yl-sr-meta{opacity:.75;margin:8px 0 12px;font-size:14px}
-.yl-sr-list{display:flex;flex-direction:column;gap:10px}
-.yl-sr-item{
-  display:block;
-  padding:14px 14px;
-  border:1px solid var(--border);
-  border-radius:14px;
-  background:var(--entry);
-  box-shadow:var(--shadow-l1);
-  text-decoration:none;
-}
-.yl-sr-title{font-weight:700;color:var(--primary);line-height:1.35}
-.yl-sr-snippet{margin-top:6px;opacity:.8;color:var(--secondary);font-size:14px;line-height:1.55}
-.yl-sr-chips{margin-top:8px;display:flex;flex-wrap:wrap;gap:6px}
-.yl-sr-chip{
-  font-size:12px;
-  padding:2px 8px;
-  border-radius:999px;
-  border:1px solid var(--border);
-  opacity:.85;
-}
-.yl-sr-loading,.yl-sr-empty,.yl-sr-error{
-  padding:14px 14px;
-  border:1px dashed var(--border);
-  border-radius:14px;
-  opacity:.85;
-}
