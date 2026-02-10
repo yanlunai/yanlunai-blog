@@ -15,5 +15,7 @@
 
   <!-- PaperMod 兼容：必须是 #searchResults -->
   <div id="searchResults" class="search-results"></div>
+  <!-- ✅ PaperMod search.js 防空壳：避免 contains 读取 null -->
+  <div id="searchbox" style="display:none"></div>
 </main>
 {{- end -}}
