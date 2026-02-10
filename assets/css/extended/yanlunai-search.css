@@ -1,0 +1,65 @@
+/* =========================
+   YanlunAI Search Input (Search Page Only)
+   ========================= */
+
+   .searchbox {
+    position: relative;
+    margin: 18px 0 22px;
+    border-radius: 16px;
+    background: var(--entry);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-l1);
+    overflow: hidden;
+    transition: border-color .15s ease, box-shadow .15s ease;
+  }
+  
+  /* 输入框主体 */
+  .searchbox #searchInput {
+    width: 100%;
+    padding: 16px 48px 16px 16px;
+    border: 0;
+    outline: none;
+    background: transparent;
+    color: var(--primary);
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  
+  /* placeholder */
+  .searchbox #searchInput::placeholder {
+    color: var(--secondary);
+    opacity: .6;
+  }
+  
+  /* focus 状态（非常关键，提升质感） */
+  .searchbox:focus-within {
+    border-color: rgba(124, 92, 255, 0.6);
+    box-shadow:
+      0 0 0 3px rgba(124, 92, 255, 0.12),
+      var(--shadow-l1);
+  }
+  
+  /* 右侧搜索图标（纯装饰） */
+  .searchbox::after {
+    content: "⌕";
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    opacity: .45;
+    pointer-events: none;
+  }
+  
+  /* 移动端优化 */
+  @media (max-width: 640px) {
+    .searchbox {
+      border-radius: 14px;
+    }
+  
+    .searchbox #searchInput {
+      padding: 14px 44px 14px 14px;
+      font-size: 15px;
+    }
+  }
+  

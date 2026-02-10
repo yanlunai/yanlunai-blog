@@ -1,0 +1,19 @@
+{{- define "main" -}}
+<main class="main">
+  <header class="page-header">
+    <h1>Search</h1>
+  </header>
+
+  <div class="searchbox">
+    <!-- PaperMod 兼容：必须是 #searchInput -->
+    <input id="searchInput"
+           placeholder="Search ↵"
+           type="search"
+           autocomplete="off"
+           aria-label="Search" />
+  </div>
+
+  <!-- PaperMod 兼容：必须是 #searchResults -->
+  <div id="searchResults" class="search-results"></div>
+</main>
+{{- end -}}

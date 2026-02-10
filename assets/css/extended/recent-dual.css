@@ -524,9 +524,9 @@
     border-color: color-mix(in srgb, rgba(70,170,255,.28) 100%, transparent);
     box-shadow: 0 12px 30px rgba(0,0,0,.16);
   }
-/* Home search results */
+
 .yanlunai-search-results{
-  margin-top: 14px;
+  margin/* Home search results */-top: 14px;
   border-radius: 16px;
   padding: 10px;
   background: rgba(20,20,20,.25);

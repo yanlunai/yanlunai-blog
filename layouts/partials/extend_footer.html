@@ -7,8 +7,32 @@
   <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 {{ end }}
 
+
 {{/* =========================
-   2) Recent: fan <-> grid switch (ONLY ONCE)
+   2) "/" focus search
+   ========================= */}}
+<script>
+(function () {
+  function focusSearch() {
+    const el = document.querySelector('.yanlunai-search-input');
+    if (el) el.focus();
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === '/' && !e.metaKey && !e.ctrlKey && !e.altKey) {
+      const tag = ((e.target && e.target.tagName) || '').toLowerCase();
+      const isTyping = tag === 'input' || tag === 'textarea';
+      if (isTyping) return;
+      e.preventDefault();
+      focusSearch();
+    }
+  });
+})();
+</script>
+
+
+{{/* =========================
+   3) Recent: fan <-> grid switch (ONLY ONCE)
    ========================= */}}
 <script>
 (function () {
@@ -42,15 +66,63 @@
 })();
 </script>
 
-{{/* =========================
-   3) Home Instant Search (index.json + Fuse.js)
-   ========================= */}}
-{{ $homeSearch := resources.Get "js/yanlunai-home-search.js" | minify | fingerprint }}
-<script defer src="{{ $homeSearch.RelPermalink }}"></script>
 
 {{/* =========================
-   4) Search Page Query Bridge
-   - Make /search/?q=xxx populate the search input
+   4) Home Search JS (your custom dropdown)
    ========================= */}}
-{{ $searchBridge := resources.Get "js/yanlunai-search-bridge.js" | minify | fingerprint }}
-<script defer src="{{ $searchBridge.RelPermalink }}"></script>
+{{ $js := resources.Get "js/yanlunai-home-search.js" | minify | fingerprint }}
+<script defer src="{{ $js.RelPermalink }}"></script>
+
+
+{{/* =========================
+   5) Search Bridge: /search/?q=xxx auto-fill + auto-run
+   Works with PaperMod's built-in search JS (fuse)
+   ========================= */}}
+<script id="yanlunai-search-bridge">
+(function () {
+  // 防重：防止 partial 被多次插入时重复执行
+  if (window.__YANLUNAI_SEARCH_BRIDGE__) return;
+  window.__YANLUNAI_SEARCH_BRIDGE__ = true;
+
+  function getQueryParam(name) {
+    const u = new URL(window.location.href);
+    return (u.searchParams.get(name) || '').trim();
+  }
+
+  function isSearchPage() {
+    // 兼容：/search/ 或 /search/index.html
+    return window.location.pathname.replace(/\/+$/, '') === '/search';
+  }
+
+  function tryFillAndTrigger() {
+    if (!isSearchPage()) return;
+
+    const q = getQueryParam('q');
+    if (!q) return;
+
+    // PaperMod search page: input id is #searchInput
+    const input = document.getElementById('searchInput');
+    if (!input) return;
+
+    // 回填
+    input.value = q;
+
+    // 触发事件：多数 PaperMod 版本监听 input 事件
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+
+    // 兜底：有些版本监听 keyup
+    input.dispatchEvent(new KeyboardEvent('keyup', { bubbles: true, key: 'Enter', code: 'Enter' }));
+  }
+
+  // 等 DOM
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', tryFillAndTrigger);
+  } else {
+    tryFillAndTrigger();
+  }
+
+  // 兜底：如果 PaperMod 的 search.js 加载慢，再补一枪
+  setTimeout(tryFillAndTrigger, 300);
+  setTimeout(tryFillAndTrigger, 1200);
+})();
+</script>

@@ -1023,83 +1023,189 @@
   padding: 14px 12px;
   opacity: 0.7;
 }
-/* =========================
-   Home Instant Search Panel
+
+  /* =========================
+   YanlunAI: Search Results Panel (Dropdown)
+   Target: #yanlunaiSearchPanel .yanlunai-search-panel
    ========================= */
 
-   .yanlunai-search-panel{
-    margin-top: 12px;
+.yanlunai-search-wrap{
+  position: relative; /* 让面板跟随搜索框定位 */
+}
+
+/* 面板容器 */
+#yanlunaiSearchPanel.yanlunai-search-panel{
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% + 12px);
+  z-index: 50;
+
+  border-radius: 18px;
+  overflow: hidden;
+
+  /* PaperMod 兼容：优先用主题变量，拿不到就降级 */
+  background: color-mix(in srgb, var(--entry, #1f1f1f) 82%, transparent);
+  border: 1px solid color-mix(in srgb, var(--border, #333) 65%, transparent);
+  box-shadow:
+    0 12px 40px rgba(0,0,0,0.22),
+    0 2px 10px rgba(0,0,0,0.12);
+
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  /* 防止面板把页面撑高 */
+  max-height: min(520px, 62vh);
+}
+
+/* 头部：count + close 固定在顶部 */
+#yanlunaiSearchPanel .yanlunai-search-meta{
+  position: sticky;
+  top: 0;
+  z-index: 2;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 12px 14px;
+  font-size: 14px;
+  letter-spacing: 0.2px;
+
+  color: var(--secondary, rgba(255,255,255,0.72));
+  background: color-mix(in srgb, var(--entry, #1f1f1f) 92%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--border, #333) 60%, transparent);
+}
+
+#yanlunaiSearchPanel .yanlunai-search-meta #yanlunaiSearchCount{
+  font-weight: 700;
+  color: var(--primary, #fff);
+}
+
+/* 关闭按钮 */
+#yanlunaiSearchPanel .yanlunai-search-close{
+  width: 30px;
+  height: 30px;
+  border-radius: 10px;
+
+  border: 1px solid color-mix(in srgb, var(--border, #333) 60%, transparent);
+  background: color-mix(in srgb, var(--entry, #1f1f1f) 75%, transparent);
+  color: var(--primary, #fff);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  transition: transform .12s ease, background .12s ease, opacity .12s ease;
+  opacity: .92;
+}
+
+#yanlunaiSearchPanel .yanlunai-search-close:hover{
+  transform: scale(1.04);
+  opacity: 1;
+  background: color-mix(in srgb, var(--entry, #1f1f1f) 92%, transparent);
+}
+
+/* 结果列表（UL） */
+#yanlunaiSearchPanel .yanlunai-search-results{
+  list-style: none;
+  margin: 0;
+  padding: 10px;
+
+  overflow: auto;
+  max-height: calc(min(520px, 62vh) - 54px); /* 头部高度预留 */
+}
+
+/* 滚动条细化（Chrome / Edge / Safari） */
+#yanlunaiSearchPanel .yanlunai-search-results::-webkit-scrollbar{
+  width: 10px;
+}
+#yanlunaiSearchPanel .yanlunai-search-results::-webkit-scrollbar-track{
+  background: transparent;
+}
+#yanlunaiSearchPanel .yanlunai-search-results::-webkit-scrollbar-thumb{
+  background: color-mix(in srgb, var(--border, #333) 55%, transparent);
+  border-radius: 999px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+#yanlunaiSearchPanel .yanlunai-search-results::-webkit-scrollbar-thumb:hover{
+  background: color-mix(in srgb, var(--border, #333) 75%, transparent);
+  background-clip: content-box;
+}
+
+/* 结果项（建议你的 JS 渲染成 <li><a>...</a></li> 或 <li class="yl-result">...</li>） */
+#yanlunaiSearchPanel .yanlunai-search-results li{
+  margin: 8px 0;
+}
+
+/* 兼容两种情况：li 里是 a，或 li 自己可点 */
+#yanlunaiSearchPanel .yanlunai-search-results li > a,
+#yanlunaiSearchPanel .yanlunai-search-results li{
+  display: block;
+  text-decoration: none;
+
+  padding: 14px 14px;
+  border-radius: 16px;
+
+  background: color-mix(in srgb, var(--theme, #101010) 55%, transparent);
+  border: 1px solid color-mix(in srgb, var(--border, #333) 55%, transparent);
+
+  transition: transform .12s ease, background .12s ease, border-color .12s ease;
+}
+
+/* hover / focus 高亮 */
+#yanlunaiSearchPanel .yanlunai-search-results li:hover,
+#yanlunaiSearchPanel .yanlunai-search-results li:focus-within,
+#yanlunaiSearchPanel .yanlunai-search-results li > a:hover,
+#yanlunaiSearchPanel .yanlunai-search-results li > a:focus{
+  transform: translateY(-1px);
+  background: color-mix(in srgb, var(--theme, #101010) 78%, transparent);
+  border-color: color-mix(in srgb, var(--primary, #fff) 22%, var(--border, #333));
+  outline: none;
+}
+
+/* 标题 / 摘要：如果你的 JS 给标题/摘要加了 class，可直接吃到更好效果
+   例：<div class="yl-sr-title">...</div> <div class="yl-sr-snippet">...</div>
+*/
+#yanlunaiSearchPanel .yl-sr-title{
+  font-size: 16px;
+  font-weight: 750;
+  line-height: 1.25;
+  color: var(--primary, #fff);
+  margin-bottom: 6px;
+}
+
+#yanlunaiSearchPanel .yl-sr-snippet{
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--secondary, rgba(255,255,255,0.72));
+  opacity: .95;
+}
+
+/* 空结果态（如果你 JS 渲染一个 li.yl-empty） */
+#yanlunaiSearchPanel .yl-empty{
+  text-align: center;
+  padding: 18px 12px;
+  color: var(--secondary, rgba(255,255,255,0.72));
+  background: transparent;
+  border: 1px dashed color-mix(in srgb, var(--border, #333) 55%, transparent);
+}
+
+/* 移动端：面板更紧凑 */
+@media (max-width: 520px){
+  #yanlunaiSearchPanel.yanlunai-search-panel{
     border-radius: 16px;
-    padding: 10px;
-    background: rgba(20,20,20,.25);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,.08);
+    top: calc(100% + 10px);
+    max-height: min(520px, 58vh);
   }
-  
-  .yanlunai-search-meta{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-    font-size: 14px;
-    opacity: .9;
-    padding: 6px 8px 10px 8px;
+  #yanlunaiSearchPanel .yanlunai-search-results{
+    padding: 8px;
   }
-  
-  .yanlunai-search-close{
-    border: 0;
-    background: transparent;
-    font-size: 22px;
-    line-height: 1;
-    cursor: pointer;
-    opacity: .85;
-  }
-  
-  .yanlunai-search-close:hover{
-    opacity: 1;
-  }
-  
-  .yanlunai-search-results{
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    gap: 6px;
-  }
-  
-  .yanlunai-search-li{
-    margin: 0;
-    padding: 0;
-  }
-  
-  .yanlunai-search-item{
-    display: block;
+  #yanlunaiSearchPanel .yanlunai-search-results li > a,
+  #yanlunaiSearchPanel .yanlunai-search-results li{
     padding: 12px 12px;
-    border-radius: 12px;
-    text-decoration: none;
-    border: 1px solid rgba(255,255,255,.06);
+    border-radius: 14px;
   }
-  
-  .yanlunai-search-item:hover{
-    background: rgba(255,255,255,.06);
-    border-color: rgba(255,255,255,.10);
-  }
-  
-  .yanlunai-search-item-title{
-    font-weight: 700;
-    line-height: 1.25;
-  }
-  
-  .yanlunai-search-item-summary{
-    margin-top: 6px;
-    opacity: .78;
-    font-size: 14px;
-    line-height: 1.35;
-  }
-  
-  .yanlunai-search-empty{
-    padding: 12px;
-    opacity: .85;
-    border-radius: 12px;
-    border: 1px dashed rgba(255,255,255,.10);
-  }
+}

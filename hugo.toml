@@ -31,6 +31,10 @@ enableInlineShortcodes = true
 # =============================
 [outputs]
   home = ["HTML", "RSS", "JSON"]
+  section = ["HTML", "RSS"]
+  taxonomy = ["HTML", "RSS"]
+  term = ["HTML", "RSS"]
+
 
 # =============================
 # PaperMod 参数
