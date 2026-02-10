@@ -1,10 +1,11 @@
 {{- define "main" -}}
-<main class="main">
+<main class="main page-search">
   <header class="page-header">
     <h1>Search</h1>
   </header>
 
   <div class="searchbox">
+    <!-- PaperMod 兼容：必须是 #searchInput -->
     <input id="searchInput"
            placeholder="Search ↵"
            type="search"
@@ -12,9 +13,12 @@
            aria-label="Search" />
   </div>
 
-  <div id="searchResults" class="search-results"></div>
+  <!-- 可选：结果计数（不影响 PaperMod search.js，纯展示用） -->
+  <div class="search-meta" aria-live="polite">
+    <span class="search-meta__count" id="searchCount"></span>
+  </div>
 
-  {{/* ✅ 用你自己的搜索逻辑（不依赖 PaperMod search.js） */}}
-  <script defer src="/js/yanlunai-search-page.js"></script>
+  <!-- PaperMod 兼容：必须是 #searchResults -->
+  <ul id="searchResults" class="search-results" aria-label="Search results"></ul>
 </main>
 {{- end -}}

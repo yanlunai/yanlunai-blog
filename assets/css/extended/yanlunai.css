@@ -1209,3 +1209,178 @@
     border-radius: 14px;
   }
 }
+/* =========================
+   YanlunAI Search Page (ONLY)
+   Scope: .page-search
+   ========================= */
+
+   .page-search .page-header h1 {
+    margin-bottom: 10px;
+  }
+  
+  /* --- Searchbox wrapper --- */
+  .page-search .searchbox {
+    position: relative;
+    margin: 14px 0 10px;
+    border-radius: 16px;
+    background: var(--entry);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-l1);
+    overflow: hidden;
+    transition: border-color .15s ease, box-shadow .15s ease, transform .15s ease;
+  }
+  
+  /* Input itself */
+  .page-search .searchbox #searchInput {
+    width: 100%;
+    padding: 14px 46px 14px 16px;
+    border: 0;
+    outline: none;
+    background: transparent;
+    color: var(--primary);
+    font-size: 16px;
+    line-height: 1.5;
+  
+    /* 防止 iOS 缩放/奇怪圆角 */
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  
+  /* Placeholder */
+  .page-search .searchbox #searchInput::placeholder {
+    color: var(--secondary);
+    opacity: .60;
+  }
+  
+  /* Focus */
+  .page-search .searchbox:focus-within {
+    border-color: rgba(124, 92, 255, 0.55);
+    box-shadow:
+      0 0 0 3px rgba(124, 92, 255, 0.12),
+      var(--shadow-l1);
+    transform: translateY(-1px);
+  }
+  
+  /* Decorative icon */
+  .page-search .searchbox::after {
+    content: "⌕";
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    opacity: .45;
+    pointer-events: none;
+  }
+  
+  /* Result meta line */
+  .page-search .search-meta {
+    margin: 6px 0 14px;
+    color: var(--secondary);
+    font-size: 14px;
+  }
+  .page-search .search-meta__count:empty {
+    display: none;
+  }
+  
+  /* =========================
+     Results container
+     Compatible with multiple DOM outputs
+     ========================= */
+  
+  /* UL reset */
+  .page-search #searchResults.search-results {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  /* Generic list item style (works for: ul>li>a...) */
+  .page-search #searchResults.search-results > li {
+    margin: 0 0 10px;
+  }
+  
+  /* If your search.js outputs <a> directly inside li */
+  .page-search #searchResults.search-results > li > a {
+    display: block;
+    padding: 14px 14px;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    background: var(--entry);
+    box-shadow: var(--shadow-l1);
+    color: var(--primary);
+    text-decoration: none;
+    transition: transform .12s ease, border-color .12s ease, box-shadow .12s ease;
+  }
+  .page-search #searchResults.search-results > li > a:hover {
+    transform: translateY(-1px);
+    border-color: rgba(124, 92, 255, 0.35);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+  }
+  
+  /* Title/summary common patterns */
+  .page-search #searchResults .title,
+  .page-search #searchResults .post-title,
+  .page-search #searchResults h2,
+  .page-search #searchResults h3 {
+    margin: 0 0 6px;
+    font-size: 16px;
+    line-height: 1.35;
+  }
+  
+  .page-search #searchResults .summary,
+  .page-search #searchResults p {
+    margin: 0;
+    color: var(--secondary);
+    font-size: 14px;
+    line-height: 1.55;
+  }
+  
+  /* =========================
+     PaperMod common output compatibility
+     Some versions output blocks like .post-entry / .entry inside #searchResults
+     ========================= */
+  
+  .page-search #searchResults .post-entry,
+  .page-search #searchResults .entry {
+    border: 1px solid var(--border);
+    background: var(--entry);
+    border-radius: 14px;
+    box-shadow: var(--shadow-l1);
+    padding: 14px 14px;
+    margin: 0 0 10px;
+  }
+  
+  .page-search #searchResults .post-entry a,
+  .page-search #searchResults .entry a {
+    color: var(--primary);
+    text-decoration: none;
+  }
+  
+  .page-search #searchResults .post-entry:hover,
+  .page-search #searchResults .entry:hover {
+    border-color: rgba(124, 92, 255, 0.35);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+    transform: translateY(-1px);
+    transition: transform .12s ease, border-color .12s ease, box-shadow .12s ease;
+  }
+  
+  /* Empty state (if search.js writes text) */
+  .page-search #searchResults:empty::before {
+    content: "输入关键词开始搜索";
+    display: block;
+    padding: 14px 0;
+    color: var(--secondary);
+    opacity: .75;
+  }
+  
+  /* Mobile */
+  @media (max-width: 640px) {
+    .page-search .searchbox {
+      border-radius: 14px;
+    }
+    .page-search .searchbox #searchInput {
+      padding: 13px 42px 13px 14px;
+      font-size: 15px;
+    }
+  }
