@@ -65,12 +65,16 @@
 </script>
 
 {{/* =========================
-   4) Search bridge (for /search/?q=)
+   4) Home search script (ONLY on Home)
    ========================= */}}
-<script defer src="/js/yanlunai-search-bridge.js"></script>
-
-{{/* 只在首页加载 Home Search */}}
 {{ if .IsHome }}
-  {{ $js := resources.Get "js/yanlunai-home-search.js" | minify | fingerprint }}
-  <script defer src="{{ $js.RelPermalink }}"></script>
+  {{ $homeSearch := resources.Get "js/yanlunai-home-search.js" | minify | fingerprint }}
+  <script defer src="{{ $homeSearch.RelPermalink }}"></script>
+{{ end }}
+
+{{/* =========================
+   5) Search bridge (ONLY on Search page)
+   ========================= */}}
+{{ if eq .RelPermalink "/search/" }}
+  <script defer src="/js/yanlunai-search-bridge.js"></script>
 {{ end }}

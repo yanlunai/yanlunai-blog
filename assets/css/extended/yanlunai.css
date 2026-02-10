@@ -1535,3 +1535,171 @@
       font-size: 15px;
     }
   }
+
+  /* =========================
+   YanlunAI Search Page (PaperMod)
+   - Fix invisible text / skeleton overlay
+   - Beautify input + results list
+   Scope: .page-search ONLY
+   ========================= */
+
+.page-search {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+/* Title spacing */
+.page-search .page-header h1 {
+  margin: 0 0 12px;
+}
+
+/* ---------- Searchbox ---------- */
+.page-search .searchbox {
+  position: relative;
+  margin: 12px 0 10px;
+  border-radius: 16px;
+  background: var(--entry);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-l1);
+  overflow: hidden;
+  transition: border-color .15s ease, box-shadow .15s ease, transform .15s ease;
+}
+
+.page-search .searchbox #searchInput {
+  width: 100%;
+  padding: 14px 44px 14px 16px;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--primary) !important;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.page-search .searchbox #searchInput::placeholder {
+  color: var(--secondary);
+  opacity: .65;
+}
+
+.page-search .searchbox:focus-within {
+  border-color: rgba(124, 92, 255, 0.55);
+  box-shadow: 0 0 0 3px rgba(124, 92, 255, 0.12), var(--shadow-l1);
+  transform: translateY(-1px);
+}
+
+/* right icon */
+.page-search .searchbox::after {
+  content: "⌕";
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  opacity: .45;
+  pointer-events: none;
+}
+
+/* ---------- Meta count ---------- */
+.page-search .search-meta {
+  margin: 6px 0 14px;
+  color: var(--secondary);
+  font-size: 13px;
+}
+
+.page-search .search-meta__count:empty::before {
+  content: "输入关键词开始搜索";
+  opacity: .8;
+}
+
+/* ---------- Results list ---------- */
+.page-search #searchResults {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* ✅ 核心：强制恢复“文字可见”，避免被骨架屏/透明/滤镜样式污染 */
+.page-search #searchResults,
+.page-search #searchResults * {
+  opacity: 1 !important;
+  filter: none !important;
+  text-shadow: none !important;
+  background-image: none !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+
+/* PaperMod search.js 通常往 ul 里塞 li > a > div/h2/p 等结构
+   这里用“宽松选择器”兼容不同版本 */
+.page-search #searchResults > li {
+  margin: 0 0 10px;
+}
+
+.page-search #searchResults > li > a,
+.page-search #searchResults > li a {
+  display: block;
+  padding: 14px 14px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: var(--entry);
+  box-shadow: var(--shadow-l1);
+  text-decoration: none;
+  color: var(--primary) !important;
+  transition: transform .12s ease, border-color .12s ease, box-shadow .12s ease;
+}
+
+.page-search #searchResults > li > a:hover,
+.page-search #searchResults > li a:hover {
+  transform: translateY(-1px);
+  border-color: rgba(124, 92, 255, 0.35);
+  box-shadow: 0 12px 34px rgba(0,0,0,0.18);
+}
+
+/* title */
+.page-search #searchResults h2,
+.page-search #searchResults h3,
+.page-search #searchResults .title,
+.page-search #searchResults .post-title,
+.page-search #searchResults .entry-header h2,
+.page-search #searchResults a > div:first-child {
+  margin: 0 0 6px;
+  font-size: 16px;
+  line-height: 1.35;
+  color: var(--primary) !important;
+}
+
+/* summary/excerpt */
+.page-search #searchResults p,
+.page-search #searchResults .summary,
+.page-search #searchResults .entry-content,
+.page-search #searchResults a > div:nth-child(2) {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--secondary) !important;
+  opacity: .95;
+}
+
+/* empty state */
+.page-search #searchResults:empty::before {
+  content: "暂无结果";
+  display: block;
+  padding: 8px 0;
+  color: var(--secondary);
+  opacity: .75;
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  .page-search {
+    max-width: 94vw;
+  }
+  .page-search .searchbox {
+    border-radius: 14px;
+  }
+  .page-search .searchbox #searchInput {
+    padding: 13px 42px 13px 14px;
+    font-size: 15px;
+  }
+}
