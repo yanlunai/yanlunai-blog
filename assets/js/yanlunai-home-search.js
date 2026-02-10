@@ -1,208 +1,81 @@
 (() => {
-  const form = document.getElementById("yanlunai-home-search");
-  const input = document.getElementById("yanlunai-home-search-input");
+  const path = window.location.pathname.replace(/\/+$/, "");
+  const isSearch = (p) => p === "/search" || p.endsWith("/search");
+  if (!isSearch(path)) return;
 
-  const panel = document.getElementById("yanlunaiSearchPanel");
-  const countEl = document.getElementById("yanlunaiSearchCount");
-  const listEl = document.getElementById("yanlunaiSearchResults");
-  const closeBtn = document.getElementById("yanlunaiSearchClose");
+  const params = new URLSearchParams(window.location.search);
+  const q = (params.get("q") || params.get("s") || params.get("query") || "").trim();
+  if (!q) return;
 
-  if (!form || !input || !panel || !countEl || !listEl || !closeBtn) return;
+  // 触发一次“尽可能像用户输入”的事件序列
+  function triggerAll(input) {
+    // input/change 兼容大部分实现
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+    input.dispatchEvent(new Event("change", { bubbles: true }));
 
-  let fuse = null;
-  let indexLoaded = false;
-  let loading = false;
+    // 兼容一些脚本监听 keyup/keydown
+    input.dispatchEvent(new KeyboardEvent("keydown", { bubbles: true, key: "a" }));
+    input.dispatchEvent(new KeyboardEvent("keyup", { bubbles: true, key: "a" }));
 
-  function escapeHtml(s) {
-    return String(s ?? "").replace(
-      /[&<>"']/g,
-      (c) =>
-        ({
-          "&": "&amp;",
-          "<": "&lt;",
-          ">": "&gt;",
-          '"': "&quot;",
-          "'": "&#39;",
-        }[c])
-    );
+    // 有些实现只在 keyup 才跑
+    input.dispatchEvent(new KeyboardEvent("keyup", { bubbles: true, key: "Enter", code: "Enter" }));
   }
 
-  function loadScript(src) {
-    return new Promise((resolve, reject) => {
-      const s = document.createElement("script");
-      s.src = src;
-      s.async = true;
-      s.onload = resolve;
-      s.onerror = reject;
-      document.head.appendChild(s);
-    });
+  // 轻微“抖动”：添加再删除一个零宽字符，模拟真正的输入变化（避免只读 value 变化不触发）
+  function nudgeValue(input) {
+    const original = input.value;
+    // 使用零宽空格，不会影响视觉
+    input.value = original + "\u200B";
+    triggerAll(input);
+    input.value = original;
+    triggerAll(input);
   }
 
-  async function ensureFuse() {
-    if (window.Fuse) return;
-    await loadScript("https://cdn.jsdelivr.net/npm/fuse.js@6.6.2");
-  }
+  function applyOnce() {
+    const input = document.getElementById("searchInput") || document.querySelector(".search-input") || document.querySelector('input[type="search"]');
 
-  async function ensureIndex() {
-    if (indexLoaded || loading) return;
-    loading = true;
+    if (!input) return false;
 
-    const res = await fetch("/index.json", { cache: "no-store" });
-    if (!res.ok) {
-      loading = false;
-      throw new Error("index.json fetch failed: " + res.status);
-    }
+    // 回填
+    input.value = q;
 
-    const data = await res.json();
-    fuse = new window.Fuse(data, {
-      includeScore: true,
-      shouldSort: true,
-      threshold: 0.35,
-      ignoreLocation: true,
-      minMatchCharLength: 2,
-      keys: [
-        { name: "title", weight: 0.55 },
-        { name: "summary", weight: 0.25 },
-        { name: "content", weight: 0.15 },
-        { name: "tags", weight: 0.03 },
-        { name: "categories", weight: 0.02 },
-      ],
-    });
-
-    indexLoaded = true;
-    loading = false;
-  }
-
-  function hidePanel() {
-    panel.hidden = true;
-    countEl.textContent = "0";
-    listEl.innerHTML = "";
-  }
-
-  function showPanel() {
-    panel.hidden = false;
-  }
-
-  function renderEmpty(q) {
-    countEl.textContent = "0";
-    listEl.innerHTML = `
-      <li class="yanlunai-search-empty">
-        未找到与 <b>${escapeHtml(q)}</b> 相关的文章
-      </li>
-    `;
-    showPanel();
-  }
-
-  function normalizeUrl(item) {
-    return item?.permalink || item?.url || item?.relpermalink || "#";
-  }
-
-  function renderResults(found, q) {
-    const top = found.slice(0, 10);
-    countEl.textContent = String(found.length);
-
-    if (!top.length) return renderEmpty(q);
-
-    listEl.innerHTML = top
-      .map(({ item }) => {
-        const title = escapeHtml(item?.title || "");
-        const url = normalizeUrl(item);
-        const summary = escapeHtml(item?.summary || "").slice(0, 140);
-
-        return `
-        <li class="yanlunai-search-li" role="option">
-          <a class="yanlunai-search-item" href="${url}">
-            <div class="yanlunai-search-item-title">${title}</div>
-            ${summary ? `<div class="yanlunai-search-item-summary">${summary}…</div>` : ""}
-          </a>
-        </li>
-      `;
-      })
-      .join("");
-
-    showPanel();
-  }
-
-  async function doSearch(raw) {
-    const q = String(raw || "").trim();
-    if (!q) return hidePanel();
-
-    await ensureFuse();
-    await ensureIndex();
-
-    const found = fuse.search(q);
-    renderResults(found, q);
-  }
-
-  // ✅ 跳转到 /search/?q=xxx（你要的最终形态）
-  function gotoSearchPage(raw) {
-    const q = String(raw || "").trim();
-    if (!q) return;
-    const url = "/search/?q=" + encodeURIComponent(q);
-    window.location.assign(url);
-  }
-
-  // ============ 交互：输入即搜（下拉提示） ============
-  let t = null;
-  input.addEventListener("input", () => {
-    clearTimeout(t);
-    const q = input.value.trim();
-    if (!q) return hidePanel();
-
-    t = setTimeout(() => {
-      doSearch(q).catch(() => {
-        // 失败就静默收起，避免打扰
-        hidePanel();
-      });
-    }, 120);
-  });
-
-  // ============ 关键：Enter/Submit -> 跳转 search 页 ============
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    gotoSearchPage(input.value);
-  });
-
-  // 兼容：有些输入法/移动端不会触发 form submit
-  input.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      gotoSearchPage(input.value);
-      return;
-    }
-
-    if (e.key === "Escape") {
-      hidePanel();
-      input.blur();
-    }
-  });
-
-  // 关闭按钮
-  closeBtn.addEventListener("click", () => hidePanel());
-
-  // 点击结果后收起（避免残留）
-  listEl.addEventListener("click", (e) => {
-    const a = e.target.closest("a");
-    if (a) hidePanel();
-  });
-
-  // 点击面板外关闭（更工程化）
-  document.addEventListener("mousedown", (e) => {
-    if (panel.hidden) return;
-    const inside = panel.contains(e.target) || form.contains(e.target);
-    if (!inside) hidePanel();
-  });
-
-  // "/" 快捷聚焦（你页面提示里已写）
-  document.addEventListener("keydown", (e) => {
-    const tag = document.activeElement?.tagName || "";
-    const isTyping = ["INPUT", "TEXTAREA"].includes(tag);
-    if (e.key === "/" && !e.metaKey && !e.ctrlKey && !e.altKey && !isTyping) {
-      e.preventDefault();
+    // 聚焦与光标
+    try {
       input.focus();
-    }
-  });
+      input.setSelectionRange(q.length, q.length);
+    } catch (_) {}
 
-  // 初始隐藏
-  hidePanel();
+    // 触发（多种事件 + nudge）
+    triggerAll(input);
+    nudgeValue(input);
+
+    return true;
+  }
+
+  // 1) DOM ready 后立即尝试一次
+  const run = () => {
+    // 如果 search.js 初始化更慢，我们后面还会补几枪
+    applyOnce();
+    setTimeout(applyOnce, 120);
+    setTimeout(applyOnce, 350);
+    setTimeout(applyOnce, 900);
+    setTimeout(applyOnce, 1600);
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", run);
+  } else {
+    run();
+  }
+
+  // 2) 如果 searchResults 直到很晚才渲染，用 MutationObserver 再补一次（非常稳）
+  const resultsEl = document.getElementById("searchResults");
+  if (resultsEl) {
+    const mo = new MutationObserver(() => {
+      // 一旦结果开始渲染，就不需要继续观察了
+      // 但如果始终空，也至少触发过了多次
+      mo.disconnect();
+    });
+    mo.observe(resultsEl, { childList: true, subtree: true });
+  }
 })();
