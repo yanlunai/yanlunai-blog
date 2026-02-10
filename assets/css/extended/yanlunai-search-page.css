@@ -1,36 +1,24 @@
-/* =========================================================
-   YanlunAI Search Page (ONLY /search/)
-   - Search input polish
-   - Results list (cards) polish
-   - Empty/Loading/Error blocks
-   ========================================================= */
+/* =========================
+   YanlunAI Search Page (only /search/)
+   File: yanlunai-search-page.css (FULL)
+   Goal:
+   1) 只作用于 /search/（依赖 main.page-search）
+   2) 修复“有卡片没文字/文字透明/需要空格才出结果后仍无字”的样式问题
+   3) 兼容 PaperMod search.js 可能生成的多种 DOM（li 或 div、有没有 .search-result 都兜底）
+   4) 尽量不与 yanlunai.css / 其它全局 a/p/h2 样式冲突
+   ========================= */
 
-/* 仅在 search 页生效（Hugo 默认 /search/ 页面 body 通常有 .page 或 main 不好稳定识别）
-   这里用路径无法在 CSS 里判断，所以用更温和的“只作用于 search 模板结构”：
-   - .searchbox + #searchResults + .yl-sr-* 这些 class/id 只在 search 页出现
-*/
-
-/* -------------------------
-   0) Search page layout tune
-   ------------------------- */
-
-/* Search 标题更紧凑一点（可选） */
-.page-header h1 {
-  letter-spacing: .2px;
+/* ✅ 强作用域：仅 search 页面生效（你页面里是 <main class="main page-search">） */
+main.page-search {
+  opacity: 1;
+  filter: none;
 }
 
-/* 防止 search 页顶部出现你截图里那种“文字糊成一片/被覆盖”的观感：
-   通常是某个自定义背景/滤镜层叠加到 header 区域，这里把 header 与主体拉开并提升可读性
-*/
-.page-header {
-  margin-bottom: 14px;
-}
+/* =========================
+   Searchbox
+   ========================= */
 
-/* -------------------------
-   1) Searchbox input polish
-   ------------------------- */
-
-.searchbox {
+main.page-search .searchbox {
   position: relative;
   margin: 16px 0 14px;
   border-radius: 16px;
@@ -38,185 +26,177 @@
   border: 1px solid var(--border);
   box-shadow: var(--shadow-l1);
   overflow: hidden;
-  transition: border-color .15s ease, box-shadow .15s ease, background .15s ease;
+  transition: border-color .15s ease, box-shadow .15s ease, transform .15s ease;
+}
+
+main.page-search .searchbox:focus-within {
+  border-color: rgba(124, 92, 255, 0.60);
+  box-shadow:
+    0 0 0 3px rgba(124, 92, 255, 0.14),
+    var(--shadow-l1);
 }
 
 /* 输入框主体 */
-.searchbox #searchInput {
+main.page-search .searchbox #searchInput {
   width: 100%;
   padding: 16px 52px 16px 16px;
   border: 0;
   outline: none;
   background: transparent;
+
+  /* ✅ 强制可读：防止全局把文字变透明/渐变裁剪 */
   color: var(--primary);
+  opacity: 1;
+  -webkit-text-fill-color: var(--primary);
+
   font-size: 16px;
   line-height: 1.5;
-  appearance: none;
-  -webkit-appearance: none;
 }
 
 /* placeholder */
-.searchbox #searchInput::placeholder {
+main.page-search .searchbox #searchInput::placeholder {
   color: var(--secondary);
-  opacity: .6;
-}
-
-/* focus 状态 */
-.searchbox:focus-within {
-  border-color: rgba(124, 92, 255, 0.62);
-  box-shadow:
-    0 0 0 3px rgba(124, 92, 255, 0.16),
-    var(--shadow-l1);
+  opacity: .65;
 }
 
 /* 右侧搜索图标（装饰） */
-.searchbox::after {
+main.page-search .searchbox::after {
   content: "⌕";
   position: absolute;
-  right: 14px;
+  right: 16px;
   top: 50%;
   transform: translateY(-50%);
   font-size: 18px;
-  opacity: .42;
+  opacity: .45;
   pointer-events: none;
+  color: var(--secondary);
 }
 
-/* Safari/Chrome 的 clear 按钮样式处理，避免挤到你的图标 */
-.searchbox #searchInput::-webkit-search-cancel-button {
-  -webkit-appearance: none;
-  height: 16px;
-  width: 16px;
-  margin-left: 10px;
-  cursor: pointer;
-  opacity: .6;
-}
-
-/* -------------------------
-   2) Search results (cards)
-   ------------------------- */
-
-#searchResults {
-  margin-top: 10px;
-}
-
-/* meta：共 N 条结果 */
-.yl-sr-meta {
-  opacity: .75;
-  margin: 10px 0 12px;
+/* 结果数量 */
+main.page-search .search-meta {
+  margin: 0 0 12px;
+  color: var(--secondary);
   font-size: 14px;
 }
 
-/* 列表容器 */
-.yl-sr-list {
-  display: flex;
-  flex-direction: column;
+/* =========================
+   Results list (fix "no text")
+   兼容：#searchResults 可能是 ul 或 div，内部结构不固定
+   ========================= */
+
+main.page-search #searchResults.search-results {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
   gap: 10px;
+
+  /* ✅ 防全局影响 */
+  opacity: 1;
+  filter: none;
 }
 
-/* 单条结果卡片 */
-.yl-sr-item {
+/* ✅ 兼容：结果可能直接是 li/div，也可能包在 .search-result */
+main.page-search #searchResults.search-results > li,
+main.page-search #searchResults.search-results > div,
+main.page-search #searchResults .search-result {
+  margin: 0;
+  padding: 0;
+}
+
+/* ✅ 关键兜底：只要在结果区域里的 a，都强制变卡片 + 强制字色
+   （解决“只有框没字 / 字是透明的”） */
+main.page-search #searchResults a {
   display: block;
-  padding: 14px 14px;
+  text-decoration: none;
+
+  background: var(--entry);
   border: 1px solid var(--border);
   border-radius: 14px;
-  background: var(--entry);
+  padding: 14px 14px 12px;
   box-shadow: var(--shadow-l1);
-  text-decoration: none;
   transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+
+  /* ✅ 强制可读：覆盖全局 a 样式 */
+  color: var(--primary) !important;
+  opacity: 1 !important;
+  filter: none !important;
+  mix-blend-mode: normal !important;
+  -webkit-text-fill-color: var(--primary) !important;
+
+  /* 防某些主题把字体渲染成“裁剪渐变” */
+  background-clip: border-box !important;
+  -webkit-background-clip: border-box !important;
 }
 
-/* hover 反馈：更“工程产品化” */
-.yl-sr-item:hover {
+main.page-search #searchResults a:hover {
   transform: translateY(-1px);
   border-color: rgba(124, 92, 255, 0.35);
   box-shadow:
-    0 10px 22px rgba(0,0,0,.16),
+    0 0 0 2px rgba(124, 92, 255, 0.10),
     var(--shadow-l1);
 }
 
-/* 标题 */
-.yl-sr-title {
-  font-weight: 750;
-  color: var(--primary);
-  line-height: 1.35;
+/* 标题：兼容常见结构（div.search-title / h2 / h3 / strong / span） */
+main.page-search #searchResults a .search-title,
+main.page-search #searchResults a .search-result-title,
+main.page-search #searchResults a h2,
+main.page-search #searchResults a h3,
+main.page-search #searchResults a strong {
+  margin: 0 0 6px;
   font-size: 16px;
+  line-height: 1.35;
+
+  /* ✅ 强制可读 */
+  color: var(--primary) !important;
+  opacity: 1 !important;
+  background: none !important;
+  -webkit-text-fill-color: var(--primary) !important;
 }
 
-/* 摘要 */
-.yl-sr-snippet {
-  margin-top: 6px;
-  opacity: .82;
-  color: var(--secondary);
+/* 摘要/片段：兼容 p / div.search-snippet / small */
+main.page-search #searchResults a .search-snippet,
+main.page-search #searchResults a .summary,
+main.page-search #searchResults a p,
+main.page-search #searchResults a small {
+  margin: 0;
   font-size: 14px;
-  line-height: 1.6;
+  line-height: 1.55;
+
+  /* ✅ 强制可读 */
+  color: var(--secondary) !important;
+  opacity: 0.92 !important;
+  background: none !important;
+  -webkit-text-fill-color: var(--secondary) !important;
 }
 
-/* chips */
-.yl-sr-chips {
-  margin-top: 8px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.yl-sr-chip {
-  font-size: 12px;
-  padding: 3px 9px;
-  border-radius: 999px;
-  border: 1px solid var(--border);
-  background: color-mix(in srgb, var(--entry) 88%, transparent);
-  opacity: .9;
-}
-
-/* -------------------------
-   3) Empty/Loading/Error
-   ------------------------- */
-
-.yl-sr-loading,
-.yl-sr-empty,
-.yl-sr-error {
-  padding: 14px 14px;
-  border: 1px dashed var(--border);
+/* 空结果 */
+main.page-search #searchResults .search-empty,
+main.page-search #searchResults .no-results {
+  padding: 14px;
   border-radius: 14px;
-  background: color-mix(in srgb, var(--entry) 92%, transparent);
-  opacity: .9;
+  background: var(--entry);
+  border: 1px dashed var(--border);
+  color: var(--secondary);
 }
 
-.yl-sr-error {
-  border-style: solid;
-  border-color: rgba(255, 107, 107, .55);
-}
-
-/* -------------------------
-   4) Mobile tweaks
-   ------------------------- */
-
+/* 移动端 */
 @media (max-width: 640px) {
-  .searchbox {
+  main.page-search .searchbox {
     border-radius: 14px;
   }
 
-  .searchbox #searchInput {
+  main.page-search .searchbox #searchInput {
     padding: 14px 48px 14px 14px;
     font-size: 15px;
   }
 
-  .yl-sr-item {
-    padding: 12px 12px;
-    border-radius: 14px;
+  main.page-search #searchResults.search-results {
+    gap: 9px;
   }
 
-  .yl-sr-title {
-    font-size: 15px;
+  main.page-search #searchResults a {
+    border-radius: 13px;
+    padding: 13px 13px 11px;
   }
-}
-
-/* -------------------------
-   5) Defensive: avoid weird overlays
-   ------------------------- */
-
-/* 有些自定义背景/毛玻璃层可能覆盖 main 内容，保证内容层级更高 */
-.main {
-  position: relative;
-  z-index: 2;
 }

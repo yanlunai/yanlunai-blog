@@ -5,20 +5,13 @@
   </header>
 
   <div class="searchbox">
-    <!-- PaperMod 兼容：必须是 #searchInput -->
-    <input id="searchInput"
-           placeholder="Search ↵"
-           type="search"
-           autocomplete="off"
-           aria-label="Search" />
+    <input id="searchInput" placeholder="Search ↵" type="search" autocomplete="off" aria-label="Search" />
   </div>
 
-  <!-- 可选：结果计数（不影响 PaperMod search.js，纯展示用） -->
   <div class="search-meta" aria-live="polite">
     <span class="search-meta__count" id="searchCount"></span>
   </div>
 
-  <!-- PaperMod 兼容：必须是 #searchResults -->
   <ul id="searchResults" class="search-results" aria-label="Search results"></ul>
 </main>
 {{- end -}}

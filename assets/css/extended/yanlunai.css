@@ -4,8 +4,10 @@
    Goals:
    - no conflicts, no duplicates
    - stable hero/featured/latest layout
-   - Latest: always grid (no fan), no blank stage
+   - Home search dropdown scoped (no bleed into /search/)
+   - Search Page styles are NOT here (move to yanlunai-search-page.css)
    ========================= */
+
    @import "recent-dual.css";
 
    /* -------------------------
@@ -344,7 +346,9 @@
    .yanlunai-search-wrap{
      width: min(420px, 92%);
      margin-top: 8px;
+     position: relative; /* 给下拉面板定位用 */
    }
+   
    .yanlunai-search{
      display: grid;
      grid-template-columns: 1fr auto;
@@ -607,28 +611,7 @@
       ------------------------- */
    .yanlunai-section-latest{ position: relative; }
    
-   /* optional tip badge style if you want */
-   #yanlunai-latest .yanlunai-section-sub{
-     display:inline-flex;
-     align-items:center;
-     gap: 8px;
-   }
-   #yanlunai-latest .yanlunai-section-sub::before{
-     content:"TIP";
-     font-weight: 900;
-     font-size: .72rem;
-     letter-spacing: .22em;
-     padding: 2px 8px;
-     border-radius: 999px;
-     border: 1px solid rgba(0,0,0,.08);
-     background: rgba(255,255,255,.55);
-   }
-   body.dark #yanlunai-latest .yanlunai-section-sub::before{
-     border: 1px solid rgba(255,255,255,.12);
-     background: rgba(20,24,38,.55);
-   }
-   
-   /* 1) stage: become transparent container (no big card, no clip-path, no fixed height) */
+   /* stage: transparent container */
    #yanlunai-latest .yanlunai-latest-stage{
      background: transparent !important;
      border: none !important;
@@ -641,13 +624,12 @@
      min-height: 0 !important;
      overflow: visible !important;
    }
-   /* kill old fan-stage blobs */
    #yanlunai-latest .yanlunai-latest-stage::before,
    #yanlunai-latest .yanlunai-latest-stage::after{
      content: none !important;
    }
    
-   /* 2) cards wrapper: always grid */
+   /* cards wrapper: always grid */
    #yanlunai-latest .yanlunai-latest-cards{
      position: static !important;
      display: grid !important;
@@ -656,11 +638,6 @@
      padding: 0 !important;
      height: auto !important;
      align-items: stretch;
-   }
-   @media (max-width: 1100px){
-     #yanlunai-latest .yanlunai-latest-cards{
-       grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-     }
    }
    @media (max-width: 880px){
      #yanlunai-latest .yanlunai-latest-cards{
@@ -673,7 +650,7 @@
      }
    }
    
-   /* 3) card: clean old absolute/transform & unify style */
+   /* card */
    #yanlunai-latest .yanlunai-latest-card{
      text-decoration:none !important;
      color: var(--content);
@@ -699,8 +676,6 @@
        border-color .18s ease,
        background-color .18s ease;
    }
-   
-   /* inner ambient like featured bg */
    #yanlunai-latest .yanlunai-latest-card::before{
      content:"";
      position:absolute;
@@ -713,14 +688,12 @@
        radial-gradient(220px 220px at 82% 90%, rgba(106,76,255,.08), transparent 66%);
      opacity: .78;
    }
-   
    #yanlunai-latest .yanlunai-latest-card-media,
    #yanlunai-latest .yanlunai-latest-card-body{
      position: relative;
      z-index: 1;
    }
    
-   /* cover/media: more “blog-like”, lower height */
    #yanlunai-latest .yanlunai-latest-card-media{
      height: 96px;
      background:
@@ -742,14 +715,12 @@
      background: radial-gradient(circle at 50% 0%, rgba(255,255,255,.05), rgba(0,0,0,.30));
    }
    
-   /* body */
    #yanlunai-latest .yanlunai-latest-card-body{
      padding: 12px 14px 14px;
      display:flex;
      flex-direction: column;
      height: 100%;
    }
-   
    #yanlunai-latest .yanlunai-latest-card-title{
      font-size: 1.05rem;
      font-weight: 900;
@@ -784,15 +755,12 @@
      gap: 6px;
      opacity: .82;
    }
-   
-   /* hover: restrained */
    #yanlunai-latest .yanlunai-latest-card:hover{
      transform: translateY(-1px);
      box-shadow: 0 10px 26px rgba(0,0,0,.08);
      border-color: rgba(106,76,255,.18);
    }
    
-   /* dark mode */
    body.dark #yanlunai-latest .yanlunai-latest-card{
      background: rgba(20,24,38,.72);
      border-color: rgba(255,255,255,.10);
@@ -801,17 +769,6 @@
    body.dark #yanlunai-latest .yanlunai-latest-card:hover{
      box-shadow: 0 14px 34px rgba(0,0,0,.55);
      border-color: rgba(255,255,255,.14);
-   }
-   
-   /* If you render “no-cover” posts, keep padding tidy */
-   #yanlunai-latest .yanlunai-latest-card.no-cover .yanlunai-latest-card-body{
-     padding-top: 14px;
-   }
-   
-   /* Safety: prevent any global a::before/after weirdness leaking into Latest */
-   #yanlunai-latest a::before,
-   #yanlunai-latest a::after{
-     content: "" !important;
    }
    
    /* -------------------------
@@ -894,812 +851,220 @@
      font-weight: 800;
      color: var(--primary);
    }
-/* =========================
-   Hero tagline (卖点强调条)
-   ========================= */
+   
+   /* =========================
+      Hero tagline (卖点强调条)
+      ========================= */
    .yanlunai-hero-tagline{
-    margin: 10px 0 2px;
-    padding: 10px 12px 10px 12px;
-  
-    border: 1px solid var(--border);
-    border-left-width: 4px;
-    border-left-color: rgba(255,106,26,.55);
-  
-    border-radius: 12px;
-    background: linear-gradient(
-      135deg,
-      rgba(255,106,26,.08),
-      rgba(106,76,255,.06)
-    );
-  
-    color: var(--content);
-    font-size: .96rem;
-    line-height: 1.75;
-    font-weight: 650;
-  
-    /* 让中文断行更好看 */
-    word-break: break-word;
-    overflow-wrap: anywhere;
-    text-wrap: pretty;
-  }
-  
-  /* 小屏更紧凑 */
-  @media (max-width: 768px){
-    .yanlunai-hero-tagline{
-      padding: 10px 11px;
-      font-size: .95rem;
-      line-height: 1.7;
-    }
-  }
-  
-  /* 深色模式：避免灰一片 */
-  body.dark .yanlunai-hero-tagline{
-    border-color: rgba(255,255,255,.10);
-    border-left-color: rgba(255,138,76,.60);
-    background: linear-gradient(
-      135deg,
-      rgba(255,106,26,.12),
-      rgba(106,76,255,.10)
-    );
-  }
-/* Home instant search */
-.yanlunai-search-panel {
-  margin-top: 12px;
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  background: var(--entry);
-  overflow: hidden;
-}
-
-.yanlunai-search-meta {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 12px;
-  font-size: 13px;
-  opacity: 0.8;
-  border-bottom: 1px solid var(--border);
-}
-
-.yanlunai-search-close {
-  background: transparent;
-  border: 0;
-  font-size: 18px;
-  cursor: pointer;
-  line-height: 1;
-  opacity: 0.8;
-}
-
-.yanlunai-search-results {
-  list-style: none;
-  margin: 0;
-  padding: 6px;
-  max-height: 360px;
-  overflow: auto;
-}
-
-.yanlunai-search-item {
-  border-radius: 12px;
-}
-
-.yanlunai-search-item a {
-  display: block;
-  padding: 10px 12px;
-  text-decoration: none;
-}
-
-.yanlunai-search-item:hover,
-.yanlunai-search-item.active {
-  background: rgba(255,255,255,0.06);
-}
-
-.yanlunai-search-title {
-  font-weight: 650;
-  margin-bottom: 4px;
-}
-
-.yanlunai-search-summary {
-  font-size: 13px;
-  opacity: 0.78;
-  line-height: 1.35;
-}
-
-.yanlunai-search-tags {
-  margin-top: 6px;
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-}
-
-.yanlunai-search-tags .tag {
-  font-size: 12px;
-  padding: 2px 8px;
-  border-radius: 999px;
-  border: 1px solid var(--border);
-  opacity: 0.85;
-}
-
-.yanlunai-search-empty {
-  padding: 14px 12px;
-  opacity: 0.7;
-}
-
-  /* =========================
-   YanlunAI: Search Results Panel (Dropdown)
-   Target: #yanlunaiSearchPanel .yanlunai-search-panel
-   ========================= */
-
-.yanlunai-search-wrap{
-  position: relative; /* 让面板跟随搜索框定位 */
-}
-
-/* 面板容器 */
-#yanlunaiSearchPanel.yanlunai-search-panel{
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: calc(100% + 12px);
-  z-index: 50;
-
-  border-radius: 18px;
-  overflow: hidden;
-
-  /* PaperMod 兼容：优先用主题变量，拿不到就降级 */
-  background: color-mix(in srgb, var(--entry, #1f1f1f) 82%, transparent);
-  border: 1px solid color-mix(in srgb, var(--border, #333) 65%, transparent);
-  box-shadow:
-    0 12px 40px rgba(0,0,0,0.22),
-    0 2px 10px rgba(0,0,0,0.12);
-
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-
-  /* 防止面板把页面撑高 */
-  max-height: min(520px, 62vh);
-}
-
-/* 头部：count + close 固定在顶部 */
-#yanlunaiSearchPanel .yanlunai-search-meta{
-  position: sticky;
-  top: 0;
-  z-index: 2;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  padding: 12px 14px;
-  font-size: 14px;
-  letter-spacing: 0.2px;
-
-  color: var(--secondary, rgba(255,255,255,0.72));
-  background: color-mix(in srgb, var(--entry, #1f1f1f) 92%, transparent);
-  border-bottom: 1px solid color-mix(in srgb, var(--border, #333) 60%, transparent);
-}
-
-#yanlunaiSearchPanel .yanlunai-search-meta #yanlunaiSearchCount{
-  font-weight: 700;
-  color: var(--primary, #fff);
-}
-
-/* 关闭按钮 */
-#yanlunaiSearchPanel .yanlunai-search-close{
-  width: 30px;
-  height: 30px;
-  border-radius: 10px;
-
-  border: 1px solid color-mix(in srgb, var(--border, #333) 60%, transparent);
-  background: color-mix(in srgb, var(--entry, #1f1f1f) 75%, transparent);
-  color: var(--primary, #fff);
-
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  cursor: pointer;
-  transition: transform .12s ease, background .12s ease, opacity .12s ease;
-  opacity: .92;
-}
-
-#yanlunaiSearchPanel .yanlunai-search-close:hover{
-  transform: scale(1.04);
-  opacity: 1;
-  background: color-mix(in srgb, var(--entry, #1f1f1f) 92%, transparent);
-}
-
-/* 结果列表（UL） */
-#yanlunaiSearchPanel .yanlunai-search-results{
-  list-style: none;
-  margin: 0;
-  padding: 10px;
-
-  overflow: auto;
-  max-height: calc(min(520px, 62vh) - 54px); /* 头部高度预留 */
-}
-
-/* 滚动条细化（Chrome / Edge / Safari） */
-#yanlunaiSearchPanel .yanlunai-search-results::-webkit-scrollbar{
-  width: 10px;
-}
-#yanlunaiSearchPanel .yanlunai-search-results::-webkit-scrollbar-track{
-  background: transparent;
-}
-#yanlunaiSearchPanel .yanlunai-search-results::-webkit-scrollbar-thumb{
-  background: color-mix(in srgb, var(--border, #333) 55%, transparent);
-  border-radius: 999px;
-  border: 3px solid transparent;
-  background-clip: content-box;
-}
-#yanlunaiSearchPanel .yanlunai-search-results::-webkit-scrollbar-thumb:hover{
-  background: color-mix(in srgb, var(--border, #333) 75%, transparent);
-  background-clip: content-box;
-}
-
-/* 结果项（建议你的 JS 渲染成 <li><a>...</a></li> 或 <li class="yl-result">...</li>） */
-#yanlunaiSearchPanel .yanlunai-search-results li{
-  margin: 8px 0;
-}
-
-/* 兼容两种情况：li 里是 a，或 li 自己可点 */
-#yanlunaiSearchPanel .yanlunai-search-results li > a,
-#yanlunaiSearchPanel .yanlunai-search-results li{
-  display: block;
-  text-decoration: none;
-
-  padding: 14px 14px;
-  border-radius: 16px;
-
-  background: color-mix(in srgb, var(--theme, #101010) 55%, transparent);
-  border: 1px solid color-mix(in srgb, var(--border, #333) 55%, transparent);
-
-  transition: transform .12s ease, background .12s ease, border-color .12s ease;
-}
-
-/* hover / focus 高亮 */
-#yanlunaiSearchPanel .yanlunai-search-results li:hover,
-#yanlunaiSearchPanel .yanlunai-search-results li:focus-within,
-#yanlunaiSearchPanel .yanlunai-search-results li > a:hover,
-#yanlunaiSearchPanel .yanlunai-search-results li > a:focus{
-  transform: translateY(-1px);
-  background: color-mix(in srgb, var(--theme, #101010) 78%, transparent);
-  border-color: color-mix(in srgb, var(--primary, #fff) 22%, var(--border, #333));
-  outline: none;
-}
-
-/* 标题 / 摘要：如果你的 JS 给标题/摘要加了 class，可直接吃到更好效果
-   例：<div class="yl-sr-title">...</div> <div class="yl-sr-snippet">...</div>
-*/
-#yanlunaiSearchPanel .yl-sr-title{
-  font-size: 16px;
-  font-weight: 750;
-  line-height: 1.25;
-  color: var(--primary, #fff);
-  margin-bottom: 6px;
-}
-
-#yanlunaiSearchPanel .yl-sr-snippet{
-  font-size: 13px;
-  line-height: 1.45;
-  color: var(--secondary, rgba(255,255,255,0.72));
-  opacity: .95;
-}
-
-/* 空结果态（如果你 JS 渲染一个 li.yl-empty） */
-#yanlunaiSearchPanel .yl-empty{
-  text-align: center;
-  padding: 18px 12px;
-  color: var(--secondary, rgba(255,255,255,0.72));
-  background: transparent;
-  border: 1px dashed color-mix(in srgb, var(--border, #333) 55%, transparent);
-}
-
-/* 移动端：面板更紧凑 */
-@media (max-width: 520px){
-  #yanlunaiSearchPanel.yanlunai-search-panel{
-    border-radius: 16px;
-    top: calc(100% + 10px);
-    max-height: min(520px, 58vh);
-  }
-  #yanlunaiSearchPanel .yanlunai-search-results{
-    padding: 8px;
-  }
-  #yanlunaiSearchPanel .yanlunai-search-results li > a,
-  #yanlunaiSearchPanel .yanlunai-search-results li{
-    padding: 12px 12px;
-    border-radius: 14px;
-  }
-}
-/* =========================
-   YanlunAI Search Page (ONLY)
-   Scope: .page-search
-   ========================= */
-
-   .page-search .page-header h1 {
-    margin-bottom: 10px;
-  }
-  
-  /* --- Searchbox wrapper --- */
-  .page-search .searchbox {
-    position: relative;
-    margin: 14px 0 10px;
-    border-radius: 16px;
-    background: var(--entry);
-    border: 1px solid var(--border);
-    box-shadow: var(--shadow-l1);
-    overflow: hidden;
-    transition: border-color .15s ease, box-shadow .15s ease, transform .15s ease;
-  }
-  
-  /* Input itself */
-  .page-search .searchbox #searchInput {
-    width: 100%;
-    padding: 14px 46px 14px 16px;
-    border: 0;
-    outline: none;
-    background: transparent;
-    color: var(--primary);
-    font-size: 16px;
-    line-height: 1.5;
-  
-    /* 防止 iOS 缩放/奇怪圆角 */
-    -webkit-appearance: none;
-    appearance: none;
-  }
-  
-  /* Placeholder */
-  .page-search .searchbox #searchInput::placeholder {
-    color: var(--secondary);
-    opacity: .60;
-  }
-  
-  /* Focus */
-  .page-search .searchbox:focus-within {
-    border-color: rgba(124, 92, 255, 0.55);
-    box-shadow:
-      0 0 0 3px rgba(124, 92, 255, 0.12),
-      var(--shadow-l1);
-    transform: translateY(-1px);
-  }
-  
-  /* Decorative icon */
-  .page-search .searchbox::after {
-    content: "⌕";
-    position: absolute;
-    right: 14px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 18px;
-    opacity: .45;
-    pointer-events: none;
-  }
-  
-  /* Result meta line */
-  .page-search .search-meta {
-    margin: 6px 0 14px;
-    color: var(--secondary);
-    font-size: 14px;
-  }
-  .page-search .search-meta__count:empty {
-    display: none;
-  }
-  
-  /* =========================
-     Results container
-     Compatible with multiple DOM outputs
-     ========================= */
-  
-  /* UL reset */
-  .page-search #searchResults.search-results {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  /* Generic list item style (works for: ul>li>a...) */
-  .page-search #searchResults.search-results > li {
-    margin: 0 0 10px;
-  }
-  
-  /* If your search.js outputs <a> directly inside li */
-  .page-search #searchResults.search-results > li > a {
-    display: block;
-    padding: 14px 14px;
-    border-radius: 14px;
-    border: 1px solid var(--border);
-    background: var(--entry);
-    box-shadow: var(--shadow-l1);
-    color: var(--primary);
-    text-decoration: none;
-    transition: transform .12s ease, border-color .12s ease, box-shadow .12s ease;
-  }
-  .page-search #searchResults.search-results > li > a:hover {
-    transform: translateY(-1px);
-    border-color: rgba(124, 92, 255, 0.35);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.18);
-  }
-  
-  /* Title/summary common patterns */
-  .page-search #searchResults .title,
-  .page-search #searchResults .post-title,
-  .page-search #searchResults h2,
-  .page-search #searchResults h3 {
-    margin: 0 0 6px;
-    font-size: 16px;
-    line-height: 1.35;
-  }
-  
-  .page-search #searchResults .summary,
-  .page-search #searchResults p {
-    margin: 0;
-    color: var(--secondary);
-    font-size: 14px;
-    line-height: 1.55;
-  }
-  
-  /* =========================
-     PaperMod common output compatibility
-     Some versions output blocks like .post-entry / .entry inside #searchResults
-     ========================= */
-  
-  .page-search #searchResults .post-entry,
-  .page-search #searchResults .entry {
-    border: 1px solid var(--border);
-    background: var(--entry);
-    border-radius: 14px;
-    box-shadow: var(--shadow-l1);
-    padding: 14px 14px;
-    margin: 0 0 10px;
-  }
-  
-  .page-search #searchResults .post-entry a,
-  .page-search #searchResults .entry a {
-    color: var(--primary);
-    text-decoration: none;
-  }
-  
-  .page-search #searchResults .post-entry:hover,
-  .page-search #searchResults .entry:hover {
-    border-color: rgba(124, 92, 255, 0.35);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.18);
-    transform: translateY(-1px);
-    transition: transform .12s ease, border-color .12s ease, box-shadow .12s ease;
-  }
-  
-  /* Empty state (if search.js writes text) */
-  .page-search #searchResults:empty::before {
-    content: "输入关键词开始搜索";
-    display: block;
-    padding: 14px 0;
-    color: var(--secondary);
-    opacity: .75;
-  }
-  
-  /* Mobile */
-  @media (max-width: 640px) {
-    .page-search .searchbox {
-      border-radius: 14px;
-    }
-    .page-search .searchbox #searchInput {
-      padding: 13px 42px 13px 14px;
-      font-size: 15px;
-    }
-  }
-/* =========================
-   YanlunAI Search Page (ONLY)
-   Fix: auto results + invisible text
-   Scope: .page-search
-   ========================= */
-
-   .page-search .page-header h1 {
-    margin-bottom: 10px;
-  }
-  
-  /* --- Searchbox wrapper --- */
-  .page-search .searchbox {
-    position: relative;
-    margin: 14px 0 10px;
-    border-radius: 16px;
-    background: var(--entry);
-    border: 1px solid var(--border);
-    box-shadow: var(--shadow-l1);
-    overflow: hidden;
-    transition: border-color .15s ease, box-shadow .15s ease, transform .15s ease;
-  }
-  
-  /* Input */
-  .page-search .searchbox #searchInput {
-    width: 100%;
-    padding: 14px 46px 14px 16px;
-    border: 0;
-    outline: none;
-    background: transparent;
-    color: var(--primary);
-    font-size: 16px;
-    line-height: 1.5;
-    -webkit-appearance: none;
-    appearance: none;
-  }
-  
-  .page-search .searchbox #searchInput::placeholder {
-    color: var(--secondary);
-    opacity: .60;
-  }
-  
-  .page-search .searchbox:focus-within {
-    border-color: rgba(124, 92, 255, 0.55);
-    box-shadow:
-      0 0 0 3px rgba(124, 92, 255, 0.12),
-      var(--shadow-l1);
-    transform: translateY(-1px);
-  }
-  
-  .page-search .searchbox::after {
-    content: "⌕";
-    position: absolute;
-    right: 14px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 18px;
-    opacity: .45;
-    pointer-events: none;
-  }
-  
-  /* =========================
-     Results container
-     ========================= */
-  
-  /* UL reset */
-  .page-search #searchResults {
-    list-style: none;
-    padding: 0;
-    margin: 14px 0 0;
-  }
-  
-  /* ✅ 핵심：强制“恢复文字显示”，防止 skeleton/透明文字盖住 */
-  .page-search #searchResults,
-  .page-search #searchResults * {
-    opacity: 1 !important;
-    filter: none !important;
-    text-shadow: none !important;
-    background-image: none !important;
-    -webkit-text-fill-color: currentColor !important;
-  }
-  
-  /* 结果项（兼容不同 search.js 输出） */
-  .page-search #searchResults > li,
-  .page-search #searchResults .post-entry,
-  .page-search #searchResults .entry {
-    border: 1px solid var(--border);
-    background: var(--entry);
-    border-radius: 14px;
-    box-shadow: var(--shadow-l1);
-    padding: 14px 14px;
-    margin: 0 0 10px;
-    transition: transform .12s ease, border-color .12s ease, box-shadow .12s ease;
-  }
-  
-  /* hover */
-  .page-search #searchResults > li:hover,
-  .page-search #searchResults .post-entry:hover,
-  .page-search #searchResults .entry:hover {
-    transform: translateY(-1px);
-    border-color: rgba(124, 92, 255, 0.35);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.18);
-  }
-  
-  /* 链接可点击且可见 */
-  .page-search #searchResults a {
-    color: var(--primary) !important;
-    text-decoration: none;
-  }
-  
-  /* 标题：兼容多种结构 */
-  .page-search #searchResults h2,
-  .page-search #searchResults h3,
-  .page-search #searchResults .title,
-  .page-search #searchResults .post-title,
-  .page-search #searchResults .entry-header h2 {
-    margin: 0 0 6px;
-    font-size: 16px;
-    line-height: 1.35;
-    color: var(--primary) !important;
-  }
-  
-  /* 摘要：兼容多种结构 */
-  .page-search #searchResults p,
-  .page-search #searchResults .summary,
-  .page-search #searchResults .entry-content,
-  .page-search #searchResults .entry-content p {
-    margin: 0;
-    color: var(--secondary) !important;
-    font-size: 14px;
-    line-height: 1.55;
-  }
-  
-  /* 空状态提示 */
-  .page-search #searchResults:empty::before {
-    content: "输入关键词开始搜索";
-    display: block;
-    padding: 10px 0 0;
-    color: var(--secondary);
-    opacity: .75;
-  }
-  
-  /* Mobile */
-  @media (max-width: 640px) {
-    .page-search .searchbox {
-      border-radius: 14px;
-    }
-    .page-search .searchbox #searchInput {
-      padding: 13px 42px 13px 14px;
-      font-size: 15px;
-    }
-  }
-
-  /* =========================
-   YanlunAI Search Page (PaperMod)
-   - Fix invisible text / skeleton overlay
-   - Beautify input + results list
-   Scope: .page-search ONLY
-   ========================= */
-
-.page-search {
-  max-width: 860px;
-  margin: 0 auto;
-}
-
-/* Title spacing */
-.page-search .page-header h1 {
-  margin: 0 0 12px;
-}
-
-/* ---------- Searchbox ---------- */
-.page-search .searchbox {
-  position: relative;
-  margin: 12px 0 10px;
-  border-radius: 16px;
-  background: var(--entry);
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow-l1);
-  overflow: hidden;
-  transition: border-color .15s ease, box-shadow .15s ease, transform .15s ease;
-}
-
-.page-search .searchbox #searchInput {
-  width: 100%;
-  padding: 14px 44px 14px 16px;
-  border: 0;
-  outline: none;
-  background: transparent;
-  color: var(--primary) !important;
-  font-size: 16px;
-  line-height: 1.6;
-  -webkit-appearance: none;
-  appearance: none;
-}
-
-.page-search .searchbox #searchInput::placeholder {
-  color: var(--secondary);
-  opacity: .65;
-}
-
-.page-search .searchbox:focus-within {
-  border-color: rgba(124, 92, 255, 0.55);
-  box-shadow: 0 0 0 3px rgba(124, 92, 255, 0.12), var(--shadow-l1);
-  transform: translateY(-1px);
-}
-
-/* right icon */
-.page-search .searchbox::after {
-  content: "⌕";
-  position: absolute;
-  right: 14px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 18px;
-  opacity: .45;
-  pointer-events: none;
-}
-
-/* ---------- Meta count ---------- */
-.page-search .search-meta {
-  margin: 6px 0 14px;
-  color: var(--secondary);
-  font-size: 13px;
-}
-
-.page-search .search-meta__count:empty::before {
-  content: "输入关键词开始搜索";
-  opacity: .8;
-}
-
-/* ---------- Results list ---------- */
-.page-search #searchResults {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-/* ✅ 核心：强制恢复“文字可见”，避免被骨架屏/透明/滤镜样式污染 */
-.page-search #searchResults,
-.page-search #searchResults * {
-  opacity: 1 !important;
-  filter: none !important;
-  text-shadow: none !important;
-  background-image: none !important;
-  -webkit-text-fill-color: currentColor !important;
-}
-
-/* PaperMod search.js 通常往 ul 里塞 li > a > div/h2/p 等结构
-   这里用“宽松选择器”兼容不同版本 */
-.page-search #searchResults > li {
-  margin: 0 0 10px;
-}
-
-.page-search #searchResults > li > a,
-.page-search #searchResults > li a {
-  display: block;
-  padding: 14px 14px;
-  border-radius: 14px;
-  border: 1px solid var(--border);
-  background: var(--entry);
-  box-shadow: var(--shadow-l1);
-  text-decoration: none;
-  color: var(--primary) !important;
-  transition: transform .12s ease, border-color .12s ease, box-shadow .12s ease;
-}
-
-.page-search #searchResults > li > a:hover,
-.page-search #searchResults > li a:hover {
-  transform: translateY(-1px);
-  border-color: rgba(124, 92, 255, 0.35);
-  box-shadow: 0 12px 34px rgba(0,0,0,0.18);
-}
-
-/* title */
-.page-search #searchResults h2,
-.page-search #searchResults h3,
-.page-search #searchResults .title,
-.page-search #searchResults .post-title,
-.page-search #searchResults .entry-header h2,
-.page-search #searchResults a > div:first-child {
-  margin: 0 0 6px;
-  font-size: 16px;
-  line-height: 1.35;
-  color: var(--primary) !important;
-}
-
-/* summary/excerpt */
-.page-search #searchResults p,
-.page-search #searchResults .summary,
-.page-search #searchResults .entry-content,
-.page-search #searchResults a > div:nth-child(2) {
-  margin: 0;
-  font-size: 14px;
-  line-height: 1.55;
-  color: var(--secondary) !important;
-  opacity: .95;
-}
-
-/* empty state */
-.page-search #searchResults:empty::before {
-  content: "暂无结果";
-  display: block;
-  padding: 8px 0;
-  color: var(--secondary);
-  opacity: .75;
-}
-
-/* Mobile */
-@media (max-width: 640px) {
-  .page-search {
-    max-width: 94vw;
-  }
-  .page-search .searchbox {
-    border-radius: 14px;
-  }
-  .page-search .searchbox #searchInput {
-    padding: 13px 42px 13px 14px;
-    font-size: 15px;
-  }
-}
+     margin: 10px 0 2px;
+     padding: 10px 12px;
+   
+     border: 1px solid var(--border);
+     border-left-width: 4px;
+     border-left-color: rgba(255,106,26,.55);
+   
+     border-radius: 12px;
+     background: linear-gradient(
+       135deg,
+       rgba(255,106,26,.08),
+       rgba(106,76,255,.06)
+     );
+   
+     color: var(--content);
+     font-size: .96rem;
+     line-height: 1.75;
+     font-weight: 650;
+   
+     word-break: break-word;
+     overflow-wrap: anywhere;
+     text-wrap: pretty;
+   }
+   
+   @media (max-width: 768px){
+     .yanlunai-hero-tagline{
+       padding: 10px 11px;
+       font-size: .95rem;
+       line-height: 1.7;
+     }
+   }
+   
+   body.dark .yanlunai-hero-tagline{
+     border-color: rgba(255,255,255,.10);
+     border-left-color: rgba(255,138,76,.60);
+     background: linear-gradient(
+       135deg,
+       rgba(255,106,26,.12),
+       rgba(106,76,255,.10)
+     );
+   }
+   
+   /* ==========================================================
+      Home instant search dropdown (ONLY Home Hero search)
+      IMPORTANT:
+      - Scoped to ".yanlunai-home .yanlunai-search-wrap"
+      - DO NOT affect /search/ page
+      ========================================================== */
+   
+   .yanlunai-home .yanlunai-search-wrap #yanlunaiSearchPanel{
+     margin-top: 12px;
+     border: 1px solid var(--border);
+     border-radius: 14px;
+     background: var(--entry);
+     overflow: hidden;
+   }
+   
+   /* Panel positioning: dropdown under input */
+   .yanlunai-home .yanlunai-search-wrap #yanlunaiSearchPanel.yanlunai-search-panel{
+     position: absolute;
+     left: 0;
+     right: 0;
+     top: calc(100% + 12px);
+     z-index: 50;
+   
+     border-radius: 18px;
+     overflow: hidden;
+   
+     background: color-mix(in srgb, var(--entry, #1f1f1f) 82%, transparent);
+     border: 1px solid color-mix(in srgb, var(--border, #333) 65%, transparent);
+     box-shadow:
+       0 12px 40px rgba(0,0,0,0.22),
+       0 2px 10px rgba(0,0,0,0.12);
+   
+     backdrop-filter: blur(10px);
+     -webkit-backdrop-filter: blur(10px);
+   
+     max-height: min(520px, 62vh);
+   }
+   
+   /* Meta bar */
+   .yanlunai-home .yanlunai-search-wrap #yanlunaiSearchPanel .yanlunai-search-meta{
+     position: sticky;
+     top: 0;
+     z-index: 2;
+   
+     display: flex;
+     align-items: center;
+     justify-content: space-between;
+   
+     padding: 12px 14px;
+     font-size: 14px;
+     letter-spacing: 0.2px;
+   
+     color: var(--secondary, rgba(255,255,255,0.72));
+     background: color-mix(in srgb, var(--entry, #1f1f1f) 92%, transparent);
+     border-bottom: 1px solid color-mix(in srgb, var(--border, #333) 60%, transparent);
+   }
+   .yanlunai-home .yanlunai-search-wrap #yanlunaiSearchPanel .yanlunai-search-meta #yanlunaiSearchCount{
+     font-weight: 700;
+     color: var(--primary, #fff);
+   }
+   
+   /* Close */
+   .yanlunai-home .yanlunai-search-wrap #yanlunaiSearchPanel .yanlunai-search-close{
+     width: 30px;
+     height: 30px;
+     border-radius: 10px;
+   
+     border: 1px solid color-mix(in srgb, var(--border, #333) 60%, transparent);
+     background: color-mix(in srgb, var(--entry, #1f1f1f) 75%, transparent);
+     color: var(--primary, #fff);
+   
+     display: inline-flex;
+     align-items: center;
+     justify-content: center;
+   
+     cursor: pointer;
+     transition: transform .12s ease, background .12s ease, opacity .12s ease;
+     opacity: .92;
+   }
+   .yanlunai-home .yanlunai-search-wrap #yanlunaiSearchPanel .yanlunai-search-close:hover{
+     transform: scale(1.04);
+     opacity: 1;
+     background: color-mix(in srgb, var(--entry, #1f1f1f) 92%, transparent);
+   }
+   
+   /* Results list */
+   .yanlunai-home .yanlunai-search-wrap #yanlunaiSearchPanel .yanlunai-search-results{
+     list-style: none;
+     margin: 0;
+     padding: 10px;
+     overflow: auto;
+     max-height: calc(min(520px, 62vh) - 54px);
+   }
+   
+   /* Scrollbar */
+   .yanlunai-home .yanlunai-search-wrap #yanlunaiSearchPanel .yanlunai-search-results::-webkit-scrollbar{ width: 10px; }
+   .yanlunai-home .yanlunai-search-wrap #yanlunaiSearchPanel .yanlunai-search-results::-webkit-scrollbar-track{ background: transparent; }
+   .yanlunai-home .yanlunai-search-wrap #yanlunaiSearchPanel .yanlunai-search-results::-webkit-scrollbar-thumb{
+     background: color-mix(in srgb, var(--border, #333) 55%, transparent);
+     border-radius: 999px;
+     border: 3px solid transparent;
+     background-clip: content-box;
+   }
+   .yanlunai-home .yanlunai-search-wrap #yanlunaiSearchPanel .yanlunai-search-results::-webkit-scrollbar-thumb:hover{
+     background: color-mix(in srgb, var(--border, #333) 75%, transparent);
+     background-clip: content-box;
+   }
+   
+   /* item */
+   .yanlunai-home .yanlunai-search-wrap #yanlunaiSearchPanel .yanlunai-search-results li{ margin: 8px 0; }
+   
+   .yanlunai-home .yanlunai-search-wrap #yanlunaiSearchPanel .yanlunai-search-results li > a{
+     display: block;
+     text-decoration: none;
+   
+     padding: 14px 14px;
+     border-radius: 16px;
+   
+     background: color-mix(in srgb, var(--theme, #101010) 55%, transparent);
+     border: 1px solid color-mix(in srgb, var(--border, #333) 55%, transparent);
+   
+     transition: transform .12s ease, background .12s ease, border-color .12s ease;
+   }
+   
+   .yanlunai-home .yanlunai-search-wrap #yanlunaiSearchPanel .yanlunai-search-results li > a:hover,
+   .yanlunai-home .yanlunai-search-wrap #yanlunaiSearchPanel .yanlunai-search-results li:focus-within{
+     transform: translateY(-1px);
+     background: color-mix(in srgb, var(--theme, #101010) 78%, transparent);
+     border-color: color-mix(in srgb, var(--primary, #fff) 22%, var(--border, #333));
+     outline: none;
+   }
+   
+   /* title/snippet if you render these classes */
+   .yanlunai-home .yanlunai-search-wrap #yanlunaiSearchPanel .yl-sr-title{
+     font-size: 16px;
+     font-weight: 750;
+     line-height: 1.25;
+     color: var(--primary, #fff);
+     margin-bottom: 6px;
+   }
+   .yanlunai-home .yanlunai-search-wrap #yanlunaiSearchPanel .yl-sr-snippet{
+     font-size: 13px;
+     line-height: 1.45;
+     color: var(--secondary, rgba(255,255,255,0.72));
+     opacity: .95;
+   }
+   
+   /* empty state */
+   .yanlunai-home .yanlunai-search-wrap #yanlunaiSearchPanel .yl-empty{
+     text-align: center;
+     padding: 18px 12px;
+     color: var(--secondary, rgba(255,255,255,0.72));
+     background: transparent;
+     border: 1px dashed color-mix(in srgb, var(--border, #333) 55%, transparent);
+   }
+   
+   @media (max-width: 520px){
+     .yanlunai-home .yanlunai-search-wrap #yanlunaiSearchPanel.yanlunai-search-panel{
+       border-radius: 16px;
+       top: calc(100% + 10px);
+       max-height: min(520px, 58vh);
+     }
+     .yanlunai-home .yanlunai-search-wrap #yanlunaiSearchPanel .yanlunai-search-results{
+       padding: 8px;
+     }
+     .yanlunai-home .yanlunai-search-wrap #yanlunaiSearchPanel .yanlunai-search-results li > a{
+       padding: 12px 12px;
+       border-radius: 14px;
+     }
+   }
