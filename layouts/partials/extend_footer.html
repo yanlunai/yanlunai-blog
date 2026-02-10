@@ -1,14 +1,14 @@
 {{/* layouts/partials/extend_footer.html */}}
 
 {{/* =========================
-   1) Page Views (Busuanzi) - load ONCE
+   1) Page Views (Busuanzi)
    ========================= */}}
 {{ if .Site.Params.showPageViews }}
   <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 {{ end }}
 
 {{/* =========================
-   2) "/" focus search
+   2) "/" focus search (only if exists)
    ========================= */}}
 <script>
 (function () {
@@ -30,7 +30,7 @@
 </script>
 
 {{/* =========================
-   3) Recent: fan <-> grid switch (ONLY ONCE)
+   3) Recent: fan <-> grid switch
    ========================= */}}
 <script>
 (function () {
@@ -65,15 +65,15 @@
 </script>
 
 {{/* =========================
-   4) Home search script (ONLY on Home)
+   4) Home search (ONLY on home)
    ========================= */}}
 {{ if .IsHome }}
-  {{ $homeSearch := resources.Get "js/yanlunai-home-search.js" | minify | fingerprint }}
-  <script defer src="{{ $homeSearch.RelPermalink }}"></script>
+  {{ $js := resources.Get "js/yanlunai-home-search.js" | minify | fingerprint }}
+  <script defer src="{{ $js.RelPermalink }}"></script>
 {{ end }}
 
 {{/* =========================
-   5) Search bridge (ONLY on Search page)
+   5) Search bridge (ONLY on /search/)
    ========================= */}}
 {{ if eq .RelPermalink "/search/" }}
   <script defer src="/js/yanlunai-search-bridge.js"></script>
