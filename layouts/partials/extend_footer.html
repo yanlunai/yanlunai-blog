@@ -69,10 +69,8 @@
    ========================= */}}
 <script defer src="/js/yanlunai-search-bridge.js"></script>
 
-{{/* =========================
-   5) Home search script (ONLY on HOME)
-   - 避免在 /search 页与 PaperMod search.js 打架
-   ========================= */}}
+{{/* 只在首页加载 Home Search */}}
 {{ if .IsHome }}
-  <script defer src="/js/yanlunai-home-search.js"></script>
+  {{ $js := resources.Get "js/yanlunai-home-search.js" | minify | fingerprint }}
+  <script defer src="{{ $js.RelPermalink }}"></script>
 {{ end }}
