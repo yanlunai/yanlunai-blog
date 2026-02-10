@@ -1,43 +1,60 @@
 (() => {
-  // 兼容：/search 与 /search/
-  const path = window.location.pathname.replace(/\/+$/, "");
+  // Only run on /search/ page
+  const isSearchPage = () => location.pathname.replace(/\/+$/, "") === "/search";
+  if (!isSearchPage()) return;
 
-  // 如果你未来启用多语言，search 可能变成 /zh/search，这里也兼容
-  const isSearch = (p) => p === "/search" || p.endsWith("/search");
+  const getQ = () => {
+    const u = new URL(location.href);
+    return (u.searchParams.get("q") || "").trim();
+  };
 
-  if (!isSearch(path)) return;
-
-  const params = new URLSearchParams(window.location.search);
-  const q = (params.get("q") || params.get("s") || params.get("query") || "").trim();
+  const q = getQ();
   if (!q) return;
 
-  const start = Date.now();
-  const timer = setInterval(() => {
-    // 兼容 PaperMod search input 常见选择器
-    const input =
-      document.getElementById("searchInput") ||
-      document.querySelector(".search-input") ||
-      document.querySelector('input[type="search"]') ||
-      document.querySelector('input[placeholder*="Search"]') ||
-      document.querySelector('input[placeholder*="search"]');
+  function triggerSearch(inputEl, value) {
+    // 回填
+    inputEl.value = value;
 
-    if (!input) {
-      if (Date.now() - start > 3000) clearInterval(timer);
-      return;
-    }
+    // 关键：触发 PaperMod search.js 监听的事件
+    const evInput = new Event("input", { bubbles: true });
+    const evChange = new Event("change", { bubbles: true });
+    const evKeyup = new KeyboardEvent("keyup", { bubbles: true, key: "a" });
 
-    clearInterval(timer);
+    inputEl.dispatchEvent(evInput);
+    inputEl.dispatchEvent(evChange);
+    inputEl.dispatchEvent(evKeyup);
+  }
 
-    input.value = q;
+  function runWithRetry() {
+    const input = document.getElementById("searchInput");
+    if (!input) return;
 
-    // 触发搜索脚本
-    input.dispatchEvent(new Event("input", { bubbles: true }));
-    input.dispatchEvent(new Event("change", { bubbles: true }));
-    input.dispatchEvent(new KeyboardEvent("keyup", { bubbles: true, key: "Enter", code: "Enter" }));
+    // 立即触发一次
+    triggerSearch(input, q);
 
-    try {
-      input.focus();
-      input.setSelectionRange(q.length, q.length);
-    } catch (_) {}
-  }, 80);
+    // 有些情况下 search.js 还没初始化监听器 => 做短时间重试
+    let tries = 0;
+    const maxTries = 30; // ~30 * 100ms = 3s
+    const timer = setInterval(() => {
+      tries++;
+
+      // 如果结果容器已经出现内容，就停止
+      const results = document.getElementById("searchResults");
+      const hasResults = results && (results.children?.length > 0 || (results.textContent || "").trim().length > 0);
+
+      // 继续触发（确保监听器已就绪）
+      triggerSearch(input, q);
+
+      if (hasResults || tries >= maxTries) {
+        clearInterval(timer);
+      }
+    }, 100);
+  }
+
+  // DOM Ready 后执行（避免找不到 input）
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", runWithRetry);
+  } else {
+    runWithRetry();
+  }
 })();

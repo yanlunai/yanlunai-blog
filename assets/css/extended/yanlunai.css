@@ -1384,3 +1384,154 @@
       font-size: 15px;
     }
   }
+/* =========================
+   YanlunAI Search Page (ONLY)
+   Fix: auto results + invisible text
+   Scope: .page-search
+   ========================= */
+
+   .page-search .page-header h1 {
+    margin-bottom: 10px;
+  }
+  
+  /* --- Searchbox wrapper --- */
+  .page-search .searchbox {
+    position: relative;
+    margin: 14px 0 10px;
+    border-radius: 16px;
+    background: var(--entry);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-l1);
+    overflow: hidden;
+    transition: border-color .15s ease, box-shadow .15s ease, transform .15s ease;
+  }
+  
+  /* Input */
+  .page-search .searchbox #searchInput {
+    width: 100%;
+    padding: 14px 46px 14px 16px;
+    border: 0;
+    outline: none;
+    background: transparent;
+    color: var(--primary);
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  
+  .page-search .searchbox #searchInput::placeholder {
+    color: var(--secondary);
+    opacity: .60;
+  }
+  
+  .page-search .searchbox:focus-within {
+    border-color: rgba(124, 92, 255, 0.55);
+    box-shadow:
+      0 0 0 3px rgba(124, 92, 255, 0.12),
+      var(--shadow-l1);
+    transform: translateY(-1px);
+  }
+  
+  .page-search .searchbox::after {
+    content: "⌕";
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    opacity: .45;
+    pointer-events: none;
+  }
+  
+  /* =========================
+     Results container
+     ========================= */
+  
+  /* UL reset */
+  .page-search #searchResults {
+    list-style: none;
+    padding: 0;
+    margin: 14px 0 0;
+  }
+  
+  /* ✅ 핵심：强制“恢复文字显示”，防止 skeleton/透明文字盖住 */
+  .page-search #searchResults,
+  .page-search #searchResults * {
+    opacity: 1 !important;
+    filter: none !important;
+    text-shadow: none !important;
+    background-image: none !important;
+    -webkit-text-fill-color: currentColor !important;
+  }
+  
+  /* 结果项（兼容不同 search.js 输出） */
+  .page-search #searchResults > li,
+  .page-search #searchResults .post-entry,
+  .page-search #searchResults .entry {
+    border: 1px solid var(--border);
+    background: var(--entry);
+    border-radius: 14px;
+    box-shadow: var(--shadow-l1);
+    padding: 14px 14px;
+    margin: 0 0 10px;
+    transition: transform .12s ease, border-color .12s ease, box-shadow .12s ease;
+  }
+  
+  /* hover */
+  .page-search #searchResults > li:hover,
+  .page-search #searchResults .post-entry:hover,
+  .page-search #searchResults .entry:hover {
+    transform: translateY(-1px);
+    border-color: rgba(124, 92, 255, 0.35);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+  }
+  
+  /* 链接可点击且可见 */
+  .page-search #searchResults a {
+    color: var(--primary) !important;
+    text-decoration: none;
+  }
+  
+  /* 标题：兼容多种结构 */
+  .page-search #searchResults h2,
+  .page-search #searchResults h3,
+  .page-search #searchResults .title,
+  .page-search #searchResults .post-title,
+  .page-search #searchResults .entry-header h2 {
+    margin: 0 0 6px;
+    font-size: 16px;
+    line-height: 1.35;
+    color: var(--primary) !important;
+  }
+  
+  /* 摘要：兼容多种结构 */
+  .page-search #searchResults p,
+  .page-search #searchResults .summary,
+  .page-search #searchResults .entry-content,
+  .page-search #searchResults .entry-content p {
+    margin: 0;
+    color: var(--secondary) !important;
+    font-size: 14px;
+    line-height: 1.55;
+  }
+  
+  /* 空状态提示 */
+  .page-search #searchResults:empty::before {
+    content: "输入关键词开始搜索";
+    display: block;
+    padding: 10px 0 0;
+    color: var(--secondary);
+    opacity: .75;
+  }
+  
+  /* Mobile */
+  @media (max-width: 640px) {
+    .page-search .searchbox {
+      border-radius: 14px;
+    }
+    .page-search .searchbox #searchInput {
+      padding: 13px 42px 13px 14px;
+      font-size: 15px;
+    }
+  }
