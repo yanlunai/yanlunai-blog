@@ -5,7 +5,6 @@
   </header>
 
   <div class="searchbox">
-    <!-- PaperMod 兼容：必须是 #searchInput -->
     <input id="searchInput"
            placeholder="Search ↵"
            type="search"
@@ -13,9 +12,9 @@
            aria-label="Search" />
   </div>
 
-  <!-- PaperMod 兼容：必须是 #searchResults -->
   <div id="searchResults" class="search-results"></div>
-  <!-- ✅ PaperMod search.js 防空壳：避免 contains 读取 null -->
-  <div id="searchbox" style="display:none"></div>
+
+  {{/* ✅ 用你自己的搜索逻辑（不依赖 PaperMod search.js） */}}
+  <script defer src="/js/yanlunai-search-page.js"></script>
 </main>
 {{- end -}}
