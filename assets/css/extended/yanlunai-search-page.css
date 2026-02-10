@@ -1,0 +1,222 @@
+/* =========================================================
+   YanlunAI Search Page (ONLY /search/)
+   - Search input polish
+   - Results list (cards) polish
+   - Empty/Loading/Error blocks
+   ========================================================= */
+
+/* 仅在 search 页生效（Hugo 默认 /search/ 页面 body 通常有 .page 或 main 不好稳定识别）
+   这里用路径无法在 CSS 里判断，所以用更温和的“只作用于 search 模板结构”：
+   - .searchbox + #searchResults + .yl-sr-* 这些 class/id 只在 search 页出现
+*/
+
+/* -------------------------
+   0) Search page layout tune
+   ------------------------- */
+
+/* Search 标题更紧凑一点（可选） */
+.page-header h1 {
+  letter-spacing: .2px;
+}
+
+/* 防止 search 页顶部出现你截图里那种“文字糊成一片/被覆盖”的观感：
+   通常是某个自定义背景/滤镜层叠加到 header 区域，这里把 header 与主体拉开并提升可读性
+*/
+.page-header {
+  margin-bottom: 14px;
+}
+
+/* -------------------------
+   1) Searchbox input polish
+   ------------------------- */
+
+.searchbox {
+  position: relative;
+  margin: 16px 0 14px;
+  border-radius: 16px;
+  background: var(--entry);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-l1);
+  overflow: hidden;
+  transition: border-color .15s ease, box-shadow .15s ease, background .15s ease;
+}
+
+/* 输入框主体 */
+.searchbox #searchInput {
+  width: 100%;
+  padding: 16px 52px 16px 16px;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--primary);
+  font-size: 16px;
+  line-height: 1.5;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+/* placeholder */
+.searchbox #searchInput::placeholder {
+  color: var(--secondary);
+  opacity: .6;
+}
+
+/* focus 状态 */
+.searchbox:focus-within {
+  border-color: rgba(124, 92, 255, 0.62);
+  box-shadow:
+    0 0 0 3px rgba(124, 92, 255, 0.16),
+    var(--shadow-l1);
+}
+
+/* 右侧搜索图标（装饰） */
+.searchbox::after {
+  content: "⌕";
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  opacity: .42;
+  pointer-events: none;
+}
+
+/* Safari/Chrome 的 clear 按钮样式处理，避免挤到你的图标 */
+.searchbox #searchInput::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  height: 16px;
+  width: 16px;
+  margin-left: 10px;
+  cursor: pointer;
+  opacity: .6;
+}
+
+/* -------------------------
+   2) Search results (cards)
+   ------------------------- */
+
+#searchResults {
+  margin-top: 10px;
+}
+
+/* meta：共 N 条结果 */
+.yl-sr-meta {
+  opacity: .75;
+  margin: 10px 0 12px;
+  font-size: 14px;
+}
+
+/* 列表容器 */
+.yl-sr-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* 单条结果卡片 */
+.yl-sr-item {
+  display: block;
+  padding: 14px 14px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--entry);
+  box-shadow: var(--shadow-l1);
+  text-decoration: none;
+  transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+}
+
+/* hover 反馈：更“工程产品化” */
+.yl-sr-item:hover {
+  transform: translateY(-1px);
+  border-color: rgba(124, 92, 255, 0.35);
+  box-shadow:
+    0 10px 22px rgba(0,0,0,.16),
+    var(--shadow-l1);
+}
+
+/* 标题 */
+.yl-sr-title {
+  font-weight: 750;
+  color: var(--primary);
+  line-height: 1.35;
+  font-size: 16px;
+}
+
+/* 摘要 */
+.yl-sr-snippet {
+  margin-top: 6px;
+  opacity: .82;
+  color: var(--secondary);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* chips */
+.yl-sr-chips {
+  margin-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.yl-sr-chip {
+  font-size: 12px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--entry) 88%, transparent);
+  opacity: .9;
+}
+
+/* -------------------------
+   3) Empty/Loading/Error
+   ------------------------- */
+
+.yl-sr-loading,
+.yl-sr-empty,
+.yl-sr-error {
+  padding: 14px 14px;
+  border: 1px dashed var(--border);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--entry) 92%, transparent);
+  opacity: .9;
+}
+
+.yl-sr-error {
+  border-style: solid;
+  border-color: rgba(255, 107, 107, .55);
+}
+
+/* -------------------------
+   4) Mobile tweaks
+   ------------------------- */
+
+@media (max-width: 640px) {
+  .searchbox {
+    border-radius: 14px;
+  }
+
+  .searchbox #searchInput {
+    padding: 14px 48px 14px 14px;
+    font-size: 15px;
+  }
+
+  .yl-sr-item {
+    padding: 12px 12px;
+    border-radius: 14px;
+  }
+
+  .yl-sr-title {
+    font-size: 15px;
+  }
+}
+
+/* -------------------------
+   5) Defensive: avoid weird overlays
+   ------------------------- */
+
+/* 有些自定义背景/毛玻璃层可能覆盖 main 内容，保证内容层级更高 */
+.main {
+  position: relative;
+  z-index: 2;
+}
