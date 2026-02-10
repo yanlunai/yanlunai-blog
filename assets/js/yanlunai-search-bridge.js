@@ -1,34 +1,43 @@
 (() => {
-  // 只在 /search/ 页面生效（兼容 /search 与 /search/）
+  // 兼容：/search 与 /search/
   const path = window.location.pathname.replace(/\/+$/, "");
-  if (path !== "/search") return;
+
+  // 如果你未来启用多语言，search 可能变成 /zh/search，这里也兼容
+  const isSearch = (p) => p === "/search" || p.endsWith("/search");
+
+  if (!isSearch(path)) return;
 
   const params = new URLSearchParams(window.location.search);
-
-  // 兼容多种参数名：q / s / query
   const q = (params.get("q") || params.get("s") || params.get("query") || "").trim();
   if (!q) return;
 
-  // 兼容 PaperMod 常见输入框选择器
-  const input =
-    document.getElementById("searchInput") ||
-    document.querySelector(".search-input") ||
-    document.querySelector('input[type="search"]') ||
-    document.querySelector('input[name="q"]') ||
-    document.querySelector('input[name="s"]') ||
-    document.querySelector('input[name="query"]');
+  const start = Date.now();
+  const timer = setInterval(() => {
+    // 兼容 PaperMod search input 常见选择器
+    const input =
+      document.getElementById("searchInput") ||
+      document.querySelector(".search-input") ||
+      document.querySelector('input[type="search"]') ||
+      document.querySelector('input[placeholder*="Search"]') ||
+      document.querySelector('input[placeholder*="search"]');
 
-  if (!input) return;
+    if (!input) {
+      if (Date.now() - start > 3000) clearInterval(timer);
+      return;
+    }
 
-  // 回填输入框
-  input.value = q;
+    clearInterval(timer);
 
-  // 触发一次 input，让原本的搜索脚本（lunr/fuse）开始工作
-  input.dispatchEvent(new Event("input", { bubbles: true }));
+    input.value = q;
 
-  // 顺手把光标放到末尾，体验更像“已输入”
-  try {
-    input.focus();
-    input.setSelectionRange(q.length, q.length);
-  } catch (_) {}
+    // 触发搜索脚本
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+    input.dispatchEvent(new Event("change", { bubbles: true }));
+    input.dispatchEvent(new KeyboardEvent("keyup", { bubbles: true, key: "Enter", code: "Enter" }));
+
+    try {
+      input.focus();
+      input.setSelectionRange(q.length, q.length);
+    } catch (_) {}
+  }, 80);
 })();
