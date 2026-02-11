@@ -297,3 +297,41 @@
   z-index: 1;
   margin-top: 10px;
 }
+/* =========================
+   Hard reset for PaperMod conflicts (MUST)
+   Fix: results stacked above searchbox / blank clickable overlay
+   ========================= */
+
+   .page-search {
+    position: relative;
+  }
+  
+  .page-search .searchbox {
+    position: relative;
+    z-index: 20; /* 搜索框永远在上层 */
+  }
+  
+  .page-search #searchResults {
+    position: relative !important;
+    z-index: 10;
+    margin-top: 12px;
+    overflow: visible;
+  }
+  
+  /* 彻底消除“隐形覆盖层导致空白可点” */
+  .page-search #searchResults .search-result,
+  .page-search #searchResults .search-empty {
+    position: relative !important;
+    overflow: visible;
+  }
+  
+  .page-search #searchResults .search-result a {
+    position: relative !important;
+    z-index: 1;
+  }
+  
+  /* 防止主题把 ul/li 搞成奇怪的 display/position */
+  .page-search #searchResults,
+  .page-search #searchResults * {
+    transform: none;
+  }
