@@ -1,27 +1,19 @@
 /* =========================
-   YanlunAI Search Page (only /search/)
-   File: yanlunai-search-page.css (FULL)
-   Goal:
-   1) 只作用于 /search/（依赖 main.page-search）
-   2) 修复“有卡片没文字/文字透明/需要空格才出结果后仍无字”的样式问题
-   3) 兼容 PaperMod search.js 可能生成的多种 DOM（li 或 div、有没有 .search-result 都兜底）
-   4) 尽量不与 yanlunai.css / 其它全局 a/p/h2 样式冲突
+   YanlunAI Search Page (ONLY /search/)
+   Scope: .page-search
    ========================= */
 
-/* ✅ 强作用域：仅 search 页面生效（你页面里是 <main class="main page-search">） */
-main.page-search {
-  opacity: 1;
-  filter: none;
+/* 防冲突：只在 search 页生效 */
+.page-search {
+  --yl-search-radius: 16px;
+  --yl-search-radius-sm: 14px;
 }
 
-/* =========================
-   Searchbox
-   ========================= */
-
-main.page-search .searchbox {
+/* Searchbox wrapper */
+.page-search .searchbox {
   position: relative;
   margin: 16px 0 14px;
-  border-radius: 16px;
+  border-radius: var(--yl-search-radius);
   background: var(--entry);
   border: 1px solid var(--border);
   box-shadow: var(--shadow-l1);
@@ -29,38 +21,32 @@ main.page-search .searchbox {
   transition: border-color .15s ease, box-shadow .15s ease, transform .15s ease;
 }
 
-main.page-search .searchbox:focus-within {
+.page-search .searchbox:focus-within {
   border-color: rgba(124, 92, 255, 0.60);
   box-shadow:
     0 0 0 3px rgba(124, 92, 255, 0.14),
     var(--shadow-l1);
 }
 
-/* 输入框主体 */
-main.page-search .searchbox #searchInput {
+/* Input */
+.page-search #searchInput {
   width: 100%;
   padding: 16px 52px 16px 16px;
   border: 0;
   outline: none;
   background: transparent;
-
-  /* ✅ 强制可读：防止全局把文字变透明/渐变裁剪 */
   color: var(--primary);
-  opacity: 1;
-  -webkit-text-fill-color: var(--primary);
-
   font-size: 16px;
   line-height: 1.5;
 }
 
-/* placeholder */
-main.page-search .searchbox #searchInput::placeholder {
+.page-search #searchInput::placeholder {
   color: var(--secondary);
   opacity: .65;
 }
 
-/* 右侧搜索图标（装饰） */
-main.page-search .searchbox::after {
+/* Right icon (decor) */
+.page-search .searchbox::after {
   content: "⌕";
   position: absolute;
   right: 16px;
@@ -72,64 +58,51 @@ main.page-search .searchbox::after {
   color: var(--secondary);
 }
 
-/* 结果数量 */
-main.page-search .search-meta {
+/* Count */
+.page-search .search-meta {
   margin: 0 0 12px;
   color: var(--secondary);
   font-size: 14px;
 }
 
 /* =========================
-   Results list (fix "no text")
-   兼容：#searchResults 可能是 ul 或 div，内部结构不固定
+   Results container
    ========================= */
 
-main.page-search #searchResults.search-results {
+/* 你的模板是 ul#searchResults.search-results */
+.page-search #searchResults.search-results {
   list-style: none;
   padding: 0;
   margin: 0;
   display: grid;
   gap: 10px;
-
-  /* ✅ 防全局影响 */
-  opacity: 1;
-  filter: none;
 }
 
-/* ✅ 兼容：结果可能直接是 li/div，也可能包在 .search-result */
-main.page-search #searchResults.search-results > li,
-main.page-search #searchResults.search-results > div,
-main.page-search #searchResults .search-result {
+/* 兼容 search.js 可能插入的 li / div */
+.page-search #searchResults > li,
+.page-search #searchResults > div {
   margin: 0;
   padding: 0;
 }
 
-/* ✅ 关键兜底：只要在结果区域里的 a，都强制变卡片 + 强制字色
-   （解决“只有框没字 / 字是透明的”） */
-main.page-search #searchResults a {
+/* =========================
+   Card styling (兼容多结构)
+   ========================= */
+
+/* 1) 你自定义结构：li.search-result a ... */
+.page-search #searchResults .search-result a {
   display: block;
   text-decoration: none;
-
   background: var(--entry);
   border: 1px solid var(--border);
-  border-radius: 14px;
+  border-radius: var(--yl-search-radius-sm);
   padding: 14px 14px 12px;
   box-shadow: var(--shadow-l1);
   transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
-
-  /* ✅ 强制可读：覆盖全局 a 样式 */
-  color: var(--primary) !important;
-  opacity: 1 !important;
-  filter: none !important;
-  mix-blend-mode: normal !important;
-  -webkit-text-fill-color: var(--primary) !important;
-
-  /* 防某些主题把字体渲染成“裁剪渐变” */
-  background-clip: border-box !important;
-  -webkit-background-clip: border-box !important;
+  color: var(--primary) !important; /* 修复“只有框没字” */
 }
 
-main.page-search #searchResults a:hover {
+.page-search #searchResults .search-result a:hover {
   transform: translateY(-1px);
   border-color: rgba(124, 92, 255, 0.35);
   box-shadow:
@@ -137,65 +110,100 @@ main.page-search #searchResults a:hover {
     var(--shadow-l1);
 }
 
-/* 标题：兼容常见结构（div.search-title / h2 / h3 / strong / span） */
-main.page-search #searchResults a .search-title,
-main.page-search #searchResults a .search-result-title,
-main.page-search #searchResults a h2,
-main.page-search #searchResults a h3,
-main.page-search #searchResults a strong {
+/* 标题/摘要（自定义结构） */
+.page-search #searchResults .search-result a .search-title,
+.page-search #searchResults .search-result a h2,
+.page-search #searchResults .search-result a h3 {
   margin: 0 0 6px;
   font-size: 16px;
   line-height: 1.35;
-
-  /* ✅ 强制可读 */
   color: var(--primary) !important;
-  opacity: 1 !important;
-  background: none !important;
-  -webkit-text-fill-color: var(--primary) !important;
 }
 
-/* 摘要/片段：兼容 p / div.search-snippet / small */
-main.page-search #searchResults a .search-snippet,
-main.page-search #searchResults a .summary,
-main.page-search #searchResults a p,
-main.page-search #searchResults a small {
+.page-search #searchResults .search-result a .search-snippet,
+.page-search #searchResults .search-result a p {
   margin: 0;
   font-size: 14px;
   line-height: 1.55;
-
-  /* ✅ 强制可读 */
   color: var(--secondary) !important;
-  opacity: 0.92 !important;
-  background: none !important;
-  -webkit-text-fill-color: var(--secondary) !important;
+  opacity: 0.92;
+}
+
+/* 2) PaperMod 常见结构：article.post-entry / .entry-header / .entry-title / .entry-content */
+.page-search #searchResults article.post-entry {
+  background: var(--entry);
+  border: 1px solid var(--border);
+  border-radius: var(--yl-search-radius-sm);
+  padding: 14px 14px 12px;
+  box-shadow: var(--shadow-l1);
+  transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+}
+
+.page-search #searchResults article.post-entry:hover {
+  transform: translateY(-1px);
+  border-color: rgba(124, 92, 255, 0.35);
+  box-shadow:
+    0 0 0 2px rgba(124, 92, 255, 0.10),
+    var(--shadow-l1);
+}
+
+/* PaperMod 的链接通常在 article 内部，这里兜底强制可见 */
+.page-search #searchResults article.post-entry a {
+  color: var(--primary) !important;
+  text-decoration: none;
+}
+
+/* 标题 */
+.page-search #searchResults .entry-title,
+.page-search #searchResults h2.entry-title,
+.page-search #searchResults h3.entry-title {
+  margin: 0 0 6px;
+  font-size: 16px;
+  line-height: 1.35;
+  color: var(--primary) !important;
+}
+
+/* 摘要 */
+.page-search #searchResults .entry-content,
+.page-search #searchResults .entry-summary,
+.page-search #searchResults .entry-content p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--secondary) !important;
+  opacity: 0.92;
 }
 
 /* 空结果 */
-main.page-search #searchResults .search-empty,
-main.page-search #searchResults .no-results {
+.page-search #searchResults .search-empty,
+.page-search #searchResults .not-found,
+.page-search #searchResults .no-results {
   padding: 14px;
-  border-radius: 14px;
+  border-radius: var(--yl-search-radius-sm);
   background: var(--entry);
   border: 1px dashed var(--border);
   color: var(--secondary);
 }
 
-/* 移动端 */
+/* =========================
+   Mobile
+   ========================= */
 @media (max-width: 640px) {
-  main.page-search .searchbox {
+  .page-search .searchbox {
     border-radius: 14px;
   }
 
-  main.page-search .searchbox #searchInput {
+  .page-search #searchInput {
     padding: 14px 48px 14px 14px;
     font-size: 15px;
   }
 
-  main.page-search #searchResults.search-results {
+  .page-search #searchResults.search-results {
     gap: 9px;
   }
 
-  main.page-search #searchResults a {
+  .page-search #searchResults .search-result a,
+  .page-search #searchResults article.post-entry {
     border-radius: 13px;
     padding: 13px 13px 11px;
   }
