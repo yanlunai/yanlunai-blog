@@ -78,3 +78,8 @@
 {{ if eq .RelPermalink "/search/" }}
   <script defer src="/js/yanlunai-search-bridge.js"></script>
 {{ end }}
+{{ if .IsPage }}
+  {{ if eq .RelPermalink "/search/" }}
+    <script defer src="/js/yanlunai-search-page.js"></script>
+  {{ end }}
+{{ end }}
