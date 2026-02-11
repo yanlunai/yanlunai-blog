@@ -1,4 +1,7 @@
 (() => {
+  // 只允许在首页运行（你也可以改成更精确：只在 home-search 容器存在时运行）
+  const isSearchPage = location.pathname === "/search/" || document.querySelector(".page-search");
+  if (isSearchPage) return;
   const path = window.location.pathname.replace(/\/+$/, "");
   const isSearch = (p) => p === "/search" || p.endsWith("/search");
   if (!isSearch(path)) return;
