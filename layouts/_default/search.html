@@ -1,11 +1,11 @@
-{{- define "main" -}}
+{{ define "main" }}
 <main class="main page-search">
   <header class="page-header">
-    <h1>Search</h1>
+    <h1>{{ .Title }}</h1>
   </header>
 
   <div class="searchbox">
-    <input id="searchInput" placeholder="Search ↵" type="search" autocomplete="off" aria-label="Search" />
+    <input id="searchInput" placeholder="Search ↵" type="search" autocomplete="off" aria-label="Search">
   </div>
 
   <div class="search-meta" aria-live="polite">
@@ -13,5 +13,8 @@
   </div>
 
   <ul id="searchResults" class="search-results" aria-label="Search results"></ul>
+
+  <!-- 只加载你自己的 search 脚本 -->
+  <script defer src="/js/yanlunai-search-page.js"></script>
 </main>
-{{- end -}}
+{{ end }}
