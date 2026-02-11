@@ -208,3 +208,50 @@
     padding: 13px 13px 11px;
   }
 }
+/* =========================
+   Hard reset for PaperMod search dropdown styles
+   Fix: results overlay / wrong position / clickable blank area
+   ========================= */
+
+/* 强制把结果列表恢复为“正常文档流”，避免被主题当成下拉框 absolute */
+.page-search #searchResults {
+  position: static !important;
+  inset: auto !important;
+  top: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  left: auto !important;
+  transform: none !important;
+  width: 100% !important;
+  max-height: none !important;
+  overflow: visible !important;
+  z-index: auto !important;
+}
+
+/* 有些主题会给 result item / a 做 absolute 覆盖点击区，这里一刀切恢复 */
+.page-search #searchResults .search-result,
+.page-search #searchResults .search-result a {
+  position: static !important;
+  inset: auto !important;
+  transform: none !important;
+}
+
+/* 确保列表一定在搜索框下方（哪怕上游有奇怪的负 margin） */
+.page-search .searchbox {
+  position: relative;
+  z-index: 2;
+}
+
+.page-search .search-meta,
+.page-search #searchResults {
+  position: relative;
+  z-index: 1;
+  margin-top: 10px;
+}
+
+/* 防止“点击空白处触发跳转”：如果上游给了透明层/伪元素覆盖，这里禁用 */
+.page-search #searchResults::before,
+.page-search #searchResults::after {
+  content: none !important;
+  pointer-events: none !important;
+}
