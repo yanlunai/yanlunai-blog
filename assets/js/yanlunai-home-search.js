@@ -7,19 +7,55 @@
   const q = (params.get("q") || params.get("s") || params.get("query") || "").trim();
   if (!q) return;
 
-  // ✅ 只触发 input/change：PaperMod 搜索监听 input 就会实时渲染结果
-  function triggerInput(input) {
-    input.dispatchEvent(new Event("input", { bubbles: true }));
-    input.dispatchEvent(new Event("change", { bubbles: true }));
+  function fire(el, type, opts = {}) {
+    el.dispatchEvent(new Event(type, { bubbles: true, ...opts }));
   }
 
-  // 轻微“抖动”：避免某些实现只在 value 变化时触发（但仍只用 input/change）
+  // ✅ 只在 input 上触发，不冒泡到 document，避免触发 PaperMod 的 document.onkeydown
+  function fireKey(el, type) {
+    try {
+      el.dispatchEvent(
+        new KeyboardEvent(type, {
+          key: "a",
+          code: "KeyA",
+          keyCode: 65,
+          which: 65,
+          bubbles: false, // ⭐关键：不冒泡
+          cancelable: true,
+        })
+      );
+    } catch (_) {
+      // 某些浏览器对 KeyboardEvent 限制较多，兜底用普通事件
+      el.dispatchEvent(new Event(type, { bubbles: false }));
+    }
+  }
+
+  // type="search" 的输入框，浏览器/部分脚本会监听 'search' 事件
+  function fireSearchEvent(el) {
+    try {
+      el.dispatchEvent(new Event("search", { bubbles: true }));
+    } catch (_) {}
+  }
+
+  function triggerAll(input) {
+    // 1) 输入事件（常规）
+    fire(input, "input");
+    fire(input, "change");
+
+    // 2) 很多 search.js 依赖 keyup 才 render（但我们不让它冒泡）
+    fireKey(input, "keyup");
+
+    // 3) type=search 的专用事件
+    fireSearchEvent(input);
+  }
+
+  // 轻微 value 抖动：确保“值变化”被脚本捕获
   function nudgeValue(input) {
     const original = input.value;
-    input.value = original + "\u200B"; // 零宽空格
-    triggerInput(input);
+    input.value = original + "\u200B";
+    triggerAll(input);
     input.value = original;
-    triggerInput(input);
+    triggerAll(input);
   }
 
   function applyOnce() {
@@ -34,19 +70,20 @@
       input.setSelectionRange(q.length, q.length);
     } catch (_) {}
 
-    triggerInput(input);
+    triggerAll(input);
     nudgeValue(input);
     return true;
   }
 
-  const run = () => {
+  function run() {
     applyOnce();
-    setTimeout(applyOnce, 80);
-    setTimeout(applyOnce, 200);
-    setTimeout(applyOnce, 500);
-    setTimeout(applyOnce, 1000);
-    setTimeout(applyOnce, 1600);
-  };
+    setTimeout(applyOnce, 60);
+    setTimeout(applyOnce, 160);
+    setTimeout(applyOnce, 320);
+    setTimeout(applyOnce, 700);
+    setTimeout(applyOnce, 1200);
+    setTimeout(applyOnce, 1800);
+  }
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", run);
@@ -54,13 +91,13 @@
     run();
   }
 
-  // 如果结果列表渲染更晚，再补一次（不做键盘事件）
+  // 结果区域若后渲染，再补一枪
   const resultsEl = document.getElementById("searchResults");
   if (resultsEl) {
     const mo = new MutationObserver(() => {
-      // 一旦有渲染迹象，补一次输入触发即可
       applyOnce();
-      mo.disconnect();
+      // 有内容就停
+      if (resultsEl.children && resultsEl.children.length > 0) mo.disconnect();
     });
     mo.observe(resultsEl, { childList: true, subtree: true });
   }
